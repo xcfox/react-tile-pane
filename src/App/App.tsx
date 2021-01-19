@@ -1,37 +1,33 @@
 import React from 'react'
-import { initRootPane } from '../components/titlePane/util'
-import logo from '../static/logo.svg'
+import { PaneContainer } from '../components/titlePane/container'
 import './App.css'
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PaneContainer
+        rootPane={{
+          children: [
+            { children: <div>hello</div> },
+            {
+              isRow: true,
+              grow: 2,
+              children: [
+                { children: <div>world</div> },
+                { children: <div>world</div> },
+                {
+                  children: [
+                    { children: <div>world</div>, grow: 3 },
+                    { children: <div>world</div> },
+                  ],
+                },
+              ],
+            },
+          ],
+        }}
+      />
     </div>
   )
 }
-console.log(
-  'RootPane: ',
-  initRootPane({
-    isRow: true,
-    children: [
-      { children: [{ children: <div /> }, { children: <div /> }], grow: 2 },
-      { children: <div /> },
-    ],
-  })
-)
 
 export default App

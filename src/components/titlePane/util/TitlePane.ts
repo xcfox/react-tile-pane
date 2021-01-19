@@ -7,6 +7,7 @@ export class TitlePane {
   isRow?: boolean
   isStack?: boolean
   grow? = 1
+  id?: string
 
   //只在构造时输入
   parent?: TitlePane
