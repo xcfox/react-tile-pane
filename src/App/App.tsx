@@ -23,6 +23,15 @@ const App: React.FC = () => {
     </div>
   )
 }
-console.log('RootPane: ', initRootPane({ children: <text></text> }))
+console.log(
+  'RootPane: ',
+  initRootPane({
+    isRow: true,
+    children: [
+      { children: [{ children: <div /> }, { children: <div /> }], grow: 2 },
+      { children: <div /> },
+    ],
+  })
+)
 
 export default App

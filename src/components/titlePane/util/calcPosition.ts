@@ -4,7 +4,7 @@ import {
   TitlePaneInterface,
 } from './TitlePane'
 
-type ChildPosition = {
+export type PanePosition = {
   top: number
   left: number
   width: number
@@ -15,28 +15,30 @@ export function calcPosition(
   parent: TitlePane,
   children: TitlePaneInterface[]
 ): TitlePaneConstructor[] {
-  const { isRow, top, left, width, height } = parent
+  const { isRow, position } = parent
   const growsSolid = children.map((c) => c.grow ?? 1)
   const growSum = growsSolid.reduce((s, n) => (s += n)) // 部分值
   const grows = growsSolid.map((c) => c / growSum) // 相对值
 
   const positions = calcChildPosition()
-  return positions.map((p, i) => ({
+  return positions.map((position, i) => ({
     ...children[i],
-    ...p,
+    position,
     parent,
+    grow: grows[i],
   }))
 
-  function calcChildPosition(): ChildPosition[] {
+  function calcChildPosition(): PanePosition[] {
+    const { top, left, width, height } = position
     if (isRow) {
-      const childLeft = grows.map((it, i, arr) => {
-        // 计算子元素 left
-        if (i === 0) {
-          return left
-        } else {
-          return arr[i - 1] + width * grows[i - 1]
-        }
-      })
+      const childLeft = grows.reduce<number[]>(
+        (arr, n, i) => {
+          // 计算子元素 left
+          if (i > 0) arr.push(arr[i - 1] + width * grows[i - 1])
+          return arr
+        },
+        [left]
+      )
       return grows.map((n, i) => ({
         top,
         height,
@@ -44,14 +46,14 @@ export function calcPosition(
         left: childLeft[i],
       }))
     } else {
-      const childTop = grows.map((it, i, arr) => {
-        // 计算子元素 top
-        if (i === 0) {
-          return top
-        } else {
-          return arr[i - 1] + height * grows[i - 1]
-        }
-      })
+      const childTop = grows.reduce<number[]>(
+        (arr, n, i) => {
+          // 计算子元素 top
+          if (i > 0) arr.push(arr[i - 1] + height * grows[i - 1])
+          return arr
+        },
+        [top]
+      )
       return grows.map((n, i) => ({
         left,
         width,
