@@ -1,4 +1,5 @@
 import React from 'react'
+import { initRootPane } from '../components/titlePane/util'
 import logo from '../static/logo.svg'
 import './App.css'
 
@@ -22,5 +23,6 @@ const App: React.FC = () => {
     </div>
   )
 }
+console.log('RootPane: ', initRootPane({ children: <text></text> }))
 
 export default App
