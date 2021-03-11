@@ -2,7 +2,7 @@ import { calcPosition, PanePosition } from './calcPosition'
 
 export type TitlePaneLayout = 'row' | 'column' | 'stack'
 
-export class TitlePane {
+export class TitlePaneEntity {
   // 输入值
   isRow?: boolean
   isStack?: boolean
@@ -10,11 +10,11 @@ export class TitlePane {
   id?: string
 
   //只在构造时输入
-  parent?: TitlePane
+  parent?: TitlePaneEntity
   position: PanePosition
 
   // 需要转换的值
-  children: React.ReactChild | TitlePane[]
+  children: React.ReactChild | TitlePaneEntity[]
   args: TitlePaneConstructor
 
   // 固定值
@@ -36,7 +36,7 @@ export class TitlePane {
     if (children instanceof Array) {
       // 如果子元素仍为 title-panes
       this.children = calcPosition(this, children).map(
-        (it) => new TitlePane(it)
+        (it) => new TitlePaneEntity(it)
       )
     } else {
       // 如果子元素为 React-child
@@ -46,7 +46,7 @@ export class TitlePane {
 }
 
 export type TitlePaneConstructor = Omit<
-  TitlePane,
+  TitlePaneEntity,
   | 'constructor'
   | 'isTitlePane'
   | 'children'

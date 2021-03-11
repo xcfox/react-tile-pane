@@ -1,5 +1,5 @@
 import {
-  TitlePane,
+  TitlePaneEntity,
   TitlePaneConstructor,
   TitlePaneInterface,
 } from './TitlePane'
@@ -12,7 +12,7 @@ export type PanePosition = {
 }
 
 export function calcPosition(
-  parent: TitlePane,
+  parent: TitlePaneEntity,
   children: TitlePaneInterface[]
 ): TitlePaneConstructor[] {
   const { isRow, position } = parent

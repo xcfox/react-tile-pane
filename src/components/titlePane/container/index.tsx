@@ -1,14 +1,21 @@
 import React, { memo, useMemo } from 'react'
 import { unfoldPane } from '../util'
-import { TitlePane, TitlePaneInterface } from '../util/TitlePane'
+import { TitlePaneEntity, TitlePaneInterface } from '../util/TitlePane'
 import { toStyles } from './util/toStyles'
-
 export interface PaneContainerProps {
   rootPane: TitlePaneInterface
+  width?: string | number
+  height?: string | number
 }
 
-const PaneContainerInner: React.FC<PaneContainerProps> = ({ rootPane }) => {
-  const rootPaneEntity = useMemo(() => new TitlePane(rootPane), [rootPane])
+const PaneContainerInner: React.FC<PaneContainerProps> = ({
+  rootPane,
+  width = '100%',
+  height = '100%',
+}) => {
+  const rootPaneEntity = useMemo(() => new TitlePaneEntity(rootPane), [
+    rootPane,
+  ])
   const panes = useMemo(
     () =>
       unfoldPane(rootPaneEntity).filter((p) => !(p.children instanceof Array)),
@@ -16,7 +23,7 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({ rootPane }) => {
   )
   return useMemo(
     () => (
-      <div style={{ position: 'relative', width: 800, height: 600 }}>
+      <div style={{ position: 'relative', width, height }}>
         {panes.map((p, i) => (
           <div
             style={{
@@ -31,7 +38,7 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({ rootPane }) => {
         ))}
       </div>
     ),
-    [panes]
+    [height, panes, width]
   )
 }
 

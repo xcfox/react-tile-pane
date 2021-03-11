@@ -6,6 +6,8 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <PaneContainer
+        width={800}
+        height={600}
         rootPane={{
           children: [
             { children: <div>hello</div> },
