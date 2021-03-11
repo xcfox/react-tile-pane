@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo, useLayoutEffect, useMemo, useRef } from 'react'
 import { TitlePaneInterface } from '../util'
 import { useInitContainer } from './hook'
 import { calcBarStyles, toStyles } from './util'
@@ -19,9 +19,21 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
     React.isValidElement(p.children)
   )
 
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      console.log(containerRef.current)
+      console.log('offsetLeft: ', containerRef.current.offsetLeft)
+      console.log('offsetTop: ', containerRef.current.offsetTop)
+      console.log('offsetWidth: ', containerRef.current.offsetWidth)
+      console.log('offsetHeight: ', containerRef.current.offsetHeight)
+    }
+  })
+
   return useMemo(
     () => (
-      <div style={{ position: 'relative', width, height }}>
+      <div ref={containerRef} style={{ position: 'relative', width, height }}>
         {panesWithReactChild.map((p, i) => (
           <div
             style={{
