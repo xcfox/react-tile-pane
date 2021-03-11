@@ -1,4 +1,4 @@
-import { PanePosition } from '../../util/calcPosition'
+import { PanePosition } from '../../util'
 
 export function toStyles(position: PanePosition): React.CSSProperties {
   const { top, left, width, height } = position

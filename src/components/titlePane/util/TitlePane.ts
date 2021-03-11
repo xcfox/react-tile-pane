@@ -1,8 +1,9 @@
+import { StretchBarEntity } from '.'
 import { calcPosition, PanePosition } from './calcPosition'
 
-export type TitlePaneLayout = 'row' | 'column' | 'stack'
+export type TilePaneLayout = 'row' | 'column' | 'stack'
 
-export class TitlePaneEntity {
+export class TilePaneEntity {
   // 输入值
   isRow?: boolean
   isStack?: boolean
@@ -10,12 +11,14 @@ export class TitlePaneEntity {
   id?: string
 
   //只在构造时输入
-  parent?: TitlePaneEntity
+  parent?: TilePaneEntity
   position: PanePosition
 
   // 需要转换的值
-  children: React.ReactChild | TitlePaneEntity[]
+  children?: React.ReactChild | TilePaneEntity[]
   args: TitlePaneConstructor
+
+  stretchBars?: StretchBarEntity[] | false
 
   // 固定值
   isTitlePane = true
@@ -34,19 +37,28 @@ export class TitlePaneEntity {
     } = args
     this.position = position
     if (children instanceof Array) {
-      // 如果子元素仍为 title-panes
-      this.children = calcPosition(this, children).map(
-        (it) => new TitlePaneEntity(it)
+      // 如果子元素仍为 tile-panes
+      const childrenPanes = calcPosition(this, children).map(
+        (it) => new TilePaneEntity(it)
       )
+      this.children = childrenPanes
+
+      const bars = childrenPanes
+        .map((pane, i, panes) => {
+          const nextPane = panes[i + 1]
+          return nextPane && new StretchBarEntity(this, pane, nextPane)
+        })
+        .filter((bar) => bar)
+      this.stretchBars = bars
     } else {
-      // 如果子元素为 React-child
+      // 如果子元素为 React-child\
       this.children = children
     }
   }
 }
 
 export type TitlePaneConstructor = Omit<
-  TitlePaneEntity,
+  TilePaneEntity,
   | 'constructor'
   | 'isTitlePane'
   | 'children'
@@ -60,5 +72,5 @@ export type TitlePaneConstructor = Omit<
 
 export type TitlePaneInterface = Omit<
   TitlePaneConstructor,
-  'parent' | 'position'
+  'parent' | 'position' | 'child'
 >

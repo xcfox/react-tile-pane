@@ -1,14 +1,19 @@
-import { TitlePaneEntity } from '.'
+import { StretchBarEntity, TilePaneEntity } from '.'
 
-export function unfoldPane(pane: TitlePaneEntity): TitlePaneEntity[] {
-  const panes: TitlePaneEntity[] = []
+export function unfoldPane(pane: TilePaneEntity) {
+  const panes: TilePaneEntity[] = []
+  const stretchBars: StretchBarEntity[] = []
   unfold(pane)
-  function unfold(pane: TitlePaneEntity) {
-    const { children } = pane
+  function unfold(pane: TilePaneEntity) {
+    const { children, stretchBars: bars } = pane
     if (children instanceof Array) {
-      children.forEach((c) => unfold(c))
+      children.forEach(unfold)
       panes.push(...children)
+      bars && stretchBars.push(...bars)
     }
   }
-  return panes
+  return {
+    panes,
+    stretchBars,
+  }
 }
