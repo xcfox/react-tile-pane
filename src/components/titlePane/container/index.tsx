@@ -1,7 +1,8 @@
 import React, { memo, useLayoutEffect, useMemo, useRef } from 'react'
+import { StretchBar } from '..'
 import { TitlePaneInterface } from '../util'
 import { useInitContainer } from './hook'
-import { calcBarStyles, toStyles } from './util'
+import { toStyles } from './util'
 export interface PaneContainerProps {
   rootPane: TitlePaneInterface
   width?: string | number
@@ -47,14 +48,7 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
           </div>
         ))}
         {stretchBars.map((b, i) => (
-          <div
-            style={{
-              position: 'absolute',
-              background: '#81ec8166',
-              ...calcBarStyles(b),
-            }}
-            key={b.nextPane.id ?? i}
-          />
+          <StretchBar bar={b} key={b.nextPane.id ?? i} />
         ))}
       </div>
     ),
