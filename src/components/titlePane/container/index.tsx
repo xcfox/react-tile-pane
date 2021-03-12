@@ -32,7 +32,6 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
             <div
               style={{
                 position: 'absolute',
-                // border: 'solid',
                 ...toStyles(p.position),
               }}
               key={p.id ?? i}

@@ -2,6 +2,12 @@
   text-align: center;
 }
 
+.fence {
+  border: #61dafb solid 2px;
+  width: 1000px;
+  height: 600px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

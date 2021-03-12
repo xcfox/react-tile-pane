@@ -1,9 +1,5 @@
-import {
-  calcChildPosition,
-  calcConstructor,
-  PanePosition,
-  StretchBarEntity,
-} from '.'
+import { calcConstructor, PanePosition, StretchBarEntity } from '..'
+import { reCalcChildrenPosition } from './reCalcChildrenPosition'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
 
@@ -53,23 +49,7 @@ export class TilePaneEntity {
     }
   }
 
-  reCalcChildrenPosition(onlyChildren?: TilePaneEntity[]) {
-    const { children } = this
-    if (children instanceof Array) {
-      const grows = children.map((c) => c.grow)
-      const childPositions = calcChildPosition(this, grows)
-      children.forEach((pane, i) => {
-        if (isNeedReCalc(pane)) {
-          pane.position = childPositions[i]
-          pane.reCalcChildrenPosition()
-        }
-      })
-    }
-    function isNeedReCalc(pane: TilePaneEntity): boolean {
-      if (!onlyChildren) return true
-      return onlyChildren.includes(pane)
-    }
-  }
+  reCalcChildrenPosition = reCalcChildrenPosition
 }
 
 export type TitlePaneConstructor = Pick<

@@ -1,5 +1,4 @@
-export * from './TitlePane'
+export * from './titlePane'
 export * from './calcPosition'
 export * from './unfoldPane'
-export * from './calcPosition'
-export * from './StretchBar'
+export * from './stretchBar'

@@ -2,7 +2,7 @@ import {
   TilePaneEntity,
   TitlePaneConstructor,
   TitlePaneInterface,
-} from './TitlePane'
+} from './titlePane'
 
 export type PanePosition = {
   top: number
