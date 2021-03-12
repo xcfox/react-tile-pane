@@ -1,4 +1,4 @@
-import { StretchBarEntity } from '../..'
+import { StretchBarEntity } from '../../../..'
 
 export function calcBarStyles(bar: StretchBarEntity) {
   const { top, left, width, height } = bar.nextPane.position

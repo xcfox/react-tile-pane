@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react'
-import { StretchBarEntity } from '..'
+import { StretchBarEntity } from '../../..'
 import { calcBarStyles } from './util'
 
 export interface StretchBarProps {

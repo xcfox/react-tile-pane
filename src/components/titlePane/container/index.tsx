@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect, useMemo, useRef } from 'react'
-import { StretchBar } from '..'
 import { TitlePaneInterface } from '../util'
+import { StretchBar } from './components/StretchBar'
 import { useInitContainer } from './hook'
 import { toStyles } from './util'
 export interface PaneContainerProps {
