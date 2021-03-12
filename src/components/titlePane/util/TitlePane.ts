@@ -1,5 +1,9 @@
-import { StretchBarEntity } from '.'
-import { calcPosition, PanePosition } from './calcPosition'
+import {
+  calcChildPosition,
+  calcConstructor,
+  PanePosition,
+  StretchBarEntity,
+} from '.'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
 
@@ -7,7 +11,7 @@ export class TilePaneEntity {
   // 输入值
   isRow?: boolean
   isStack?: boolean
-  grow? = 1
+  grow = 1
   id?: string
 
   //只在构造时输入
@@ -38,7 +42,7 @@ export class TilePaneEntity {
     this.position = position
     if (children instanceof Array) {
       // 如果子元素仍为 tile-panes
-      const childrenPanes = calcPosition(this, children).map(
+      const childrenPanes = calcConstructor(this, children).map(
         (it) => new TilePaneEntity(it)
       )
       this.children = childrenPanes
@@ -53,6 +57,18 @@ export class TilePaneEntity {
     } else {
       // 如果子元素为 React-child\
       this.children = children
+    }
+  }
+
+  reCalcChildrenPosition() {
+    const { children } = this
+    if (children instanceof Array) {
+      const grows = children.map((c) => c.grow)
+      const childPositions = calcChildPosition(this, grows)
+      children.forEach((c, i) => {
+        c.position = childPositions[i]
+        c.reCalcChildrenPosition()
+      })
     }
   }
 }
