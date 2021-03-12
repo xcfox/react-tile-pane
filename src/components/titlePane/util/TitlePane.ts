@@ -16,30 +16,23 @@ export class TilePaneEntity {
 
   //只在构造时输入
   parent?: TilePaneEntity
-  position: PanePosition
+  position = {
+    top: 0,
+    left: 0,
+    width: 1,
+    height: 1,
+  } as PanePosition
 
   // 需要转换的值
   children?: React.ReactChild | TilePaneEntity[]
-  args: TitlePaneConstructor
-
   stretchBars?: StretchBarEntity[] | false
 
   // 固定值
   isTitlePane = true
 
-  constructor(args: TitlePaneConstructor) {
+  constructor(public args: TitlePaneConstructor) {
     Object.assign(this, args)
-    this.args = args
-    const {
-      position = {
-        top: 0,
-        left: 0,
-        width: 1,
-        height: 1,
-      },
-      children,
-    } = args
-    this.position = position
+    const { children } = args
     if (children instanceof Array) {
       // 如果子元素仍为 tile-panes
       const childrenPanes = calcConstructor(this, children).map(
@@ -60,30 +53,32 @@ export class TilePaneEntity {
     }
   }
 
-  reCalcChildrenPosition() {
+  reCalcChildrenPosition(onlyChildren?: TilePaneEntity[]) {
     const { children } = this
     if (children instanceof Array) {
       const grows = children.map((c) => c.grow)
       const childPositions = calcChildPosition(this, grows)
-      children.forEach((c, i) => {
-        c.position = childPositions[i]
-        c.reCalcChildrenPosition()
+      children.forEach((pane, i) => {
+        if (isNeedReCalc(pane)) {
+          pane.position = childPositions[i]
+          pane.reCalcChildrenPosition()
+        }
       })
+    }
+    function isNeedReCalc(pane: TilePaneEntity): boolean {
+      if (!onlyChildren) return true
+      return onlyChildren.includes(pane)
     }
   }
 }
 
-export type TitlePaneConstructor = Omit<
+export type TitlePaneConstructor = Pick<
   TilePaneEntity,
-  | 'constructor'
-  | 'isTitlePane'
-  | 'children'
-  | 'position'
-  | 'childrenFromArgs'
-  | 'args'
+  'isRow' | 'isStack' | 'id' | 'parent'
 > & {
   children: React.ReactChild | TitlePaneInterface[]
   position?: PanePosition
+  grow?: number
 }
 
 export type TitlePaneInterface = Omit<

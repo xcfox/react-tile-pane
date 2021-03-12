@@ -21,7 +21,7 @@ export class StretchBarEntity {
     if (isMoved) {
       this.previousPane.grow -= offset
       this.nextPane.grow += offset
-      this.parentPane.reCalcChildrenPosition()
+      this.parentPane.reCalcChildrenPosition([this.previousPane, this.nextPane])
     }
     return isMoved
   }
