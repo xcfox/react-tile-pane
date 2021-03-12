@@ -10,17 +10,20 @@ export class StretchBarEntity {
 
   /**
    * @param {number} distance percentage in container
+   * @return {boolean} Did the move succeed?
    */
-  move(distance: number) {
+  move(distance: number): boolean {
     const lengthSum = this.parentPane.isRow
       ? this.parentPane.position.width
       : this.parentPane.position.height
     const offset = distance / lengthSum
-    if (isValidGrow(this.previousPane.grow, this.nextPane.grow)) {
+    const isMoved = isValidGrow(this.previousPane.grow, this.nextPane.grow)
+    if (isMoved) {
       this.previousPane.grow -= offset
       this.nextPane.grow += offset
       this.parentPane.reCalcChildrenPosition()
     }
+    return isMoved
   }
 }
 
