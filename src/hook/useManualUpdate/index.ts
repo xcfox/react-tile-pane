@@ -1,9 +1,14 @@
 import { useCallback, useState } from 'react'
 
-export function useManualUpdate() {
+export function useManualUpdate(conditionOuter: unknown = true) {
   const [, setCounter] = useState(0)
-  const manualUpdate = useCallback(() => {
-    setCounter((c) => c++)
-  }, [])
-  return manualUpdate
+  const update = useCallback(
+    (condition: unknown = true) => {
+      if (conditionOuter && condition) {
+        setCounter((c) => c++)
+      }
+    },
+    [conditionOuter]
+  )
+  return update
 }

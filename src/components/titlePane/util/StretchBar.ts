@@ -19,8 +19,8 @@ export class StretchBarEntity {
     const offset = distance / lengthSum
     const isMoved = isValidGrow(this.previousPane.grow, this.nextPane.grow)
     if (isMoved) {
-      this.previousPane.grow -= offset
-      this.nextPane.grow += offset
+      this.previousPane.grow += offset
+      this.nextPane.grow -= offset
       this.parentPane.reCalcChildrenPosition([this.previousPane, this.nextPane])
     }
     return isMoved

@@ -5,6 +5,7 @@ import './App.css'
 const App: React.FC = () => {
   return (
     <div className="App">
+      <div style={{ height: 30 }} />
       <PaneContainer
         width={'99vw'}
         height={'99vh'}

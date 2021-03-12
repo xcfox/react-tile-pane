@@ -1,12 +1,13 @@
-import { StretchBarEntity } from '../../../..'
+import { PanePosition } from '../../../..'
 
-export function calcBarStyles(bar: StretchBarEntity) {
-  const { top, left, width, height } = bar.nextPane.position
-  const { isRow } = bar.parentPane
+export function calcBarStyles(
+  { top, left, width, height }: PanePosition,
+  isRow?: boolean
+) {
   return {
     top: top * 100 + '%',
     left: left * 100 + '%',
-    width: isRow ? 3 : width * 100 + '%',
-    height: isRow ? height * 100 + '%' : 3,
+    width: isRow ? 10 : width * 100 + '%',
+    height: isRow ? height * 100 + '%' : 10,
   }
 }
