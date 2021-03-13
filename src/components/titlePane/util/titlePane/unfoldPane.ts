@@ -1,4 +1,4 @@
-import { StretchBarEntity, TilePaneEntity } from '.'
+import { StretchBarEntity, TilePaneEntity } from '..'
 
 export function unfoldPane(pane: TilePaneEntity) {
   const panes: TilePaneEntity[] = []

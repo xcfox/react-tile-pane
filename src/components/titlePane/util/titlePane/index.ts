@@ -1,15 +1,15 @@
-import { calcConstructor, PanePosition } from '..'
 import { takeOverChild } from './takeOverChild'
 import { reCalcChildGrow } from './reCalcChildGrow'
 import { reCalcChildrenPosition } from './reCalcChildrenPosition'
 import { removeSelf } from './removeSelf'
+import { calcConstructor, PanePosition } from './calcPosition'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
 
 export class TilePaneEntity {
   // 输入值
   isRow?: boolean
-  isStack?: boolean
+  isStack?: number | false
   grow = 1
   id?: string
 
@@ -63,3 +63,6 @@ export type TitlePaneInterface = Omit<
   TitlePaneConstructor,
   'parent' | 'position' | 'child'
 >
+
+export * from './calcPosition'
+export * from './unfoldPane'

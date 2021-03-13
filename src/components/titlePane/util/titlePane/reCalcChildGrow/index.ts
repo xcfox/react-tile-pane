@@ -1,5 +1,4 @@
-import { TilePaneEntity } from '..'
-import { calcChildGrows } from '../../calcPosition'
+import { TilePaneEntity, calcChildGrows } from '..'
 
 export function reCalcChildGrow(this: TilePaneEntity) {
   const { children } = this

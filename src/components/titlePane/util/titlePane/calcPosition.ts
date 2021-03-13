@@ -1,8 +1,4 @@
-import {
-  TilePaneEntity,
-  TitlePaneConstructor,
-  TitlePaneInterface,
-} from './titlePane'
+import { TilePaneEntity, TitlePaneConstructor, TitlePaneInterface } from '.'
 
 export type PanePosition = {
   top: number

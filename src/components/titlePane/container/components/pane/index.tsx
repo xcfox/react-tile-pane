@@ -25,7 +25,6 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
           onClick={() => {
             pane.removeSelf()
             update()
-            console.log(pane)
           }}
         >
           标题栏
