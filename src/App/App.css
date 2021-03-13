@@ -8,6 +8,11 @@
   height: 600px;
 }
 
+.pane {
+  width: 100%;
+  height: 100%;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

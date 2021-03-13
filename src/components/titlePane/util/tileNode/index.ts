@@ -2,10 +2,10 @@ import { ReactChild } from 'react'
 
 export type TileNodeID = string | number
 
-export type TileNode = {
+export type TileNode<T = unknown> = {
   id: TileNodeID
   node: ReactChild
-}
+} & T
 
 export function createTileNodeList<T extends Record<TileNodeID, ReactChild>>(
   obj: T

@@ -10,7 +10,7 @@ export type TilePaneLayout = 'row' | 'column' | 'stack'
 export class TilePaneEntity {
   // 输入值
   isRow?: boolean
-  onTab?: number | boolean
+  onTab?: number
   grow = 1
   id?: string
 
@@ -44,7 +44,7 @@ export class TilePaneEntity {
         this.children = childrenPanes
       }
     } else {
-      // 如果子元素为 React-child\
+      // 如果子元素为 React-Child
       this.children = [children]
     }
   }

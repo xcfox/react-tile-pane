@@ -4,18 +4,17 @@ import { PaneContainer } from '../components/titlePane/container'
 import './App.css'
 
 const [nodeList, nodeMap] = createTileNodeList({
-  arbutus: <div>杨梅</div>,
-  cherry: <div>樱桃</div>,
-  apple: <div>苹果</div>,
-  lemon: <div>柠檬</div>,
-  mango: <div>芒果</div>,
-  pomelo: <div>柚子</div>,
+  arbutus: <div className="pane">杨梅</div>,
+  cherry: <div className="pane">樱桃</div>,
+  apple: <div className="pane">苹果</div>,
+  lemon: <div className="pane">柠檬</div>,
+  mango: <div className="pane">芒果</div>,
+  pomelo: <div className="pane">柚子</div>,
 })
 
 const rootPane: TitlePaneInterface = {
   children: [
     { children: [nodeMap.apple, nodeMap.arbutus] },
-    { children: nodeMap.arbutus },
     {
       isRow: true,
       grow: 2,

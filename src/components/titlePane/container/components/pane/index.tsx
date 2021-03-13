@@ -1,5 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import { isNotNil, TileNodeID, TilePaneEntity } from '../../..'
+import { inLimit } from '../../../util'
+import { TabsBarContext } from '../../config'
 import { TileNodeListContext, UpdateManuallyContext } from '../../model'
 import { toStyles } from '../../util'
 
@@ -13,12 +15,18 @@ export interface PaneProps {
 
 export const Pane: React.FC<PaneProps> = ({ pane }) => {
   const tileNodeList = useContext(TileNodeListContext)
-  const childNode = useMemo(
+  const TabBar = useContext(TabsBarContext)
+  const nodeList = useMemo(
     () =>
       pane.children
         .map((id) => tileNodeList.find((node) => node.id === id))
         .filter(isNotNil),
     [pane.children, tileNodeList]
+  )
+  const { onTab = 0 } = pane
+  const currentTabIndex = useMemo(
+    () => inLimit(onTab, pane.children.length - 1),
+    [onTab, pane.children.length]
   )
   const calcLayout = useContext(UpdateManuallyContext)
   const { top, left, width, height } = pane.position
@@ -29,20 +37,41 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
           display: 'flex',
           flexDirection: 'column',
           position: 'absolute',
+          boxSizing: 'border-box',
           ...toStyles({ top, left, width, height }),
         }}
       >
-        <div
-          onClick={() => {
-            pane.removeSelf()
-            calcLayout()
+        <TabBar
+          {...{
+            calcLayout,
+            pane,
+            nodeList,
+            currentNode: nodeList[currentTabIndex],
           }}
-        >
-          标题栏
-        </div>
-        {childNode.map((it) => it.node)}
+        />
+        {nodeList.map((it, i) => (
+          <div
+            style={{
+              flexGrow: currentTabIndex === i ? 1 : 0,
+              display: currentTabIndex === i ? 'inline' : 'none',
+            }}
+            key={i}
+          >
+            {it.node}
+          </div>
+        ))}
       </div>
     ),
-    [childNode, height, left, pane, top, calcLayout, width]
+    [
+      top,
+      left,
+      width,
+      height,
+      TabBar,
+      calcLayout,
+      pane,
+      nodeList,
+      currentTabIndex,
+    ]
   )
 }

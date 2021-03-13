@@ -7,8 +7,10 @@ export function calcBarStyles(
   isRow?: boolean
 ) {
   return {
-    top: isRow ? top * 100 + '%' : `calc(${top * 100}% - ${thickness}px)`,
-    left: isRow ? `calc(${left * 100}% - ${thickness}px)` : left * 100 + '%',
+    top: isRow ? top * 100 + '%' : `calc(${top * 100}% - ${thickness / 2}px)`,
+    left: isRow
+      ? `calc(${left * 100}% - ${thickness / 2}px)`
+      : left * 100 + '%',
     width: isRow ? thickness : width * 100 + '%',
     height: isRow ? height * 100 + '%' : thickness,
   }

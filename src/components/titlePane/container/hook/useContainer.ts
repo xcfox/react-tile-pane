@@ -11,7 +11,5 @@ export function useContainer(rootPane: TitlePaneInterface) {
     setPanes(unfoldPane(rootPaneEntityRef.current))
   }, [])
 
-  console.log(panes)
-
   return { panes, stretchBars, rootPaneEntityRef, reCalcPane }
 }
