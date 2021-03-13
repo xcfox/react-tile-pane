@@ -1,9 +1,8 @@
 import { PanePosition } from '../../../..'
 
-const thickness = 10
-
 export function calcBarStyles(
   { top, left, width, height }: PanePosition,
+  thickness: number,
   isRow?: boolean
 ) {
   return {

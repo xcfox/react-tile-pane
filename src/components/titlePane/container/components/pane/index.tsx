@@ -1,9 +1,11 @@
 import React, { useContext, useMemo } from 'react'
 import { isNotNil, TileNodeID, TilePaneEntity } from '../../..'
 import { inLimit } from '../../../util'
-import { TabsBarContext } from '../../config'
-import { TileNodeListContext, UpdateManuallyContext } from '../../model'
+import { TabsBarContext, OptionContext } from '../../config'
+import { TileNodeListContext } from '../../model'
 import { toStyles } from '../../util'
+import { useNodeList, useTabsBar } from './hook'
+import { tabsBarPositionToFlexDirection } from './util'
 
 export type PaneWithTileNodeChildren = Omit<TilePaneEntity, 'children'> & {
   children: TileNodeID[]
@@ -16,6 +18,8 @@ export interface PaneProps {
 export const Pane: React.FC<PaneProps> = ({ pane }) => {
   const tileNodeList = useContext(TileNodeListContext)
   const TabBar = useContext(TabsBarContext)
+  const { stretchBarThickness, tabsBarPosition } = useContext(OptionContext)
+
   const nodeList = useMemo(
     () =>
       pane.children
@@ -23,55 +27,42 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
         .filter(isNotNil),
     [pane.children, tileNodeList]
   )
-  const { onTab = 0 } = pane
   const currentTabIndex = useMemo(
-    () => inLimit(onTab, pane.children.length - 1),
-    [onTab, pane.children.length]
+    () => inLimit(pane.onTab ?? 0, pane.children.length - 1),
+    [pane.children.length, pane.onTab]
   )
-  const calcLayout = useContext(UpdateManuallyContext)
+
+  const tabBarMemo = useTabsBar(TabBar, pane, nodeList, currentTabIndex)
+
+  const nodeListMemo = useNodeList(nodeList, currentTabIndex)
+
   const { top, left, width, height } = pane.position
+
   return useMemo(
     () => (
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: tabsBarPositionToFlexDirection(tabsBarPosition),
           position: 'absolute',
           boxSizing: 'border-box',
+          padding: stretchBarThickness / 2,
           ...toStyles({ top, left, width, height }),
         }}
       >
-        <TabBar
-          {...{
-            calcLayout,
-            pane,
-            nodeList,
-            currentNode: nodeList[currentTabIndex],
-          }}
-        />
-        {nodeList.map((it, i) => (
-          <div
-            style={{
-              flexGrow: currentTabIndex === i ? 1 : 0,
-              display: currentTabIndex === i ? 'inline' : 'none',
-            }}
-            key={i}
-          >
-            {it.node}
-          </div>
-        ))}
+        {tabBarMemo}
+        {nodeListMemo}
       </div>
     ),
     [
+      tabsBarPosition,
+      stretchBarThickness,
       top,
       left,
       width,
       height,
-      TabBar,
-      calcLayout,
-      pane,
-      nodeList,
-      currentTabIndex,
+      tabBarMemo,
+      nodeListMemo,
     ]
   )
 }

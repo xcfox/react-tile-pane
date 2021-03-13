@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useDrag } from 'react-use-gesture'
 import { StretchBarEntity } from '../../..'
+import { OptionContext } from '../../config'
 import { ContainerRectContext, UpdateManuallyContext } from '../../model'
 import { calcBarStyles } from './util'
 
@@ -11,6 +12,7 @@ export interface StretchBarProps {
 export const StretchBar: React.FC<StretchBarProps> = ({ bar }) => {
   const containerRect = useContext(ContainerRectContext)
   const calcLayout = useContext(UpdateManuallyContext)
+  const { stretchBarThickness } = useContext(OptionContext)
   const moveBar = useCallback(
     (mx: number, my: number) => {
       const distance = bar.parentPane.isRow
@@ -37,11 +39,15 @@ export const StretchBar: React.FC<StretchBarProps> = ({ bar }) => {
         {...bind()}
         style={{
           position: 'absolute',
-          background: '#81ec8166',
-          ...calcBarStyles({ top, left, width, height }, isRow),
+          background: '#8191ec66',
+          ...calcBarStyles(
+            { top, left, width, height },
+            stretchBarThickness,
+            isRow
+          ),
         }}
       />
     ),
-    [bind, height, isRow, left, top, width]
+    [bind, height, isRow, left, stretchBarThickness, top, width]
   )
 }

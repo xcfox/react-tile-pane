@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
-
 import { RectReadOnly } from 'react-use-measure'
 import { ContainerRectContext } from './ContainerRectContext'
 import { UpdateManuallyContext } from './UpdateManuallyContext'
 import { TileNode } from '../..'
 import {
+  defaultOption,
   DefaultTabsBar,
+  OptionContext,
   TabsBarContext,
   TabsBarProps,
   TileNodeListContext,
@@ -30,7 +31,9 @@ export const Provider: FC<ProviderProps> = ({
     <UpdateManuallyContext.Provider value={reCalcPane}>
       <TileNodeListContext.Provider value={tileNodeList}>
         <TabsBarContext.Provider value={tabsBar}>
-          {children}
+          <OptionContext.Provider value={defaultOption}>
+            {children}
+          </OptionContext.Provider>
         </TabsBarContext.Provider>
       </TileNodeListContext.Provider>
     </UpdateManuallyContext.Provider>
