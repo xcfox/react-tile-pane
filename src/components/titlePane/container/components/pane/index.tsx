@@ -1,9 +1,38 @@
-import React, { memo, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
+import { TilePaneEntity } from '../../..'
+import { UpdateManuallyContext } from '../../model'
+import { toStyles } from '../../util'
 
-export interface PaneProps {}
-
-const PaneInner: React.FC<PaneProps> = () => {
-  return useMemo(() => <div>this is your Pane</div>, [])
+export interface PaneProps {
+  pane: TilePaneEntity
 }
 
-export const Pane = memo(PaneInner)
+export const Pane: React.FC<PaneProps> = ({ pane }) => {
+  const childNode = useMemo(() => pane.children, [pane.children])
+  const update = useContext(UpdateManuallyContext)
+  const { top, left, width, height } = pane.position
+  return useMemo(
+    () => (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'absolute',
+          ...toStyles({ top, left, width, height }),
+        }}
+      >
+        <div
+          onClick={() => {
+            pane.removeSelf()
+            update()
+            console.log(pane)
+          }}
+        >
+          标题栏
+        </div>
+        {childNode}
+      </div>
+    ),
+    [childNode, height, left, pane, top, update, width]
+  )
+}

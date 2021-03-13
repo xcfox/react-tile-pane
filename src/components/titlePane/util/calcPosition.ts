@@ -21,13 +21,14 @@ export function calcConstructor(
     ...children[i],
     position,
     parent,
+    indexInParent: i,
     grow: grows[i],
   }))
 }
 
-export function calcChildGrows(children: TitlePaneInterface[]) {
+export function calcChildGrows(children: { grow?: number }[]) {
   const growsSolid = children.map((c) => c.grow ?? 1)
-  const growSum = growsSolid.reduce((s, n) => (s += n)) // 部分值
+  const growSum = growsSolid.reduce((s, n) => (s += n), 0) // 部分值
   const grows = growsSolid.map((c) => c / growSum) // 相对值
   return grows
 }

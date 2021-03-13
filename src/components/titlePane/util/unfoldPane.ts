@@ -5,12 +5,16 @@ export function unfoldPane(pane: TilePaneEntity) {
   const stretchBars: StretchBarEntity[] = []
   unfold(pane)
   function unfold(pane: TilePaneEntity) {
-    const { children, stretchBars: bars } = pane
-    if (children instanceof Array) {
-      children.forEach(unfold)
-      panes.push(...children)
-      bars && stretchBars.push(...bars)
-    }
+    const { children } = pane
+    children instanceof Array &&
+      children.forEach((p, i) => {
+        unfold(p)
+        panes.push(p)
+        const prevPane = children[i - 1]
+        if (!prevPane) return
+        const bar = new StretchBarEntity(pane, prevPane, p)
+        stretchBars.push(bar)
+      })
   }
   return {
     panes,

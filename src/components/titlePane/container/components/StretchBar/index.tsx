@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { useDrag } from 'react-use-gesture'
 import { StretchBarEntity } from '../../..'
 import { ContainerRectContext, UpdateManuallyContext } from '../../model'
@@ -8,7 +8,7 @@ export interface StretchBarProps {
   bar: StretchBarEntity
 }
 
-export const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
+export const StretchBar: React.FC<StretchBarProps> = ({ bar }) => {
   const containerRect = useContext(ContainerRectContext)
   const update = useContext(UpdateManuallyContext)
   const moveBar = useCallback(
@@ -45,11 +45,3 @@ export const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
     [bind, height, isRow, left, top, width]
   )
 }
-
-export const StretchBar = memo(StretchBarInner, (prev, next) => {
-  // const keys = Object.keys(prev.bar.nextPane.position) as (keyof PanePosition)[]
-  // return keys.every(
-  //   (key) => prev.bar.nextPane.position[key] === next.bar.nextPane.position[key]
-  // )
-  return false
-})

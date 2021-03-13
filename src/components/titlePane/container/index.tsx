@@ -1,9 +1,8 @@
 import React, { memo, useMemo } from 'react'
 import useMeasure from 'react-use-measure'
 import { TitlePaneInterface } from '../util'
-import { StretchBar } from './components'
-import { useInitContainer } from './hook'
-import { toStyles } from './util'
+import { Pane, StretchBar } from './components'
+import { useContainer } from './hook'
 import { Provider } from './model'
 
 export interface PaneContainerProps {
@@ -17,7 +16,7 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
   width = '100%',
   height = '100%',
 }) => {
-  const { panes, stretchBars, reCalcPane } = useInitContainer(rootPane)
+  const { panes, stretchBars, reCalcPane } = useContainer(rootPane)
 
   const panesWithReactChild = panes.filter((p) =>
     React.isValidElement(p.children)
@@ -28,16 +27,8 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
     () => (
       <Provider {...{ reCalcPane, containerRect }}>
         <div ref={targetRef} style={{ position: 'relative', width, height }}>
-          {panesWithReactChild.map((p, i) => (
-            <div
-              style={{
-                position: 'absolute',
-                ...toStyles(p.position),
-              }}
-              key={p.id ?? i}
-            >
-              {p.children}
-            </div>
+          {panesWithReactChild.map((pane, i) => (
+            <Pane pane={pane} key={pane.id ?? i} />
           ))}
           {stretchBars.map((b, i) => (
             <StretchBar bar={b} key={b.nextPane.id ?? i} />
