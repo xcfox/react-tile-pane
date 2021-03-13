@@ -1,4 +1,4 @@
-import { StretchBarEntity, TilePaneEntity } from '..'
+import { isTileNodeIDs, StretchBarEntity, TilePaneEntity } from '..'
 
 export function unfoldPane(pane: TilePaneEntity) {
   const panes: TilePaneEntity[] = []
@@ -6,7 +6,7 @@ export function unfoldPane(pane: TilePaneEntity) {
   unfold(pane)
   function unfold(pane: TilePaneEntity) {
     const { children } = pane
-    children instanceof Array &&
+    !isTileNodeIDs(children) &&
       children.forEach((p, i) => {
         unfold(p)
         panes.push(p)

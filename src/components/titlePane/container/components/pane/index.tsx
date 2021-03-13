@@ -1,15 +1,26 @@
 import React, { useContext, useMemo } from 'react'
-import { TilePaneEntity } from '../../..'
-import { UpdateManuallyContext } from '../../model'
+import { isNotNil, TileNodeID, TilePaneEntity } from '../../..'
+import { TileNodeListContext, UpdateManuallyContext } from '../../model'
 import { toStyles } from '../../util'
 
+export type PaneWithTileNodeChildren = Omit<TilePaneEntity, 'children'> & {
+  children: TileNodeID[]
+}
+
 export interface PaneProps {
-  pane: TilePaneEntity
+  pane: PaneWithTileNodeChildren
 }
 
 export const Pane: React.FC<PaneProps> = ({ pane }) => {
-  const childNode = useMemo(() => pane.children, [pane.children])
-  const update = useContext(UpdateManuallyContext)
+  const tileNodeList = useContext(TileNodeListContext)
+  const childNode = useMemo(
+    () =>
+      pane.children
+        .map((id) => tileNodeList.find((node) => node.id === id))
+        .filter(isNotNil),
+    [pane.children, tileNodeList]
+  )
+  const calcLayout = useContext(UpdateManuallyContext)
   const { top, left, width, height } = pane.position
   return useMemo(
     () => (
@@ -24,14 +35,14 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
         <div
           onClick={() => {
             pane.removeSelf()
-            update()
+            calcLayout()
           }}
         >
           标题栏
         </div>
-        {childNode}
+        {childNode.map((it) => it.node)}
       </div>
     ),
-    [childNode, height, left, pane, top, update, width]
+    [childNode, height, left, pane, top, calcLayout, width]
   )
 }

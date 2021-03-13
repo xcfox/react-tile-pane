@@ -3,13 +3,14 @@ import { reCalcChildGrow } from './reCalcChildGrow'
 import { reCalcChildrenPosition } from './reCalcChildrenPosition'
 import { removeSelf } from './removeSelf'
 import { calcConstructor, PanePosition } from './calcPosition'
+import { TileNodeID } from '..'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
 
 export class TilePaneEntity {
   // 输入值
   isRow?: boolean
-  isStack?: number | false
+  onTab?: number | boolean
   grow = 1
   id?: string
 
@@ -24,7 +25,7 @@ export class TilePaneEntity {
   } as PanePosition
 
   // 需要转换的值
-  children?: React.ReactChild | TilePaneEntity[]
+  children: TileNodeID[] | TilePaneEntity[]
 
   // 固定值
   isTitlePane = true
@@ -34,13 +35,17 @@ export class TilePaneEntity {
     const { children } = args
     if (children instanceof Array) {
       // 如果子元素仍为 tile-panes
-      const childrenPanes = calcConstructor(this, children).map(
-        (it) => new TilePaneEntity(it)
-      )
-      this.children = childrenPanes
+      if (isTileNodeIDs(children)) {
+        this.children = children
+      } else {
+        const childrenPanes = calcConstructor(this, children).map(
+          (it) => new TilePaneEntity(it)
+        )
+        this.children = childrenPanes
+      }
     } else {
       // 如果子元素为 React-child\
-      this.children = children
+      this.children = [children]
     }
   }
 
@@ -50,18 +55,24 @@ export class TilePaneEntity {
   takeOverChild = takeOverChild
 }
 
+export function isTileNodeIDs(
+  list: TileNodeID[] | TitlePaneInterface[] | TilePaneEntity[]
+): list is TileNodeID[] {
+  return !(list[0] instanceof Object)
+}
+
 export type TitlePaneConstructor = Pick<
   TilePaneEntity,
-  'isRow' | 'isStack' | 'id' | 'parent' | 'indexInParent'
+  'isRow' | 'onTab' | 'id' | 'parent' | 'indexInParent'
 > & {
-  children: React.ReactChild | TitlePaneInterface[]
+  children: TileNodeID | TileNodeID[] | TitlePaneInterface[]
   position?: PanePosition
   grow?: number
 }
 
 export type TitlePaneInterface = Omit<
   TitlePaneConstructor,
-  'parent' | 'position' | 'child'
+  'parent' | 'position' | 'child' | 'renderReactComponent'
 >
 
 export * from './calcPosition'

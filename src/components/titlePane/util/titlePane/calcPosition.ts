@@ -19,6 +19,7 @@ export function calcConstructor(
     parent,
     indexInParent: i,
     grow: grows[i],
+    renderReactComponent: parent.reCalcChildrenPosition,
   }))
 }
 

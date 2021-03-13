@@ -1,11 +1,11 @@
-import { TilePaneEntity, calcChildPosition } from '../..'
+import { TilePaneEntity, calcChildPosition, isTileNodeIDs } from '../..'
 
 export function reCalcChildrenPosition(
   this: TilePaneEntity,
   onlyChildren?: TilePaneEntity[]
 ) {
   const { children } = this
-  if (children instanceof Array) {
+  if (!isTileNodeIDs(children)) {
     const grows = children.map((c) => c.grow)
     const childPositions = calcChildPosition(this, grows)
     children.forEach((pane, i) => {

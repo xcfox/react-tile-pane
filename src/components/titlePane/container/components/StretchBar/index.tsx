@@ -10,16 +10,16 @@ export interface StretchBarProps {
 
 export const StretchBar: React.FC<StretchBarProps> = ({ bar }) => {
   const containerRect = useContext(ContainerRectContext)
-  const update = useContext(UpdateManuallyContext)
+  const calcLayout = useContext(UpdateManuallyContext)
   const moveBar = useCallback(
     (mx: number, my: number) => {
       const distance = bar.parentPane.isRow
         ? mx / containerRect.width
         : my / containerRect.height
       bar.move(distance)
-      update()
+      calcLayout()
     },
-    [bar, containerRect.height, containerRect.width, update]
+    [bar, containerRect.height, containerRect.width, calcLayout]
   )
 
   const bind = useDrag(
