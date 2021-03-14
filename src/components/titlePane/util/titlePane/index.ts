@@ -4,6 +4,7 @@ import { reCalcChildrenPosition } from './reCalcChildrenPosition'
 import { removeSelf } from './removeSelf'
 import { calcConstructor, PanePosition } from './calcPosition'
 import { TileNodeID } from '..'
+import { removeTab } from './removeTab'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
 
@@ -52,6 +53,7 @@ export class TilePaneEntity {
   reCalcChildrenPosition = reCalcChildrenPosition
   reCalcChildGrow = reCalcChildGrow
   removeSelf = removeSelf
+  removeTab = removeTab
   takeOverChild = takeOverChild
 }
 

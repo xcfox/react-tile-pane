@@ -9,7 +9,7 @@ export interface StretchBarProps {
   bar: StretchBarEntity
 }
 
-export const StretchBar: React.FC<StretchBarProps> = ({ bar }) => {
+const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
   const containerRect = useContext(ContainerRectContext)
   const calcLayout = useContext(UpdateManuallyContext)
   const { stretchBarThickness } = useContext(OptionContext)
@@ -51,3 +51,5 @@ export const StretchBar: React.FC<StretchBarProps> = ({ bar }) => {
     [bind, height, isRow, left, stretchBarThickness, top, width]
   )
 }
+
+export const StretchBar = React.memo(StretchBarInner)

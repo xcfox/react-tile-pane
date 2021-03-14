@@ -15,21 +15,36 @@ export const DefaultTabsBar: React.FC<TabsBarProps> = ({
   nodeList,
 }: TabsBarProps) => {
   return (
-    <div style={{ display: 'flex' }}>
+    <div
+      style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}
+    >
       {nodeList.map((it, i) => (
         <div
-          onClick={() => {
-            pane.onTab = i
-            calcLayout()
-          }}
           style={{
-            width: '100%',
-            color: currentNode === it ? '#000' : '#999',
-            background: '#d1f0b5',
+            display: 'flex',
           }}
           key={i}
         >
-          {it.id}
+          <div
+            onClick={() => {
+              pane.onTab = i
+              calcLayout()
+            }}
+            style={{
+              color: currentNode === it ? '#000' : '#999',
+              background: '#d1f0b5',
+            }}
+          >
+            {it.id}
+          </div>
+          <div
+            onClick={() => {
+              pane.removeTab(it)
+              calcLayout()
+            }}
+          >
+            off
+          </div>
         </div>
       ))}
     </div>

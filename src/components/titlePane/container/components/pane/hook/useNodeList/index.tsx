@@ -11,7 +11,7 @@ export function useNodeList(
         <div
           style={{
             flexGrow: currentTabIndex === i ? 1 : 0,
-            display: currentTabIndex === i ? 'inline' : 'none',
+            display: currentTabIndex === i ? undefined : 'none',
           }}
           key={i}
         >
