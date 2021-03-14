@@ -41,7 +41,7 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
 
 export const PaneContainer = memo(PaneContainerInner)
 
-export const PaneContainerWithProvide: React.FC<
+export const PaneContainerWithProvider: React.FC<
   ProviderOptionProps & PaneContainerProps
 > = ({ width, height, ...rest }) => {
   return useMemo(

@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { createTileNodeList, TitlePaneInterface } from '../components'
-import { PaneContainerWithProvide } from '../components/titlePane/container'
+import {
+  createTileNodeList,
+  TitlePaneInterface,
+  PaneContainerWithProvider,
+} from '../components'
 import './App.css'
 
 function Arbutus() {
@@ -12,7 +15,7 @@ function Arbutus() {
   )
 }
 
-const [nodeList, nodeMap] = createTileNodeList({
+const [nodeList, nodeDictionary] = createTileNodeList({
   arbutus: <Arbutus />,
   cherry: <div className="pane">樱桃</div>,
   apple: <div className="pane">苹果</div>,
@@ -23,17 +26,17 @@ const [nodeList, nodeMap] = createTileNodeList({
 
 const rootPane: TitlePaneInterface = {
   children: [
-    { children: [nodeMap.apple, nodeMap.arbutus] },
+    { children: [nodeDictionary.apple, nodeDictionary.arbutus] },
     {
       isRow: true,
       grow: 2,
       children: [
-        { children: nodeMap.cherry },
-        { children: nodeMap.lemon },
+        { children: nodeDictionary.cherry },
+        { children: nodeDictionary.lemon },
         {
           children: [
-            { children: nodeMap.mango, grow: 3 },
-            { children: nodeMap.pomelo },
+            { children: nodeDictionary.mango, grow: 3 },
+            { children: nodeDictionary.pomelo },
           ],
         },
       ],
@@ -46,7 +49,10 @@ const App: React.FC = () => {
     <div className="App">
       <div style={{ height: 30 }} />
       <div className="fence">
-        <PaneContainerWithProvide tileNodeList={nodeList} rootPane={rootPane} />
+        <PaneContainerWithProvider
+          tileNodeList={nodeList}
+          rootPane={rootPane}
+        />
       </div>
     </div>
   )
