@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createTileNodeList, TitlePaneInterface } from '../components'
-import { PaneContainer } from '../components/titlePane/container'
+import { PaneContainerWithProvide } from '../components/titlePane/container'
 import './App.css'
 
+function Arbutus() {
+  const [number, count] = useState(1)
+  return (
+    <div onClick={() => count((n) => n + 1)} className="pane">
+      {number} 颗杨梅
+    </div>
+  )
+}
+
 const [nodeList, nodeMap] = createTileNodeList({
-  arbutus: <div className="pane">杨梅</div>,
+  arbutus: <Arbutus />,
   cherry: <div className="pane">樱桃</div>,
   apple: <div className="pane">苹果</div>,
   lemon: <div className="pane">柠檬</div>,
@@ -37,7 +46,7 @@ const App: React.FC = () => {
     <div className="App">
       <div style={{ height: 30 }} />
       <div className="fence">
-        <PaneContainer tileNodeList={nodeList} rootPane={rootPane} />
+        <PaneContainerWithProvide tileNodeList={nodeList} rootPane={rootPane} />
       </div>
     </div>
   )

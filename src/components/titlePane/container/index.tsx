@@ -1,54 +1,57 @@
-import React, { memo, useMemo } from 'react'
-import useMeasure from 'react-use-measure'
-import { isTileNodeIDs, TileNode, TitlePaneInterface } from '../util'
+import React, { memo, useContext, useMemo } from 'react'
+import { isTileNodeIDs } from '../util'
 import { Pane, PaneWithTileNodeChildren, StretchBar } from './components'
-import { useContainer } from './hook'
-import { Provider } from './model'
+import {
+  PaneProvider,
+  ProviderOptionProps,
+  ContainerContext,
+  ContainerRefContext,
+} from './model'
 
 export interface PaneContainerProps {
-  tileNodeList: TileNode[]
-  rootPane: TitlePaneInterface
   width?: string | number
   height?: string | number
 }
 
 const PaneContainerInner: React.FC<PaneContainerProps> = ({
-  tileNodeList,
-  rootPane,
   width = '100%',
   height = '100%',
 }) => {
-  const { panes, stretchBars, reCalcPane } = useContainer(rootPane)
+  const { panes, stretchBars } = useContext(ContainerContext)
+  const targetRef = useContext(ContainerRefContext)
 
   const panesWithReactChild = panes.filter((p) =>
     isTileNodeIDs(p.children)
   ) as PaneWithTileNodeChildren[]
-  const [targetRef, containerRect] = useMeasure({ scroll: true })
 
   return useMemo(
     () => (
-      <Provider {...{ reCalcPane, containerRect, tileNodeList }}>
-        <div ref={targetRef} style={{ position: 'relative', width, height }}>
-          {panesWithReactChild.map((pane, i) => (
-            <Pane pane={pane} key={pane.id ?? i} />
-          ))}
-          {stretchBars.map((b, i) => (
-            <StretchBar bar={b} key={b.nextPane.id ?? i} />
-          ))}
-        </div>
-      </Provider>
+      <div ref={targetRef} style={{ position: 'relative', width, height }}>
+        {panesWithReactChild.map((pane, i) => (
+          <Pane pane={pane} key={pane.id ?? i} />
+        ))}
+        {stretchBars.map((b, i) => (
+          <StretchBar bar={b} key={b.nextPane.id ?? i} />
+        ))}
+      </div>
     ),
-    [
-      reCalcPane,
-      containerRect,
-      tileNodeList,
-      targetRef,
-      width,
-      height,
-      panesWithReactChild,
-      stretchBars,
-    ]
+    [targetRef, width, height, panesWithReactChild, stretchBars]
   )
 }
 
 export const PaneContainer = memo(PaneContainerInner)
+
+export const PaneContainerWithProvide: React.FC<
+  ProviderOptionProps & PaneContainerProps
+> = ({ width, height, ...rest }) => {
+  return useMemo(
+    () => (
+      <PaneProvider {...rest}>
+        <PaneContainer {...{ width, height }} />
+      </PaneProvider>
+    ),
+    [height, rest, width]
+  )
+}
+
+export { PaneProvider }

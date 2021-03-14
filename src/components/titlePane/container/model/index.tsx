@@ -1,8 +1,10 @@
 import React, { FC } from 'react'
-import { RectReadOnly } from 'react-use-measure'
-import { ContainerRectContext } from './ContainerRectContext'
+import {
+  ContainerRectContext,
+  ContainerRefContext,
+} from './ContainerRectContext'
 import { UpdateManuallyContext } from './UpdateManuallyContext'
-import { TileNode } from '../..'
+import { TileNode, TitlePaneInterface } from '../..'
 import {
   defaultOption,
   DefaultTabsBar,
@@ -10,34 +12,52 @@ import {
   TabsBarContext,
   TabsBarProps,
   TileNodeListContext,
+  Option,
 } from '../config'
+import useMeasure from 'react-use-measure'
+import { useContainer } from '../hook'
+import { ContainerContext } from './ContainerContext'
 
-export interface ProviderProps {
+export interface ProviderOptionProps {
+  rootPane: TitlePaneInterface
   children?: React.ReactNode
-  containerRect: RectReadOnly
-  reCalcPane: () => void
   tileNodeList: TileNode[]
   tabsBar?: React.FC<TabsBarProps>
+  option?: Option
 }
 
-export const Provider: FC<ProviderProps> = ({
+export const PaneProvider: FC<ProviderOptionProps> = ({
+  rootPane,
   children,
-  containerRect,
-  reCalcPane,
   tileNodeList,
   tabsBar = DefaultTabsBar,
-}: ProviderProps) => (
-  <ContainerRectContext.Provider value={containerRect}>
-    <UpdateManuallyContext.Provider value={reCalcPane}>
-      <TileNodeListContext.Provider value={tileNodeList}>
-        <TabsBarContext.Provider value={tabsBar}>
-          <OptionContext.Provider value={defaultOption}>
-            {children}
-          </OptionContext.Provider>
-        </TabsBarContext.Provider>
-      </TileNodeListContext.Provider>
-    </UpdateManuallyContext.Provider>
-  </ContainerRectContext.Provider>
-)
+  option = defaultOption,
+}: ProviderOptionProps) => {
+  const { panes, stretchBars, reCalcPane } = useContainer(rootPane)
+  const [targetRef, containerRect] = useMeasure({ scroll: true })
+  return (
+    <ContainerContext.Provider value={{ panes, stretchBars }}>
+      <ContainerRefContext.Provider value={targetRef}>
+        <ContainerRectContext.Provider value={containerRect}>
+          <UpdateManuallyContext.Provider value={reCalcPane}>
+            <TileNodeListContext.Provider value={tileNodeList}>
+              <TabsBarContext.Provider value={tabsBar}>
+                <OptionContext.Provider value={option}>
+                  {children}
+                </OptionContext.Provider>
+              </TabsBarContext.Provider>
+            </TileNodeListContext.Provider>
+          </UpdateManuallyContext.Provider>
+        </ContainerRectContext.Provider>
+      </ContainerRefContext.Provider>
+    </ContainerContext.Provider>
+  )
+}
 
-export { ContainerRectContext, UpdateManuallyContext, TileNodeListContext }
+export {
+  ContainerRectContext,
+  UpdateManuallyContext,
+  TileNodeListContext,
+  ContainerContext,
+  ContainerRefContext,
+}
