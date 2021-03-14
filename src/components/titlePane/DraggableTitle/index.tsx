@@ -1,11 +1,13 @@
-import React, { memo, useMemo } from 'react'
-import { useDragAndPosition, usePreBox } from './hook'
+import React, { memo, useMemo, useRef } from 'react'
+import { PaneWithPreBox } from '../util'
+import { PreBox } from './components'
+import { useDragAndPosition } from './hook'
 
 export interface DraggableTitleProps {}
 
 const DraggableTitleInner: React.FC<DraggableTitleProps> = ({ children }) => {
-  const { position, bind } = useDragAndPosition()
-  const preBox = usePreBox(position)
+  const paneWithPreBoxRef = useRef<PaneWithPreBox>()
+  const { position, bind } = useDragAndPosition(paneWithPreBoxRef)
 
   const style: React.CSSProperties = useMemo(
     () =>
@@ -23,13 +25,15 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({ children }) => {
   return useMemo(
     () => (
       <>
-        {preBox}
+        {position && (
+          <PreBox paneWithPreBoxRef={paneWithPreBoxRef} position={position} />
+        )}
         <div {...{ ...bind(), style }} style={style}>
           {children}
         </div>
       </>
     ),
-    [bind, children, preBox, style]
+    [bind, children, position, style]
   )
 }
 

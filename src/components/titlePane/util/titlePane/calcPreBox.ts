@@ -10,16 +10,14 @@ const branchProportion = 0.15
 const leafProportion = 0.3
 
 export type Into = 'top' | 'bottom' | 'left' | 'right' | 'center'
-
+export type PaneWithPreBox = {
+  pane: TilePaneEntity
+  into: Into
+}
 export function calcPreBox(
   panes: TilePaneEntity[],
-  innerPosition: [number, number] | undefined
-):
-  | {
-      pane: TilePaneEntity
-      into: Into
-    }
-  | undefined {
+  innerPosition: [number, number]
+): PaneWithPreBox | undefined {
   if (!innerPosition) return
   const [x, y] = innerPosition
   const branches = panes.filter(
@@ -43,7 +41,7 @@ export function calcPreBox(
           return { pane, into: 'right' }
         }
       }
-    } else console.log(innerPosition, 'not in ', pane.position)
+    }
   }
 
   const leaves = panes.filter((p) =>

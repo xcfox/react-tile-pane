@@ -2,9 +2,9 @@ import React, { useContext, useMemo } from 'react'
 import { isNotNil, TileNodeID, TilePaneEntity } from '../../..'
 import { inLimit } from '../../../util'
 import { TabsBarContext, OptionContext } from '../../config'
-import { TileNodeListContext } from '../../model'
+import { TileNodeListContext, UpdateManuallyContext } from '../../model'
 import { toStyles } from '../../util'
-import { useNodeList, useTabsBar } from './hook'
+import { useNodeList } from './hook'
 import { tabsBarPositionToFlexDirection } from './util'
 
 export type PaneWithTileNodeChildren = Omit<TilePaneEntity, 'children'> & {
@@ -27,14 +27,13 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
         .filter(isNotNil),
     [pane.children, tileNodeList]
   )
-  const currentTabIndex = useMemo(
+  const currentIndex = useMemo(
     () => inLimit(pane.onTab ?? 0, pane.children.length - 1),
     [pane.children.length, pane.onTab]
   )
 
-  const tabBarMemo = useTabsBar(TabBar, pane, nodeList, currentTabIndex)
-
-  const nodeListMemo = useNodeList(nodeList, currentTabIndex)
+  const calcLayout = useContext(UpdateManuallyContext)
+  const nodeListMemo = useNodeList(nodeList, currentIndex)
 
   const { top, left, width, height } = pane.position
 
@@ -50,7 +49,7 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
           ...toStyles({ top, left, width, height }),
         }}
       >
-        {tabBarMemo}
+        <TabBar {...{ calcLayout, pane, nodeList, currentIndex }} />
         {nodeListMemo}
       </div>
     ),
@@ -61,7 +60,11 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
       left,
       width,
       height,
-      tabBarMemo,
+      TabBar,
+      calcLayout,
+      pane,
+      nodeList,
+      currentIndex,
       nodeListMemo,
     ]
   )

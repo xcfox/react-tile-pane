@@ -4,14 +4,14 @@ import { DraggableTitle, TileNode, TilePaneEntity } from '../../..'
 export type TabsBarProps = {
   calcLayout: () => void
   pane: TilePaneEntity
-  currentNode: TileNode
+  currentIndex: number
   nodeList: TileNode[]
 }
 
 export const DefaultTabsBar: React.FC<TabsBarProps> = ({
   calcLayout,
   pane,
-  currentNode,
+  currentIndex,
   nodeList,
 }: TabsBarProps) => {
   return (
@@ -32,7 +32,7 @@ export const DefaultTabsBar: React.FC<TabsBarProps> = ({
                 calcLayout()
               }}
               style={{
-                color: currentNode === it ? '#000' : '#999',
+                color: currentIndex === i ? '#000' : '#999',
                 background: '#d1f0b5',
               }}
             >
@@ -41,7 +41,7 @@ export const DefaultTabsBar: React.FC<TabsBarProps> = ({
           </DraggableTitle>
           <div
             onClick={() => {
-              pane.removeTab(it)
+              pane.removeTab(i)
               calcLayout()
             }}
           >

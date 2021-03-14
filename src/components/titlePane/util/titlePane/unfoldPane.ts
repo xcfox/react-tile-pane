@@ -1,7 +1,7 @@
 import { isTileNodeIDs, StretchBarEntity, TilePaneEntity } from '..'
 
 export function unfoldPane(pane: TilePaneEntity) {
-  const panes: TilePaneEntity[] = []
+  const panes: TilePaneEntity[] = [pane]
   const stretchBars: StretchBarEntity[] = []
   unfold(pane)
   function unfold(pane: TilePaneEntity) {

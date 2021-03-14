@@ -1,10 +1,8 @@
 import { isTileNodeIDs, TilePaneEntity } from '..'
-import { TileNode } from '../..'
 
-export function removeTab(this: TilePaneEntity, node: TileNode) {
+export function removeTab(this: TilePaneEntity, index: number) {
   const { children } = this
   if (!isTileNodeIDs(children)) return
-  const index = children.findIndex((it) => it === node.id)
   const newChildren = children.slice().splice(index, 1)
   children.splice(index, 1)
   if (children.length === 0) {

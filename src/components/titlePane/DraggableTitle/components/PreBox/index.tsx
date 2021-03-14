@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { Vector2 } from 'react-use-gesture/dist/types'
 import { RectReadOnly } from 'react-use-measure'
 import {
@@ -6,18 +6,26 @@ import {
   Into,
   isTileNodeIDs,
   PanePosition,
+  PaneWithPreBox,
   TilePaneEntity,
 } from '../../..'
 import {
-  ContainerContext,
   ContainerRectContext,
+  ContainerContext,
 } from '../../../container/model'
 
-export function usePreBox(position: Vector2 | undefined) {
+export interface PreBoxProps {
+  paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>
+  position: Vector2
+}
+
+const PreBoxInner: React.FC<PreBoxProps> = ({
+  position,
+  paneWithPreBoxRef,
+}) => {
   const containerRect = useContext(ContainerRectContext)
   const { panes } = useContext(ContainerContext)
   const innerPosition = useMemo(() => {
-    if (!position) return
     return [
       (position[0] - containerRect.left) / containerRect.width,
       (position[1] - containerRect.top) / containerRect.height,
@@ -27,8 +35,9 @@ export function usePreBox(position: Vector2 | undefined) {
     innerPosition,
     panes,
   ])
+  paneWithPreBoxRef.current = paneWithPreBox
   return useMemo(() => {
-    if (!paneWithPreBox) return
+    if (!paneWithPreBox) return null
     const boxPosition = calcBoxPosition(paneWithPreBox, containerRect)
 
     return (
@@ -43,6 +52,8 @@ export function usePreBox(position: Vector2 | undefined) {
     )
   }, [containerRect, paneWithPreBox])
 }
+
+export const PreBox = memo(PreBoxInner)
 
 function calcBoxPosition(
   paneWithPreBox: {
