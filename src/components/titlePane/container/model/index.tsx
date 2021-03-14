@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import {
   ContainerRectContext,
   ContainerRefContext,
@@ -17,7 +17,6 @@ import {
 import useMeasure from 'react-use-measure'
 import { useContainer } from '../hook'
 import { ContainerContext } from './ContainerContext'
-import { DraggableTitlePositionContext } from './DraggableTitlePositionContext'
 
 export interface ProviderOptionProps {
   rootPane: TitlePaneInterface
@@ -34,25 +33,22 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
   tabsBar = DefaultTabsBar,
   option = defaultOption,
 }: ProviderOptionProps) => {
-  const draggableTitlePosition = useState<[number, number]>()
   const { panes, stretchBars, reCalcPane } = useContainer(rootPane)
   const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
     <ContainerContext.Provider value={{ panes, stretchBars }}>
       <ContainerRefContext.Provider value={targetRef}>
-        <DraggableTitlePositionContext.Provider value={draggableTitlePosition}>
-          <ContainerRectContext.Provider value={containerRect}>
-            <UpdateManuallyContext.Provider value={reCalcPane}>
-              <TileNodeListContext.Provider value={tileNodeList}>
-                <TabsBarContext.Provider value={tabsBar}>
-                  <OptionContext.Provider value={option}>
-                    {children}
-                  </OptionContext.Provider>
-                </TabsBarContext.Provider>
-              </TileNodeListContext.Provider>
-            </UpdateManuallyContext.Provider>
-          </ContainerRectContext.Provider>
-        </DraggableTitlePositionContext.Provider>
+        <ContainerRectContext.Provider value={containerRect}>
+          <UpdateManuallyContext.Provider value={reCalcPane}>
+            <TileNodeListContext.Provider value={tileNodeList}>
+              <TabsBarContext.Provider value={tabsBar}>
+                <OptionContext.Provider value={option}>
+                  {children}
+                </OptionContext.Provider>
+              </TabsBarContext.Provider>
+            </TileNodeListContext.Provider>
+          </UpdateManuallyContext.Provider>
+        </ContainerRectContext.Provider>
       </ContainerRefContext.Provider>
     </ContainerContext.Provider>
   )
@@ -64,5 +60,4 @@ export {
   TileNodeListContext,
   ContainerContext,
   ContainerRefContext,
-  DraggableTitlePositionContext,
 }

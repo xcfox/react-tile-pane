@@ -57,6 +57,14 @@ export class TilePaneEntity {
   takeOverChild = takeOverChild
 }
 
+export type TilePaneBranch = Omit<TilePaneEntity, 'children'> & {
+  children: TilePaneEntity[]
+}
+
+export type TilePaneLeaf = Omit<TilePaneEntity, 'children'> & {
+  children: TileNodeID[]
+}
+
 export function isTileNodeIDs(
   list: TileNodeID[] | TitlePaneInterface[] | TilePaneEntity[]
 ): list is TileNodeID[] {
@@ -79,3 +87,4 @@ export type TitlePaneInterface = Omit<
 
 export * from './calcPosition'
 export * from './unfoldPane'
+export * from './calcPreBox'
