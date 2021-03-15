@@ -1,6 +1,7 @@
-import React, { memo, useContext, useMemo } from 'react'
-import { isTileNodeIDs } from '../util'
-import { Pane, PaneWithTileNodeChildren, StretchBar } from './components'
+import React, { memo, useContext, useMemo, useState } from 'react'
+import { isTileNodeIDs, TilePaneLeaf } from '../util'
+import { LeafRefs, LeavesPortal, Pane, StretchBar } from './components'
+import { OptionContext } from './config'
 import {
   PaneProvider,
   ProviderOptionProps,
@@ -19,23 +20,40 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
 }) => {
   const { panes, stretchBars } = useContext(ContainerContext)
   const targetRef = useContext(ContainerRefContext)
+  const { usePortal } = useContext(OptionContext)
 
-  const panesWithReactChild = panes.filter((p) =>
-    isTileNodeIDs(p.children)
-  ) as PaneWithTileNodeChildren[]
+  const paneLeaves = useMemo(
+    () => panes.filter((p) => isTileNodeIDs(p.children)) as TilePaneLeaf[],
+    [panes]
+  )
+  const [paneLeafRefs, setPaneLeafRefs] = useState<LeafRefs[]>(
+    usePortal
+      ? paneLeaves.map((leaf) => {
+          const dictionary = {} as LeafRefs
+          leaf.children.forEach((id) => {
+            dictionary[id] = null
+          })
+          return dictionary
+        })
+      : []
+  )
 
   return useMemo(
     () => (
       <div ref={targetRef} style={{ position: 'relative', width, height }}>
-        {panesWithReactChild.map((pane, i) => (
-          <Pane pane={pane} key={pane.id ?? i} />
+        {paneLeaves.map((pane, i) => (
+          <Pane
+            key={pane.id ?? i}
+            {...{ pane, setPaneLeafRefs, leafIndex: i }}
+          />
         ))}
         {stretchBars.map((b, i) => (
           <StretchBar bar={b} key={b.nextPane.id ?? i} />
         ))}
+        {usePortal && <LeavesPortal {...{ paneLeafRefs, paneLeaves }} />}
       </div>
     ),
-    [targetRef, width, height, panesWithReactChild, stretchBars]
+    [targetRef, width, height, paneLeaves, stretchBars, usePortal, paneLeafRefs]
   )
 }
 

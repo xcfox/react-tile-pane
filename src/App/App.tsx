@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-  createTileNodeList,
+  createTileLeaves,
   TitlePaneInterface,
   PaneContainerWithProvider,
 } from '../components'
@@ -15,7 +15,7 @@ function Arbutus() {
   )
 }
 
-const [nodeList, nodeDictionary] = createTileNodeList({
+const [nodeList, nodeDictionary] = createTileLeaves({
   arbutus: <Arbutus />,
   cherry: <div className="pane">樱桃</div>,
   apple: <div className="pane">苹果</div>,
@@ -50,10 +50,7 @@ const App: React.FC = () => {
     <div className="App">
       <div style={{ height: 30 }} />
       <div className="fence">
-        <PaneContainerWithProvider
-          tileNodeList={nodeList}
-          rootPane={rootPane}
-        />
+        <PaneContainerWithProvider TileLeaves={nodeList} rootPane={rootPane} />
       </div>
     </div>
   )

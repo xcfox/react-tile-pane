@@ -7,9 +7,9 @@ export function useContainer(rootPane: TitlePaneInterface) {
     unfoldPane(rootPaneEntityRef.current)
   )
 
-  const reCalcPane = useCallback(() => {
+  const reCalcLayout = useCallback(() => {
     setPanes(unfoldPane(rootPaneEntityRef.current))
   }, [])
 
-  return { panes, stretchBars, rootPaneEntityRef, reCalcPane }
+  return { panes, stretchBars, rootPaneEntityRef, reCalcLayout }
 }

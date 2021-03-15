@@ -7,7 +7,7 @@ export type TileNode<T = unknown> = {
   node: ReactChild
 } & T
 
-export function createTileNodeList<T extends Record<TileNodeID, ReactChild>>(
+export function createTileLeaves<T extends Record<TileNodeID, ReactChild>>(
   obj: T
 ): [TileNode[], Record<keyof T, keyof T>] {
   const map = {} as Record<TileNodeID, keyof T>

@@ -11,7 +11,7 @@ import {
   OptionContext,
   TabsBarContext,
   TabsBarProps,
-  TileNodeListContext,
+  TileLeavesContext,
   Option,
 } from '../config'
 import useMeasure from 'react-use-measure'
@@ -21,7 +21,7 @@ import { ContainerContext } from './ContainerContext'
 export interface ProviderOptionProps {
   rootPane: TitlePaneInterface
   children?: React.ReactNode
-  tileNodeList: TileNode[]
+  TileLeaves: TileNode[]
   tabsBar?: React.FC<TabsBarProps>
   option?: Option
 }
@@ -29,24 +29,24 @@ export interface ProviderOptionProps {
 export const PaneProvider: FC<ProviderOptionProps> = ({
   rootPane,
   children,
-  tileNodeList,
+  TileLeaves,
   tabsBar = DefaultTabsBar,
   option = defaultOption,
 }: ProviderOptionProps) => {
-  const { panes, stretchBars, reCalcPane } = useContainer(rootPane)
+  const { panes, stretchBars, reCalcLayout } = useContainer(rootPane)
   const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
     <ContainerContext.Provider value={{ panes, stretchBars }}>
       <ContainerRefContext.Provider value={targetRef}>
         <ContainerRectContext.Provider value={containerRect}>
-          <UpdateManuallyContext.Provider value={reCalcPane}>
-            <TileNodeListContext.Provider value={tileNodeList}>
+          <UpdateManuallyContext.Provider value={reCalcLayout}>
+            <TileLeavesContext.Provider value={TileLeaves}>
               <TabsBarContext.Provider value={tabsBar}>
                 <OptionContext.Provider value={option}>
                   {children}
                 </OptionContext.Provider>
               </TabsBarContext.Provider>
-            </TileNodeListContext.Provider>
+            </TileLeavesContext.Provider>
           </UpdateManuallyContext.Provider>
         </ContainerRectContext.Provider>
       </ContainerRefContext.Provider>
@@ -57,7 +57,7 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
 export {
   ContainerRectContext,
   UpdateManuallyContext,
-  TileNodeListContext,
+  TileLeavesContext,
   ContainerContext,
   ContainerRefContext,
 }

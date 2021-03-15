@@ -1,31 +1,37 @@
 import React, { useContext, useMemo } from 'react'
-import { isNotNil, TileNodeID, TilePaneEntity } from '../../..'
-import { inLimit } from '../../../util'
+import { isNotNil } from '../../..'
+import { inLimit, TileNodeID, TilePaneLeaf } from '../../../util'
 import { TabsBarContext, OptionContext } from '../../config'
-import { TileNodeListContext, UpdateManuallyContext } from '../../model'
+import { TileLeavesContext, UpdateManuallyContext } from '../../model'
 import { toStyles } from '../../util'
-import { useNodeList } from './hook'
+import { Leaf } from './components'
 import { tabsBarPositionToFlexDirection } from './util'
 
-export type PaneWithTileNodeChildren = Omit<TilePaneEntity, 'children'> & {
-  children: TileNodeID[]
-}
-
+export type LeafRefs = Record<
+  TileNodeID,
+  React.RefObject<HTMLDivElement> | null
+>
 export interface PaneProps {
-  pane: PaneWithTileNodeChildren
+  pane: TilePaneLeaf
+  setPaneLeafRefs: React.Dispatch<React.SetStateAction<LeafRefs[]>>
+  leafIndex: number
 }
 
-export const Pane: React.FC<PaneProps> = ({ pane }) => {
-  const tileNodeList = useContext(TileNodeListContext)
+export const Pane: React.FC<PaneProps> = ({
+  pane,
+  setPaneLeafRefs,
+  leafIndex,
+}) => {
+  const tileLeaves = useContext(TileLeavesContext)
   const TabBar = useContext(TabsBarContext)
   const { stretchBarThickness, tabsBarPosition } = useContext(OptionContext)
 
   const nodeList = useMemo(
     () =>
       pane.children
-        .map((id) => tileNodeList.find((node) => node.id === id))
+        .map((id) => tileLeaves.find((node) => node.id === id))
         .filter(isNotNil),
-    [pane.children, tileNodeList]
+    [pane.children, tileLeaves]
   )
   const currentIndex = useMemo(
     () => inLimit(pane.onTab ?? 0, pane.children.length - 1),
@@ -33,7 +39,6 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
   )
 
   const calcLayout = useContext(UpdateManuallyContext)
-  const nodeListMemo = useNodeList(nodeList, currentIndex)
 
   const { top, left, width, height } = pane.position
 
@@ -50,7 +55,12 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
         }}
       >
         <TabBar {...{ calcLayout, pane, nodeList, currentIndex }} />
-        {nodeListMemo}
+        {nodeList.map((node, index) => (
+          <Leaf
+            key={index}
+            {...{ leaf: node, currentIndex, index, setPaneLeafRefs, leafIndex }}
+          />
+        ))}
       </div>
     ),
     [
@@ -65,7 +75,8 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
       pane,
       nodeList,
       currentIndex,
-      nodeListMemo,
+      setPaneLeafRefs,
+      leafIndex,
     ]
   )
 }
