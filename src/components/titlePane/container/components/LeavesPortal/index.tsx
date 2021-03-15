@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useRef } from 'react'
 import { LeafRefs } from '..'
 import { TilePaneLeaf } from '../../..'
 import { LeafPortal } from './components'
@@ -13,12 +13,14 @@ const LeavesPortalInner: React.FC<LeavesPortalProps> = ({
   paneLeafRefs,
   paneLeaves,
 }: LeavesPortalProps) => {
-  const leafPortals = unfoldLeafRefs(paneLeafRefs, paneLeaves)
+  const sleepRef = useRef<HTMLDivElement>(null)
+  const leafPortals = unfoldLeafRefs(paneLeafRefs, paneLeaves, sleepRef)
   return (
     <>
       {leafPortals.map((props, i) => (
-        <LeafPortal key={i} {...props} />
+        <LeafPortal key={props.id} {...props} />
       ))}
+      <div ref={sleepRef} style={{ display: 'none' }} />
     </>
   )
 }

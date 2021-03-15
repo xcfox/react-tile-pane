@@ -1,10 +1,15 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import {
   ContainerRectContext,
   ContainerRefContext,
 } from './ContainerRectContext'
 import { UpdateManuallyContext } from './UpdateManuallyContext'
-import { TileNode, TitlePaneInterface } from '../..'
+import {
+  isTileNodeIDs,
+  TileNode,
+  TilePaneLeaf,
+  TitlePaneInterface,
+} from '../..'
 import {
   defaultOption,
   DefaultTabsBar,
@@ -34,9 +39,13 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
   option = defaultOption,
 }: ProviderOptionProps) => {
   const { panes, stretchBars, reCalcLayout } = useContainer(rootPane)
+  const paneLeaves = useMemo(
+    () => panes.filter((p) => isTileNodeIDs(p.children)) as TilePaneLeaf[],
+    [panes]
+  )
   const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
-    <ContainerContext.Provider value={{ panes, stretchBars }}>
+    <ContainerContext.Provider value={{ panes, stretchBars, paneLeaves }}>
       <ContainerRefContext.Provider value={targetRef}>
         <ContainerRectContext.Provider value={containerRect}>
           <UpdateManuallyContext.Provider value={reCalcLayout}>

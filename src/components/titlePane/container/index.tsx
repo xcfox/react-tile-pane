@@ -1,7 +1,7 @@
 import React, { memo, useContext, useMemo, useState } from 'react'
-import { isTileNodeIDs, TilePaneLeaf } from '../util'
 import { LeafRefs, LeavesPortal, Pane, StretchBar } from './components'
 import { OptionContext } from './config'
+import { initPaneLeafRefs } from './util/initPaneLeafRefs'
 import {
   PaneProvider,
   ProviderOptionProps,
@@ -18,24 +18,12 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
   width = '100%',
   height = '100%',
 }) => {
-  const { panes, stretchBars } = useContext(ContainerContext)
+  const { paneLeaves, stretchBars } = useContext(ContainerContext)
   const targetRef = useContext(ContainerRefContext)
   const { usePortal } = useContext(OptionContext)
 
-  const paneLeaves = useMemo(
-    () => panes.filter((p) => isTileNodeIDs(p.children)) as TilePaneLeaf[],
-    [panes]
-  )
   const [paneLeafRefs, setPaneLeafRefs] = useState<LeafRefs[]>(
-    usePortal
-      ? paneLeaves.map((leaf) => {
-          const dictionary = {} as LeafRefs
-          leaf.children.forEach((id) => {
-            dictionary[id] = null
-          })
-          return dictionary
-        })
-      : []
+    usePortal ? initPaneLeafRefs(paneLeaves) : []
   )
 
   return useMemo(

@@ -1,13 +1,40 @@
-import React, { memo, useMemo, useRef } from 'react'
-import { PaneWithPreBox } from '../util'
+import React, { memo, useCallback, useContext, useMemo, useRef } from 'react'
+import { sleepingLeaves } from '../container/components/LeavesPortal/util'
+import { ContainerContext, UpdateManuallyContext } from '../container/model'
+import { PaneWithPreBox, TileNodeID } from '../util'
 import { PreBox } from './components'
 import { useDragAndPosition } from './hook'
 
-export interface DraggableTitleProps {}
+export interface DraggableTitleProps {
+  id: TileNodeID
+  children?: React.ReactNode
+}
 
-const DraggableTitleInner: React.FC<DraggableTitleProps> = ({ children }) => {
+const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
+  id,
+  children,
+}) => {
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
   const { position, bind } = useDragAndPosition(paneWithPreBoxRef)
+
+  const { paneLeaves } = useContext(ContainerContext)
+  const pane = useMemo(() => paneLeaves.find((p) => p.children.includes(id)), [
+    id,
+    paneLeaves,
+  ])
+
+  const tabIndex = useMemo(
+    () => (pane?.children ?? []).findIndex((it) => it === id),
+    [id, pane?.children]
+  )
+  const calcLayout = useContext(UpdateManuallyContext)
+
+  const sleep = useCallback(() => {
+    if (!pane || tabIndex < 0) return
+    pane.removeTab(tabIndex)
+    sleepingLeaves.push(id)
+    calcLayout()
+  }, [calcLayout, id, pane, tabIndex])
 
   const style: React.CSSProperties = useMemo(
     () =>
@@ -25,15 +52,14 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({ children }) => {
   return useMemo(
     () => (
       <>
-        {position && (
-          <PreBox paneWithPreBoxRef={paneWithPreBoxRef} position={position} />
-        )}
+        {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
+        <p onClick={sleep}>点击睡眠</p>
         <div {...{ ...bind(), style }} style={style}>
           {children}
         </div>
       </>
     ),
-    [bind, children, position, style]
+    [bind, children, position, sleep, style]
   )
 }
 

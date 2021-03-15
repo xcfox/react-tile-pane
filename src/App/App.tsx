@@ -33,7 +33,6 @@ const rootPane: TitlePaneInterface = {
       children: [
         { children: nodeDictionary.cherry },
         { children: nodeDictionary.lemon },
-        { children: nodeDictionary.arbutus },
         {
           children: [
             { children: nodeDictionary.mango, grow: 3 },

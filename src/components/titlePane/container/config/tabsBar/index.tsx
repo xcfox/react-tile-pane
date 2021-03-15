@@ -25,7 +25,7 @@ export const DefaultTabsBar: React.FC<TabsBarProps> = ({
           }}
           key={i}
         >
-          <DraggableTitle>
+          <DraggableTitle id={nodeList[currentIndex].id}>
             <div
               onClick={() => {
                 pane.onTab = i
