@@ -4,7 +4,6 @@ import { RectReadOnly } from 'react-use-measure'
 import {
   calcPreBox,
   Into,
-  isTileNodeIDs,
   PanePosition,
   PaneWithPreBox,
   TilePaneEntity,
@@ -53,6 +52,7 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   }, [containerRect, paneWithPreBox])
 }
 
+const proportion = 0.5
 export const PreBox = memo(PreBoxInner)
 
 function calcBoxPosition(
@@ -64,9 +64,6 @@ function calcBoxPosition(
 ): PanePosition {
   const { pane, into } = paneWithPreBox
   const { top, left, width, height } = pane.position
-
-  const isLeaf = isTileNodeIDs(pane.children)
-  const proportion = isLeaf ? 0.5 : 0.3
 
   switch (into) {
     case 'center':

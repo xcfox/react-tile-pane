@@ -14,6 +14,7 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
       isRow,
       grow,
       children: [id],
+      parent,
     })
     const i = isAfter ? indexInParent + 1 : indexInParent
     parent.children.splice(i, 0, newPane)
@@ -24,11 +25,18 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
   /**分裂 */
   const fission = (isAfter: boolean) => {
     const grow = 0.5
-    const child = new TilePaneEntity({ isRow, grow, children, onTab })
+    const child = new TilePaneEntity({
+      isRow,
+      grow,
+      children,
+      onTab,
+      parent: this,
+    })
     const newPane = new TilePaneEntity({
       isRow,
       grow,
       children: [id],
+      parent: this,
     })
     const newChildren = isAfter ? [child, newPane] : [newPane, child]
     this.children = newChildren

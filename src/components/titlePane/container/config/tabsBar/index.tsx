@@ -5,27 +5,27 @@ export type TabsBarProps = {
   calcLayout: () => void
   pane: TilePaneEntity
   currentIndex: number
-  nodeList: TileLeaf[]
+  leaves: TileLeaf[]
 }
 
 export const DefaultTabsBar: React.FC<TabsBarProps> = ({
   calcLayout,
   pane,
   currentIndex,
-  nodeList,
+  leaves,
 }: TabsBarProps) => {
   return (
     <div
       style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}
     >
-      {nodeList.map((it, i) => (
+      {leaves.map((it, i) => (
         <div
           style={{
             display: 'flex',
           }}
-          key={i}
+          key={it.id}
         >
-          <DraggableTitle id={nodeList[currentIndex].id}>
+          <DraggableTitle id={leaves[i].id}>
             <div
               onClick={() => {
                 pane.onTab = i
@@ -41,6 +41,8 @@ export const DefaultTabsBar: React.FC<TabsBarProps> = ({
           </DraggableTitle>
           <div
             onClick={() => {
+              console.log(pane)
+              console.log(i)
               pane.removeTab(i)
               calcLayout()
             }}

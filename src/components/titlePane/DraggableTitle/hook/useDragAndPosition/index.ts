@@ -6,7 +6,7 @@ import { PaneWithPreBox, TileLeafID, TilePaneLeaf } from '../../..'
 export function useDragAndPosition(
   paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>,
   id: TileLeafID,
-  pane: TilePaneLeaf | undefined,
+  parentPane: TilePaneLeaf | undefined,
   calcLayout: () => void
 ) {
   const [position, setPosition] = useState<Vector2>()
@@ -18,14 +18,14 @@ export function useDragAndPosition(
         setPosition(position)
       },
       onDragStart: () => {
-        console.log(pane)
-        pane && pane.startMovingTab(id)
+        console.log(id)
+        parentPane && parentPane.startMovingTab(id)
         calcLayout()
       },
       onDragEnd: () => {
-        // TODO: 结束移动标签
         if (!paneWithPreBoxRef.current) return
         const { pane, into } = paneWithPreBoxRef.current
+        parentPane && parentPane.endMovingTab(id)
         pane.insertLeaf(id, into)
         calcLayout()
       },

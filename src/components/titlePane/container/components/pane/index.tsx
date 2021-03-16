@@ -20,7 +20,7 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
   const TabBar = useContext(TabsBarContext)
   const { stretchBarThickness, tabsBarPosition } = useContext(OptionContext)
 
-  const nodeList = useMemo(
+  const leafList = useMemo(
     () =>
       pane.children
         .map((id) => tileLeaves.find((node) => node.id === id))
@@ -36,6 +36,9 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
 
   const { top, left, width, height } = pane.position
 
+  pane.movingTabs.length && console.log(pane.movingTabs)
+  const { movingTabs } = pane
+
   return useMemo(
     () => (
       <div
@@ -48,10 +51,13 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
           ...toStyles({ top, left, width, height }),
         }}
       >
-        <TabBar {...{ calcLayout, pane, nodeList, currentIndex }} />
-        {nodeList.map((node, index) => (
-          <Leaf key={node.id} {...{ leaf: node, currentIndex, index }} />
-        ))}
+        <TabBar {...{ calcLayout, pane, leaves: leafList, currentIndex }} />
+        {leafList.map(
+          (node, index) =>
+            !movingTabs.includes(node.id) && (
+              <Leaf key={node.id} {...{ leaf: node, currentIndex, index }} />
+            )
+        )}
       </div>
     ),
     [
@@ -64,8 +70,9 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
       TabBar,
       calcLayout,
       pane,
-      nodeList,
+      leafList,
       currentIndex,
+      movingTabs,
     ]
   )
 }
