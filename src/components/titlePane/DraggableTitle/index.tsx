@@ -28,17 +28,18 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
     calcLayout
   )
 
-  const style: React.CSSProperties = useMemo(
+  const style = useMemo(
     () =>
-      position
+      (position
         ? {
+            visibility: 'visible',
             position: 'fixed',
             top: position[1],
             left: position[0],
             transform: 'translate(-50%,-50%)',
             zIndex: 1,
           }
-        : {},
+        : {}) as React.CSSProperties,
     [position]
   )
   return useMemo(

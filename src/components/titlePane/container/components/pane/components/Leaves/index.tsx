@@ -8,18 +8,19 @@ export interface LeafProps {
 }
 
 const LeafInner: React.FC<LeafProps> = ({ leaf, currentIndex, index }) => {
+  const isShowing = currentIndex === index
   return useMemo(
     () => (
       <div
         style={{
-          flexGrow: currentIndex === index ? 1 : 0,
-          display: currentIndex === index ? undefined : 'none',
+          flexGrow: isShowing ? 1 : 0,
+          display: isShowing ? undefined : 'none',
         }}
       >
         {leaf.node}
       </div>
     ),
-    [currentIndex, index, leaf.node]
+    [isShowing, leaf.node]
   )
 }
 

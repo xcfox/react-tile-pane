@@ -24,8 +24,9 @@ export function useDragAndPosition(
       },
       onDragEnd: () => {
         // TODO: 结束移动标签
-        console.log(paneWithPreBoxRef.current)
-        pane && pane.endMovingTab(id)
+        if (!paneWithPreBoxRef.current) return
+        const { pane, into } = paneWithPreBoxRef.current
+        pane.insertLeaf(id, into)
         calcLayout()
       },
     },

@@ -6,6 +6,7 @@ import { calcConstructor, PanePosition } from './calcPosition'
 import { TileLeafID } from '..'
 import { removeTab } from './removeTab'
 import { startMovingTab, endMovingTab } from './movingTab'
+import { insertLeaf } from './insertLeaf'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
 
@@ -14,7 +15,6 @@ export class TilePaneEntity {
   isRow?: boolean
   onTab?: number
   grow = 1
-  id: string
 
   //只在构造时输入
   parent?: TilePaneEntity
@@ -31,6 +31,7 @@ export class TilePaneEntity {
 
   // 固定值
   isTitlePane = true
+  id: string
 
   movingTabs: TileLeafID[] = []
 
@@ -59,6 +60,7 @@ export class TilePaneEntity {
   removeSelf = removeSelf
   removeTab = removeTab
   takeOverChild = takeOverChild
+  insertLeaf = insertLeaf
 
   startMovingTab = startMovingTab
   endMovingTab = endMovingTab
