@@ -1,7 +1,6 @@
-import React, { memo, useContext, useMemo, useState } from 'react'
-import { LeafRefs, LeavesPortal, Pane, StretchBar } from './components'
+import React, { memo, useContext, useMemo } from 'react'
+import { LeavesPortal, Pane, StretchBar } from './components'
 import { OptionContext } from './config'
-import { initPaneLeafRefs } from './util/initPaneLeafRefs'
 import {
   PaneProvider,
   ProviderOptionProps,
@@ -22,26 +21,19 @@ const PaneContainerInner: React.FC<PaneContainerProps> = ({
   const targetRef = useContext(ContainerRefContext)
   const { usePortal } = useContext(OptionContext)
 
-  const [paneLeafRefs, setPaneLeafRefs] = useState<LeafRefs[]>(
-    usePortal ? initPaneLeafRefs(paneLeaves) : []
-  )
-
   return useMemo(
     () => (
       <div ref={targetRef} style={{ position: 'relative', width, height }}>
         {paneLeaves.map((pane, i) => (
-          <Pane
-            key={pane.id ?? i}
-            {...{ pane, setPaneLeafRefs, leafIndex: i }}
-          />
+          <Pane key={pane.id ?? i} {...{ pane }} />
         ))}
         {stretchBars.map((b, i) => (
           <StretchBar bar={b} key={b.nextPane.id ?? i} />
         ))}
-        {usePortal && <LeavesPortal {...{ paneLeafRefs, paneLeaves }} />}
+        {usePortal && <LeavesPortal />}
       </div>
     ),
-    [targetRef, width, height, paneLeaves, stretchBars, usePortal, paneLeafRefs]
+    [targetRef, width, height, paneLeaves, stretchBars, usePortal]
   )
 }
 

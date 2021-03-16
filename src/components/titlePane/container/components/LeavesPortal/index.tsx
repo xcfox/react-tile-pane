@@ -1,26 +1,26 @@
-import React, { memo, useRef } from 'react'
-import { LeafRefs } from '..'
-import { TilePaneLeaf } from '../../..'
+import React, { memo, useContext, useEffect, useRef, useState } from 'react'
+import { TileLeavesContext } from '../../config'
 import { LeafPortal } from './components'
-import { unfoldLeafRefs } from './util'
 
-export interface LeavesPortalProps {
-  paneLeafRefs: LeafRefs[]
-  paneLeaves: TilePaneLeaf[]
-}
+export interface LeavesPortalProps {}
 
-const LeavesPortalInner: React.FC<LeavesPortalProps> = ({
-  paneLeafRefs,
-  paneLeaves,
-}: LeavesPortalProps) => {
+const LeavesPortalInner: React.FC<LeavesPortalProps> = () => {
+  const tileLeaves = useContext(TileLeavesContext)
+  const [isInit, init] = useState(false)
   const sleepRef = useRef<HTMLDivElement>(null)
-  const leafPortals = unfoldLeafRefs(paneLeafRefs, paneLeaves, sleepRef)
+  const sleepDiv = sleepRef.current
+  useEffect(() => {
+    if (!isInit && !sleepDiv) {
+      init(true)
+    }
+  }, [isInit, sleepDiv, tileLeaves])
   return (
     <>
-      {leafPortals.map((props, i) => (
-        <LeafPortal key={props.id} {...props} />
-      ))}
-      <div ref={sleepRef} style={{ display: 'none' }} />
+      {sleepDiv &&
+        tileLeaves.map((leaf, i) => (
+          <LeafPortal sleepDiv={sleepDiv} key={leaf.id} leaf={leaf} />
+        ))}
+      <div id="sleepingLeaves" ref={sleepRef} style={{ display: 'none' }} />
     </>
   )
 }

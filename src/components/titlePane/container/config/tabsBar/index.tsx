@@ -1,11 +1,11 @@
 import React, { createContext } from 'react'
-import { DraggableTitle, TileNode, TilePaneEntity } from '../../..'
+import { DraggableTitle, TileLeaf, TilePaneEntity } from '../../..'
 
 export type TabsBarProps = {
   calcLayout: () => void
   pane: TilePaneEntity
   currentIndex: number
-  nodeList: TileNode[]
+  nodeList: TileLeaf[]
 }
 
 export const DefaultTabsBar: React.FC<TabsBarProps> = ({

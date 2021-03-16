@@ -1,33 +1,23 @@
 import React, { memo, useContext, useEffect, useMemo } from 'react'
-import { LeafRefs } from '../..'
-import { TileNodeID } from '../../../../..'
-import { OptionContext } from '../../../../config'
+import { TileLeafID } from '../../../../..'
+import { OptionContext, TileLeavesContext } from '../../../../config'
 
 export interface LeafProps {
-  leaf: { id: TileNodeID; node: React.ReactChild }
+  leaf: { id: TileLeafID; node: React.ReactChild }
   currentIndex: number
   index: number
-  leafIndex: number
-  setPaneLeafRefs: React.Dispatch<React.SetStateAction<LeafRefs[]>>
 }
 
-const LeafInner: React.FC<LeafProps> = ({
-  leaf,
-  currentIndex,
-  index,
-  setPaneLeafRefs,
-  leafIndex,
-}) => {
+const LeafInner: React.FC<LeafProps> = ({ leaf, currentIndex, index }) => {
   const { usePortal } = useContext(OptionContext)
+  const tileLeaves = useContext(TileLeavesContext)
   const ref = React.useRef<HTMLDivElement>(null)
   useEffect(() => {
-    usePortal &&
-      setPaneLeafRefs((leafRefs) => {
-        const newLeafRefs = leafRefs.slice()
-        newLeafRefs[leafIndex][leaf.id] = ref
-        return newLeafRefs
-      })
-  }, [leaf.id, leafIndex, setPaneLeafRefs, usePortal])
+    if (usePortal) {
+      const leafEntity = tileLeaves.find((l) => l.id === leaf.id)
+      if (leafEntity) leafEntity.ref = ref
+    }
+  }, [leaf.id, tileLeaves, usePortal])
   return useMemo(
     () => (
       <div

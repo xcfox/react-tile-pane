@@ -1,12 +1,16 @@
 import React, { memo, useCallback, useContext, useMemo, useRef } from 'react'
-import { sleepingLeaves } from '../container/components/LeavesPortal/util'
-import { ContainerContext, UpdateManuallyContext } from '../container/model'
-import { PaneWithPreBox, TileNodeID } from '../util'
+import {
+  ContainerContext,
+  TileLeavesContext,
+  UpdateManuallyContext,
+  PortalPromiseContext,
+} from '../container/model'
+import { PaneWithPreBox, TileLeafID } from '../util'
 import { PreBox } from './components'
 import { useDragAndPosition } from './hook'
 
 export interface DraggableTitleProps {
-  id: TileNodeID
+  id: TileLeafID
   children?: React.ReactNode
 }
 
@@ -15,26 +19,38 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
   children,
 }) => {
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
-  const { position, bind } = useDragAndPosition(paneWithPreBoxRef)
 
   const { paneLeaves } = useContext(ContainerContext)
   const pane = useMemo(() => paneLeaves.find((p) => p.children.includes(id)), [
     id,
     paneLeaves,
   ])
+  const { position, bind } = useDragAndPosition(paneWithPreBoxRef, pane)
 
   const tabIndex = useMemo(
     () => (pane?.children ?? []).findIndex((it) => it === id),
     [id, pane?.children]
   )
   const calcLayout = useContext(UpdateManuallyContext)
+  const tileLeaves = useContext(TileLeavesContext)
+  const leaf = useMemo(() => tileLeaves.find((l) => l.id === id), [
+    id,
+    tileLeaves,
+  ])
+  const [, setPortalPromise] = useContext(PortalPromiseContext)
 
-  const sleep = useCallback(() => {
-    if (!pane || tabIndex < 0) return
+  const sleep = useCallback(async () => {
+    if (!pane || !leaf || tabIndex < 0) return
     pane.removeTab(tabIndex)
-    sleepingLeaves.push(id)
-    calcLayout()
-  }, [calcLayout, id, pane, tabIndex])
+    leaf.isSleeping = true
+    const promise = new Promise<TileLeafID>((resolve) => {
+      setPortalPromise({ id, resolve })
+    })
+    const resolveId = await promise
+    if (resolveId === id) {
+      calcLayout()
+    }
+  }, [calcLayout, id, leaf, pane, setPortalPromise, tabIndex])
 
   const style: React.CSSProperties = useMemo(
     () =>

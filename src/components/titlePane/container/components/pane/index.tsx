@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import { isNotNil } from '../../..'
-import { inLimit, TileNodeID, TilePaneLeaf } from '../../../util'
+import { inLimit, TileLeafID, TilePaneLeaf } from '../../../util'
 import { TabsBarContext, OptionContext } from '../../config'
 import { TileLeavesContext, UpdateManuallyContext } from '../../model'
 import { toStyles } from '../../util'
@@ -8,20 +8,14 @@ import { Leaf } from './components'
 import { tabsBarPositionToFlexDirection } from './util'
 
 export type LeafRefs = Record<
-  TileNodeID,
+  TileLeafID,
   React.RefObject<HTMLDivElement> | null
 >
 export interface PaneProps {
   pane: TilePaneLeaf
-  setPaneLeafRefs: React.Dispatch<React.SetStateAction<LeafRefs[]>>
-  leafIndex: number
 }
 
-export const Pane: React.FC<PaneProps> = ({
-  pane,
-  setPaneLeafRefs,
-  leafIndex,
-}) => {
+export const Pane: React.FC<PaneProps> = ({ pane }) => {
   const tileLeaves = useContext(TileLeavesContext)
   const TabBar = useContext(TabsBarContext)
   const { stretchBarThickness, tabsBarPosition } = useContext(OptionContext)
@@ -56,10 +50,7 @@ export const Pane: React.FC<PaneProps> = ({
       >
         <TabBar {...{ calcLayout, pane, nodeList, currentIndex }} />
         {nodeList.map((node, index) => (
-          <Leaf
-            key={index}
-            {...{ leaf: node, currentIndex, index, setPaneLeafRefs, leafIndex }}
-          />
+          <Leaf key={node.id} {...{ leaf: node, currentIndex, index }} />
         ))}
       </div>
     ),
@@ -75,8 +66,6 @@ export const Pane: React.FC<PaneProps> = ({
       pane,
       nodeList,
       currentIndex,
-      setPaneLeafRefs,
-      leafIndex,
     ]
   )
 }

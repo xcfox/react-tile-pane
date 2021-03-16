@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import {
   ContainerRectContext,
   ContainerRefContext,
@@ -6,7 +6,8 @@ import {
 import { UpdateManuallyContext } from './UpdateManuallyContext'
 import {
   isTileNodeIDs,
-  TileNode,
+  TileLeaf,
+  TileLeafEntity,
   TilePaneLeaf,
   TitlePaneInterface,
 } from '../..'
@@ -22,11 +23,12 @@ import {
 import useMeasure from 'react-use-measure'
 import { useContainer } from '../hook'
 import { ContainerContext } from './ContainerContext'
+import { PortalPromise, PortalPromiseContext } from './PortalPromiseContext'
 
 export interface ProviderOptionProps {
   rootPane: TitlePaneInterface
   children?: React.ReactNode
-  TileLeaves: TileNode[]
+  tileLeaves: TileLeaf[]
   tabsBar?: React.FC<TabsBarProps>
   option?: Option
 }
@@ -34,7 +36,7 @@ export interface ProviderOptionProps {
 export const PaneProvider: FC<ProviderOptionProps> = ({
   rootPane,
   children,
-  TileLeaves,
+  tileLeaves,
   tabsBar = DefaultTabsBar,
   option = defaultOption,
 }: ProviderOptionProps) => {
@@ -43,16 +45,23 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
     () => panes.filter((p) => isTileNodeIDs(p.children)) as TilePaneLeaf[],
     [panes]
   )
+  const tileLeafEntities = useMemo(
+    () => tileLeaves.map((leaf) => new TileLeafEntity(leaf)),
+    [tileLeaves]
+  )
+  const promiseState = useState<PortalPromise>()
   const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
     <ContainerContext.Provider value={{ panes, stretchBars, paneLeaves }}>
       <ContainerRefContext.Provider value={targetRef}>
         <ContainerRectContext.Provider value={containerRect}>
           <UpdateManuallyContext.Provider value={reCalcLayout}>
-            <TileLeavesContext.Provider value={TileLeaves}>
+            <TileLeavesContext.Provider value={tileLeafEntities}>
               <TabsBarContext.Provider value={tabsBar}>
                 <OptionContext.Provider value={option}>
-                  {children}
+                  <PortalPromiseContext.Provider value={promiseState}>
+                    {children}
+                  </PortalPromiseContext.Provider>
                 </OptionContext.Provider>
               </TabsBarContext.Provider>
             </TileLeavesContext.Provider>
@@ -69,4 +78,5 @@ export {
   TileLeavesContext,
   ContainerContext,
   ContainerRefContext,
+  PortalPromiseContext,
 }

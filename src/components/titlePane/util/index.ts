@@ -1,5 +1,5 @@
 export * from './titlePane'
 export * from './stretchBar'
-export * from './tileNode'
+export * from './tileLeaf'
 export * from './isNil'
 export * from './inLimit'

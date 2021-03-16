@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   createTileLeaves,
   TitlePaneInterface,
@@ -15,10 +15,14 @@ function Arbutus() {
   )
 }
 
+function Apple() {
+  return <div className="pane">苹果</div>
+}
+
 const [nodeList, nodeDictionary] = createTileLeaves({
   arbutus: <Arbutus />,
   cherry: <div className="pane">樱桃</div>,
-  apple: <div className="pane">苹果</div>,
+  apple: <Apple />,
   lemon: <div className="pane">柠檬</div>,
   mango: <div className="pane">芒果</div>,
   pomelo: <div className="pane">柚子</div>,
@@ -49,7 +53,7 @@ const App: React.FC = () => {
     <div className="App">
       <div style={{ height: 30 }} />
       <div className="fence">
-        <PaneContainerWithProvider TileLeaves={nodeList} rootPane={rootPane} />
+        <PaneContainerWithProvider tileLeaves={nodeList} rootPane={rootPane} />
       </div>
     </div>
   )

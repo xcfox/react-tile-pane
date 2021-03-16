@@ -1,21 +1,27 @@
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useContext, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
-import { TileNodeID } from '../../../../..'
-import { TileLeavesContext } from '../../../../config'
+import { TileLeafEntity } from '../../../../..'
+import { PortalPromiseContext } from '../../../../model'
 
 export interface LeafPortalProps {
-  leafDiv: HTMLDivElement
-  id: TileNodeID
+  sleepDiv: HTMLDivElement
+  leaf: TileLeafEntity
 }
 
-const LeafPortalInner: React.FC<LeafPortalProps> = ({ leafDiv, id }) => {
-  const tileLeaves = useContext(TileLeavesContext)
-  const node = useMemo(() => {
-    const leaf = tileLeaves.find((l) => l.id === id)
-    return leaf?.node
-  }, [id, tileLeaves])
+const LeafPortalInner: React.FC<LeafPortalProps> = ({ sleepDiv, leaf }) => {
+  const [portalPromise] = useContext(PortalPromiseContext)
+  const { node, id, isSleeping, ref } = leaf
   const child = useMemo(() => node, [node])
-  return createPortal(child, leafDiv, String(id))
+  useEffect(() => {
+    if (portalPromise) {
+      const { resolve, id } = portalPromise
+      if (id === leaf.id) {
+        resolve(id)
+      }
+    }
+  }, [leaf.id, portalPromise])
+  const div = isSleeping ? sleepDiv : ref?.current
+  return div ? createPortal(child, div, String(id)) : null
 }
 
 export const LeafPortal = memo(LeafPortalInner)

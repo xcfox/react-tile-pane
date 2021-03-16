@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useGesture } from 'react-use-gesture'
 import { Vector2 } from 'react-use-gesture/dist/types'
-import { PaneWithPreBox } from '../../..'
+import { PaneWithPreBox, TilePaneLeaf } from '../../..'
 
 export function useDragAndPosition(
-  paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>
+  paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>,
+  pane?: TilePaneLeaf
 ) {
   const [position, setPosition] = useState<Vector2>()
 
@@ -14,7 +15,12 @@ export function useDragAndPosition(
         const position = down ? xy : undefined
         setPosition(position)
       },
+      onDragStart: () => {
+        // TODO: 开始移动标签
+        console.log(pane)
+      },
       onDragEnd: () => {
+        // TODO: 结束移动标签
         console.log(paneWithPreBoxRef.current)
       },
     },

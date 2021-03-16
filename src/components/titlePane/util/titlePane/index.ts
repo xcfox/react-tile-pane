@@ -3,7 +3,7 @@ import { reCalcChildGrow } from './reCalcChildGrow'
 import { reCalcChildrenPosition } from './reCalcChildrenPosition'
 import { removeSelf } from './removeSelf'
 import { calcConstructor, PanePosition } from './calcPosition'
-import { TileNodeID } from '..'
+import { TileLeafID } from '..'
 import { removeTab } from './removeTab'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
@@ -13,7 +13,7 @@ export class TilePaneEntity {
   isRow?: boolean
   onTab?: number
   grow = 1
-  id?: string
+  id: string
 
   //只在构造时输入
   parent?: TilePaneEntity
@@ -26,7 +26,7 @@ export class TilePaneEntity {
   } as PanePosition
 
   // 需要转换的值
-  children: TileNodeID[] | TilePaneEntity[]
+  children: TileLeafID[] | TilePaneEntity[]
 
   // 固定值
   isTitlePane = true
@@ -48,6 +48,7 @@ export class TilePaneEntity {
       // 如果子元素为 React-Child
       this.children = [children]
     }
+    this.id = Math.random().toString()
   }
 
   reCalcChildrenPosition = reCalcChildrenPosition
@@ -62,20 +63,20 @@ export type TilePaneBranch = Omit<TilePaneEntity, 'children'> & {
 }
 
 export type TilePaneLeaf = Omit<TilePaneEntity, 'children'> & {
-  children: TileNodeID[]
+  children: TileLeafID[]
 }
 
 export function isTileNodeIDs(
-  list: TileNodeID[] | TitlePaneInterface[] | TilePaneEntity[]
-): list is TileNodeID[] {
+  list: TileLeafID[] | TitlePaneInterface[] | TilePaneEntity[]
+): list is TileLeafID[] {
   return !(list[0] instanceof Object)
 }
 
 export type TitlePaneConstructor = Pick<
   TilePaneEntity,
-  'isRow' | 'onTab' | 'id' | 'parent' | 'indexInParent'
+  'isRow' | 'onTab' | 'parent' | 'indexInParent'
 > & {
-  children: TileNodeID | TileNodeID[] | TitlePaneInterface[]
+  children: TileLeafID | TileLeafID[] | TitlePaneInterface[]
   position?: PanePosition
   grow?: number
 }
