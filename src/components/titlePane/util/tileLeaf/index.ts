@@ -7,18 +7,6 @@ export type TileLeaf<T = unknown> = {
   node: ReactChild
 } & T
 
-export class TileLeafEntity {
-  id: TileLeafID
-  node: ReactChild
-  ref: React.RefObject<HTMLDivElement> | null
-  isSleeping?: boolean
-  constructor(public leaf: TileLeaf) {
-    this.id = leaf.id
-    this.node = leaf.node
-    this.ref = null
-  }
-}
-
 export function createTileLeaves<T extends Record<TileLeafID, ReactChild>>(
   obj: T
 ): [TileLeaf[], Record<keyof T, keyof T>] {

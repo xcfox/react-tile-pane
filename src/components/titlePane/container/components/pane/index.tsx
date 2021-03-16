@@ -1,16 +1,12 @@
 import React, { useContext, useMemo } from 'react'
 import { isNotNil } from '../../..'
-import { inLimit, TileLeafID, TilePaneLeaf } from '../../../util'
+import { inLimit, TilePaneLeaf } from '../../../util'
 import { TabsBarContext, OptionContext } from '../../config'
 import { TileLeavesContext, UpdateManuallyContext } from '../../model'
 import { toStyles } from '../../util'
 import { Leaf } from './components'
 import { tabsBarPositionToFlexDirection } from './util'
 
-export type LeafRefs = Record<
-  TileLeafID,
-  React.RefObject<HTMLDivElement> | null
->
 export interface PaneProps {
   pane: TilePaneLeaf
 }
@@ -43,6 +39,7 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
     () => (
       <div
         style={{
+          visibility: pane.grow === 0 ? 'hidden' : undefined,
           display: 'flex',
           flexDirection: tabsBarPositionToFlexDirection(tabsBarPosition),
           position: 'absolute',

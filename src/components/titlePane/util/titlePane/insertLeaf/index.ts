@@ -6,7 +6,7 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
   const isRow = parent?.isRow
 
   /**分割 */
-  const segment = (isAfter: boolean) => {
+  const segment = (isNext: boolean) => {
     if (!parent) return
     const grow = this.grow / 2
     this.grow = grow
@@ -16,14 +16,14 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
       children: [id],
       parent,
     })
-    const i = isAfter ? indexInParent + 1 : indexInParent
+    const i = isNext ? indexInParent + 1 : indexInParent
     parent.children.splice(i, 0, newPane)
     parent.reCalcChildGrow()
     parent.reCalcChildrenPosition()
   }
 
   /**分裂 */
-  const fission = (isAfter: boolean) => {
+  const fission = (isNext: boolean) => {
     const grow = 0.5
     const child = new TilePaneEntity({
       isRow,
@@ -38,7 +38,7 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
       children: [id],
       parent: this,
     })
-    const newChildren = isAfter ? [child, newPane] : [newPane, child]
+    const newChildren = isNext ? [child, newPane] : [newPane, child]
     this.children = newChildren
     this.reCalcChildGrow()
     this.reCalcChildrenPosition()
@@ -54,38 +54,38 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
       return
     }
     case 'left': {
-      const isAfter = false
+      const isNext = false
       if (isRow) {
-        segment(isAfter)
+        segment(isNext)
       } else {
-        fission(isAfter)
+        fission(isNext)
       }
       return
     }
     case 'right': {
-      const isAfter = true
+      const isNext = true
       if (isRow) {
-        segment(isAfter)
+        segment(isNext)
       } else {
-        fission(isAfter)
+        fission(isNext)
       }
       return
     }
     case 'top': {
-      const isAfter = false
+      const isNext = false
       if (isRow) {
-        fission(isAfter)
+        fission(isNext)
       } else {
-        segment(isAfter)
+        segment(isNext)
       }
       return
     }
     case 'bottom': {
-      const isAfter = true
+      const isNext = true
       if (isRow) {
-        fission(isAfter)
+        fission(isNext)
       } else {
-        segment(isAfter)
+        segment(isNext)
       }
       return
     }

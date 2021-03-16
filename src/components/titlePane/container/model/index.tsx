@@ -7,7 +7,6 @@ import { UpdateManuallyContext } from './UpdateManuallyContext'
 import {
   isTileNodeIDs,
   TileLeaf,
-  TileLeafEntity,
   TilePaneLeaf,
   TitlePaneInterface,
 } from '../..'
@@ -44,17 +43,13 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
     () => panes.filter((p) => isTileNodeIDs(p.children)) as TilePaneLeaf[],
     [panes]
   )
-  const tileLeafEntities = useMemo(
-    () => tileLeaves.map((leaf) => new TileLeafEntity(leaf)),
-    [tileLeaves]
-  )
   const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
     <ContainerContext.Provider value={{ panes, stretchBars, paneLeaves }}>
       <ContainerRefContext.Provider value={targetRef}>
         <ContainerRectContext.Provider value={containerRect}>
           <UpdateManuallyContext.Provider value={reCalcLayout}>
-            <TileLeavesContext.Provider value={tileLeafEntities}>
+            <TileLeavesContext.Provider value={tileLeaves}>
               <TabsBarContext.Provider value={tabsBar}>
                 <OptionContext.Provider value={option}>
                   {children}

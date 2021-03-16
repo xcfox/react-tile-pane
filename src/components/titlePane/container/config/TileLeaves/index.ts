@@ -1,4 +1,4 @@
 import { createContext } from 'react'
-import { TileLeafEntity } from '../../..'
+import { TileLeaf } from '../../..'
 
-export const TileLeavesContext = createContext<TileLeafEntity[]>([])
+export const TileLeavesContext = createContext<TileLeaf[]>([])
