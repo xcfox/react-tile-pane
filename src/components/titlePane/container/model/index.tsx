@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useMemo } from 'react'
 import {
   ContainerRectContext,
   ContainerRefContext,
@@ -23,7 +23,6 @@ import {
 import useMeasure from 'react-use-measure'
 import { useContainer } from '../hook'
 import { ContainerContext } from './ContainerContext'
-import { PortalPromise, PortalPromiseContext } from './PortalPromiseContext'
 
 export interface ProviderOptionProps {
   rootPane: TitlePaneInterface
@@ -49,7 +48,6 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
     () => tileLeaves.map((leaf) => new TileLeafEntity(leaf)),
     [tileLeaves]
   )
-  const promiseState = useState<PortalPromise>()
   const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
     <ContainerContext.Provider value={{ panes, stretchBars, paneLeaves }}>
@@ -59,9 +57,7 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
             <TileLeavesContext.Provider value={tileLeafEntities}>
               <TabsBarContext.Provider value={tabsBar}>
                 <OptionContext.Provider value={option}>
-                  <PortalPromiseContext.Provider value={promiseState}>
-                    {children}
-                  </PortalPromiseContext.Provider>
+                  {children}
                 </OptionContext.Provider>
               </TabsBarContext.Provider>
             </TileLeavesContext.Provider>
@@ -78,5 +74,4 @@ export {
   TileLeavesContext,
   ContainerContext,
   ContainerRefContext,
-  PortalPromiseContext,
 }

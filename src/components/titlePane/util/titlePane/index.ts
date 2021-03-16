@@ -5,6 +5,7 @@ import { removeSelf } from './removeSelf'
 import { calcConstructor, PanePosition } from './calcPosition'
 import { TileLeafID } from '..'
 import { removeTab } from './removeTab'
+import { startMovingTab, endMovingTab } from './movingTab'
 
 export type TilePaneLayout = 'row' | 'column' | 'stack'
 
@@ -31,6 +32,8 @@ export class TilePaneEntity {
   // 固定值
   isTitlePane = true
 
+  movingTabs: TileLeafID[] = []
+
   constructor(public args: TitlePaneConstructor) {
     Object.assign(this, args)
     const { children } = args
@@ -56,6 +59,9 @@ export class TilePaneEntity {
   removeSelf = removeSelf
   removeTab = removeTab
   takeOverChild = takeOverChild
+
+  startMovingTab = startMovingTab
+  endMovingTab = endMovingTab
 }
 
 export type TilePaneBranch = Omit<TilePaneEntity, 'children'> & {

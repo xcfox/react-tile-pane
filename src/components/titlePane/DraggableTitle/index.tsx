@@ -1,10 +1,5 @@
-import React, { memo, useCallback, useContext, useMemo, useRef } from 'react'
-import {
-  ContainerContext,
-  TileLeavesContext,
-  UpdateManuallyContext,
-  PortalPromiseContext,
-} from '../container/model'
+import React, { memo, useContext, useMemo, useRef } from 'react'
+import { ContainerContext, UpdateManuallyContext } from '../container/model'
 import { PaneWithPreBox, TileLeafID } from '../util'
 import { PreBox } from './components'
 import { useDragAndPosition } from './hook'
@@ -21,36 +16,17 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
   const { paneLeaves } = useContext(ContainerContext)
+  const calcLayout = useContext(UpdateManuallyContext)
   const pane = useMemo(() => paneLeaves.find((p) => p.children.includes(id)), [
     id,
     paneLeaves,
   ])
-  const { position, bind } = useDragAndPosition(paneWithPreBoxRef, pane)
-
-  const tabIndex = useMemo(
-    () => (pane?.children ?? []).findIndex((it) => it === id),
-    [id, pane?.children]
-  )
-  const calcLayout = useContext(UpdateManuallyContext)
-  const tileLeaves = useContext(TileLeavesContext)
-  const leaf = useMemo(() => tileLeaves.find((l) => l.id === id), [
+  const { position, bind } = useDragAndPosition(
+    paneWithPreBoxRef,
     id,
-    tileLeaves,
-  ])
-  const [, setPortalPromise] = useContext(PortalPromiseContext)
-
-  const sleep = useCallback(async () => {
-    if (!pane || !leaf || tabIndex < 0) return
-    pane.removeTab(tabIndex)
-    leaf.isSleeping = true
-    const promise = new Promise<TileLeafID>((resolve) => {
-      setPortalPromise({ id, resolve })
-    })
-    const resolveId = await promise
-    if (resolveId === id) {
-      calcLayout()
-    }
-  }, [calcLayout, id, leaf, pane, setPortalPromise, tabIndex])
+    pane,
+    calcLayout
+  )
 
   const style: React.CSSProperties = useMemo(
     () =>
@@ -69,13 +45,12 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
     () => (
       <>
         {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
-        <p onClick={sleep}>点击睡眠</p>
         <div {...{ ...bind(), style }} style={style}>
           {children}
         </div>
       </>
     ),
-    [bind, children, position, sleep, style]
+    [bind, children, position, style]
   )
 }
 
