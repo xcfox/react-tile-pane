@@ -60,7 +60,7 @@ const App: React.FC = () => {
           <PaneContainer />
         </div>
       </div>
-      <DraggableTitle id={names.banana}>这是一个香蕉</DraggableTitle>
+      <DraggableTitle id={names.banana}>拖动这个🍌</DraggableTitle>
     </PaneProvider>
   )
 }

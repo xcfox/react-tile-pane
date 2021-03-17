@@ -43,6 +43,7 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
       <div
         style={{
           zIndex: 1,
+          visibility: 'visible',
           background: '#e4a4fd66',
           position: 'fixed',
           ...boxPosition,

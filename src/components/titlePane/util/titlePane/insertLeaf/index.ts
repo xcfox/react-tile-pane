@@ -2,16 +2,14 @@ import { Into, isTileNodeIDs, TilePaneEntity } from '..'
 import { TileLeafID } from '../..'
 
 export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
-  const { children, indexInParent = 0, parent, onTab } = this
-  const isRow = parent?.isRow
+  const { children, indexInParent = 0, parent, onTab, isRow } = this
 
-  /**分割 */
+  /** 分割 */
   const segment = (isNext: boolean) => {
     if (!parent) return
     const grow = this.grow / 2
     this.grow = grow
     const newPane = new TilePaneEntity({
-      isRow,
       grow,
       children: [id],
       parent,
@@ -22,7 +20,7 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
     parent.reCalcChildrenPosition()
   }
 
-  /**分裂 */
+  /** 分裂 */
   const fission = (isNext: boolean) => {
     const grow = 0.5
     const child = new TilePaneEntity({
@@ -33,61 +31,35 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
       parent: this,
     })
     const newPane = new TilePaneEntity({
-      isRow,
       grow,
       children: [id],
       parent: this,
     })
     const newChildren = isNext ? [child, newPane] : [newPane, child]
     this.children = newChildren
+    this.isRow = ['left', 'right'].includes(into)
     this.reCalcChildGrow()
     this.reCalcChildrenPosition()
   }
 
-  switch (into) {
-    case 'center': {
-      if (!isTileNodeIDs(children)) return
-      const newChildren = children.slice()
-      newChildren.push(id)
-      this.children = newChildren
-      this.onTab = newChildren.length - 1
-      return
-    }
-    case 'left': {
-      const isNext = false
-      if (isRow) {
-        segment(isNext)
-      } else {
-        fission(isNext)
-      }
-      return
-    }
-    case 'right': {
-      const isNext = true
-      if (isRow) {
-        segment(isNext)
-      } else {
-        fission(isNext)
-      }
-      return
-    }
-    case 'top': {
-      const isNext = false
-      if (isRow) {
-        fission(isNext)
-      } else {
-        segment(isNext)
-      }
-      return
-    }
-    case 'bottom': {
-      const isNext = true
-      if (isRow) {
-        fission(isNext)
-      } else {
-        segment(isNext)
-      }
-      return
-    }
+  if (into === 'center') {
+    if (!isTileNodeIDs(children)) return
+    const newChildren = children.slice()
+    newChildren.push(id)
+    this.children = newChildren
+    this.onTab = newChildren.length - 1
+    return
   }
+  const isNext = ['right', 'bottom'].includes(into)
+  const isLeaf = isTileNodeIDs(children)
+  const isSegmental = isSegment(this, isLeaf, into)
+  if (isSegmental) segment(isNext)
+  else fission(isNext)
+}
+
+function isSegment(pane: TilePaneEntity, isLeaf: boolean, into: Into): boolean {
+  if (!isLeaf) return false
+  const isRow = pane.parent?.isRow
+  const segmentInto: Into[] = isRow ? ['left', 'right'] : ['top', 'bottom']
+  return segmentInto.includes(into)
 }

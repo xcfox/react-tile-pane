@@ -5,7 +5,6 @@
 - [react-mosaic](https://github.com/nomcopter/react-mosaic)
 - [FlexLayout](https://github.com/caplin/FlexLayout)
 - [react-split-pane](https://github.com/tomkp/react-split-pane)
-- [react-tiles](https://github.com/arqex/react-tiles)
 - [react-collapse-pane](https://github.com/b-zurg/react-collapse-pane)
 - [React-Splitters](https://github.com/martinnov92/React-Splitters)
-- [react-panelgroup](https://github.com/DanFessler/react-panelgroup)
+- [react-panelGroup](https://github.com/DanFessler/react-panelgroup)
