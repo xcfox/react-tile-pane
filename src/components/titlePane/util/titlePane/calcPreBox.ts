@@ -6,7 +6,7 @@ import {
   TilePaneLeaf,
 } from '.'
 
-const branchProportion = 0.15
+const branchProportion = 0.05
 const leafProportion = 0.3
 
 export type Into = 'top' | 'bottom' | 'left' | 'right' | 'center'
