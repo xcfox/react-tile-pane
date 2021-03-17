@@ -5,7 +5,10 @@ export function removeSelf(this: TilePaneEntity) {
   if (!parent) return
   if (this.indexInParent === undefined) return
   if (isTileNodeIDs(parent.children)) return
-  parent.children.splice(this.indexInParent, 1)
+  const newChildren = parent.children.slice()
+  newChildren.splice(this.indexInParent, 1)
+  parent.children = newChildren
+  if (parent.children.length === 0) parent.removeSelf()
   parent.takeOverChild()
   parent.reCalcChildGrow()
   parent.reCalcChildrenPosition()

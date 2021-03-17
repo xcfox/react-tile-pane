@@ -35,7 +35,7 @@ export class TilePaneEntity {
 
   movingTabs: TileLeafID[] = []
 
-  constructor(public args: TitlePaneConstructor) {
+  constructor(args: TitlePaneConstructor) {
     Object.assign(this, args)
     const { children } = args
     if (children instanceof Array) {

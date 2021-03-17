@@ -34,21 +34,31 @@ const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
   const { isRow } = bar.parentPane
 
   return useMemo(
-    () => (
-      <div
-        {...bind()}
-        style={{
-          position: 'absolute',
-          background: '#8191ec66',
-          ...calcBarStyles(
-            { top, left, width, height },
-            stretchBarThickness,
-            isRow
-          ),
-        }}
-      />
-    ),
-    [bind, height, isRow, left, stretchBarThickness, top, width]
+    () =>
+      bar.nextPane.grow ? (
+        <div
+          {...bind()}
+          style={{
+            position: 'absolute',
+            background: '#8191ec66',
+            ...calcBarStyles(
+              { top, left, width, height },
+              stretchBarThickness,
+              isRow
+            ),
+          }}
+        />
+      ) : null,
+    [
+      bar.nextPane.grow,
+      bind,
+      height,
+      isRow,
+      left,
+      stretchBarThickness,
+      top,
+      width,
+    ]
   )
 }
 

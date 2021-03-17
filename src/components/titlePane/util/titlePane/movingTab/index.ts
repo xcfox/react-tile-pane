@@ -18,13 +18,14 @@ export function startMovingTab(this: TilePaneEntity, id: TileLeafID) {
 export function endMovingTab(this: TilePaneEntity, id: TileLeafID) {
   const { children } = this
   if (!isTileNodeIDs(children)) return
-  const indexInChildren = children.findIndex((it) => it === id)
   const indexInMovingTabs = this.movingTabs.findIndex((it) => it === id)
   const newMovingTabs = this.movingTabs.slice()
   newMovingTabs.splice(indexInMovingTabs, 1)
+  this.movingTabs = newMovingTabs
+
+  const indexInChildren = children.findIndex((it) => it === id)
   const newChildren = children.slice()
   newChildren.splice(indexInChildren, 1)
-  this.movingTabs = newMovingTabs
   this.children = newChildren
   if (this.grow === 0) {
     this.removeSelf()

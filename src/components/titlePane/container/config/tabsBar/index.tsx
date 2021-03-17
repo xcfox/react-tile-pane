@@ -41,8 +41,6 @@ export const DefaultTabsBar: React.FC<TabsBarProps> = ({
           </DraggableTitle>
           <div
             onClick={() => {
-              console.log(pane)
-              console.log(i)
               pane.removeTab(i)
               calcLayout()
             }}

@@ -4,23 +4,25 @@ import { TileLeafID } from '../..'
 export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
   const { children, indexInParent = 0, parent, onTab, isRow } = this
 
-  /** 分割 */
+  /** 分割 ——插入同级节点 */
   const segment = (isNext: boolean) => {
     if (!parent) return
     const grow = this.grow / 2
     this.grow = grow
     const newPane = new TilePaneEntity({
       grow,
-      children: [id],
+      children: id,
       parent,
     })
     const i = isNext ? indexInParent + 1 : indexInParent
-    parent.children.splice(i, 0, newPane)
+    const newChildren = parent.children.slice()
+    newChildren.splice(i, 0, newPane)
+    parent.children = newChildren
     parent.reCalcChildGrow()
     parent.reCalcChildrenPosition()
   }
 
-  /** 分裂 */
+  /** 分裂 ——插入子级节点*/
   const fission = (isNext: boolean) => {
     const grow = 0.5
     const child = new TilePaneEntity({
@@ -32,7 +34,7 @@ export function insertLeaf(this: TilePaneEntity, id: TileLeafID, into: Into) {
     })
     const newPane = new TilePaneEntity({
       grow,
-      children: [id],
+      children: id,
       parent: this,
     })
     const newChildren = isNext ? [child, newPane] : [newPane, child]

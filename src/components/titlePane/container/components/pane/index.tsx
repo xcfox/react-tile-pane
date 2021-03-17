@@ -32,7 +32,6 @@ export const Pane: React.FC<PaneProps> = ({ pane }) => {
 
   const { top, left, width, height } = pane.position
 
-  pane.movingTabs.length && console.log(pane.movingTabs)
   const { movingTabs } = pane
 
   return useMemo(

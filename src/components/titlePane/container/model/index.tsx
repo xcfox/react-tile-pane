@@ -22,6 +22,7 @@ import {
 import useMeasure from 'react-use-measure'
 import { useContainer } from '../hook'
 import { ContainerContext } from './ContainerContext'
+import { FindLeafContext } from './FindLeafContext'
 
 export interface ProviderOptionProps {
   rootPane: TitlePaneInterface
@@ -38,7 +39,7 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
   tabsBar = DefaultTabsBar,
   option = defaultOption,
 }: ProviderOptionProps) => {
-  const { panes, stretchBars, reCalcLayout } = useContainer(rootPane)
+  const { panes, stretchBars, reCalcLayout, findLeaf } = useContainer(rootPane)
   const paneLeaves = useMemo(
     () => panes.filter((p) => isTileNodeIDs(p.children)) as TilePaneLeaf[],
     [panes]
@@ -49,13 +50,15 @@ export const PaneProvider: FC<ProviderOptionProps> = ({
       <ContainerRefContext.Provider value={targetRef}>
         <ContainerRectContext.Provider value={containerRect}>
           <UpdateManuallyContext.Provider value={reCalcLayout}>
-            <TileLeavesContext.Provider value={tileLeaves}>
-              <TabsBarContext.Provider value={tabsBar}>
-                <OptionContext.Provider value={option}>
-                  {children}
-                </OptionContext.Provider>
-              </TabsBarContext.Provider>
-            </TileLeavesContext.Provider>
+            <FindLeafContext.Provider value={findLeaf}>
+              <TileLeavesContext.Provider value={tileLeaves}>
+                <TabsBarContext.Provider value={tabsBar}>
+                  <OptionContext.Provider value={option}>
+                    {children}
+                  </OptionContext.Provider>
+                </TabsBarContext.Provider>
+              </TileLeavesContext.Provider>
+            </FindLeafContext.Provider>
           </UpdateManuallyContext.Provider>
         </ContainerRectContext.Provider>
       </ContainerRefContext.Provider>
@@ -69,4 +72,5 @@ export {
   TileLeavesContext,
   ContainerContext,
   ContainerRefContext,
+  FindLeafContext,
 }

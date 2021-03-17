@@ -18,7 +18,6 @@ export function useDragAndPosition(
         setPosition(position)
       },
       onDragStart: () => {
-        console.log(id)
         parentPane && parentPane.startMovingTab(id)
         calcLayout()
       },
