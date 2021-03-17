@@ -15,7 +15,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
 }) => {
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
-  const { paneLeaves, panes } = useContext(ContainerContext)
+  const { paneLeaves } = useContext(ContainerContext)
   const calcLayout = useContext(UpdateManuallyContext)
   const pane = useMemo(() => paneLeaves.find((p) => p.children.includes(id)), [
     id,
@@ -46,19 +46,12 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
     () => (
       <>
         {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
-        <div
-          onClick={() => {
-            console.log('pane: ', pane)
-            console.log('panes: ', panes)
-          }}
-          {...{ ...bind(), style }}
-          style={style}
-        >
+        <div {...{ ...bind(), style }} style={style}>
           {children}
         </div>
       </>
     ),
-    [bind, children, pane, panes, position, style]
+    [bind, children, position, style]
   )
 }
 

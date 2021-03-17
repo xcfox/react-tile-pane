@@ -11,7 +11,7 @@ const leafProportion = 0.3
 
 export type Into = 'top' | 'bottom' | 'left' | 'right' | 'center'
 export type PaneWithPreBox = {
-  pane: TilePaneEntity
+  targetPane: TilePaneEntity
   into: Into
 }
 export function calcPreBox(
@@ -28,17 +28,17 @@ export function calcPreBox(
       const { left, top, width, height } = pane.position
       if (pane.isRow) {
         if (y - top < height * branchProportion) {
-          return { pane, into: 'top' }
+          return { targetPane: pane, into: 'top' }
         }
         if (top + height - y < height * branchProportion) {
-          return { pane, into: 'bottom' }
+          return { targetPane: pane, into: 'bottom' }
         }
       } else {
         if (x - left < width * branchProportion) {
-          return { pane, into: 'left' }
+          return { targetPane: pane, into: 'left' }
         }
         if (left + width - x < width * branchProportion) {
-          return { pane, into: 'right' }
+          return { targetPane: pane, into: 'right' }
         }
       }
     }
@@ -51,18 +51,18 @@ export function calcPreBox(
     if (isInPane(pane.position, innerPosition)) {
       const { left, top, width, height } = pane.position
       if (x - left < width * leafProportion) {
-        return { pane, into: 'left' }
+        return { targetPane: pane, into: 'left' }
       }
       if (left + width - x < width * leafProportion) {
-        return { pane, into: 'right' }
+        return { targetPane: pane, into: 'right' }
       }
       if (y - top < height * leafProportion) {
-        return { pane, into: 'top' }
+        return { targetPane: pane, into: 'top' }
       }
       if (top + height - y < height * leafProportion) {
-        return { pane, into: 'bottom' }
+        return { targetPane: pane, into: 'bottom' }
       }
-      return { pane, into: 'center' }
+      return { targetPane: pane, into: 'center' }
     }
   }
 }

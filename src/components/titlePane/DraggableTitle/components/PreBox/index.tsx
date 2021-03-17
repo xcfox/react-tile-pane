@@ -1,13 +1,7 @@
 import React, { memo, useContext, useMemo } from 'react'
 import { Vector2 } from 'react-use-gesture/dist/types'
 import { RectReadOnly } from 'react-use-measure'
-import {
-  calcPreBox,
-  Into,
-  PanePosition,
-  PaneWithPreBox,
-  TilePaneEntity,
-} from '../../..'
+import { calcPreBox, PanePosition, PaneWithPreBox } from '../../..'
 import {
   ContainerRectContext,
   ContainerContext,
@@ -57,14 +51,11 @@ const proportion = 0.5
 export const PreBox = memo(PreBoxInner)
 
 function calcBoxPosition(
-  paneWithPreBox: {
-    pane: TilePaneEntity
-    into: Into
-  },
+  paneWithPreBox: PaneWithPreBox,
   containerRect: RectReadOnly
 ): PanePosition {
-  const { pane, into } = paneWithPreBox
-  const { top, left, width, height } = pane.position
+  const { targetPane, into } = paneWithPreBox
+  const { top, left, width, height } = targetPane.position
 
   switch (into) {
     case 'center':

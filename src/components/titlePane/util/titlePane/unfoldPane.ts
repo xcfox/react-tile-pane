@@ -12,6 +12,7 @@ export function unfoldPane(pane: TilePaneEntity) {
         panes.push(p)
         const prevPane = children[i - 1]
         if (!prevPane) return
+        if (p.grow === 0) return
         const bar = new StretchBarEntity(pane, prevPane, p)
         stretchBars.push(bar)
       })

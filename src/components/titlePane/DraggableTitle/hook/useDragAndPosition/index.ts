@@ -22,10 +22,13 @@ export function useDragAndPosition(
         calcLayout()
       },
       onDragEnd: () => {
-        if (!paneWithPreBoxRef.current) return
-        const { pane, into } = paneWithPreBoxRef.current
-        parentPane && parentPane.endMovingTab(id)
-        pane.insertLeaf(id, into)
+        if (parentPane) {
+          parentPane.endMovingTab(id, paneWithPreBoxRef.current)
+        } else {
+          if (!paneWithPreBoxRef.current) return
+          const { targetPane, into } = paneWithPreBoxRef.current
+          targetPane.insertLeaf(id, into)
+        }
         calcLayout()
       },
     },

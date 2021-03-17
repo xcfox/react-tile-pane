@@ -1,4 +1,4 @@
-import { isTileNodeIDs, TilePaneEntity } from '..'
+import { isTileNodeIDs, PaneWithPreBox, TilePaneEntity } from '..'
 import { TileLeafID } from '../..'
 
 export function startMovingTab(this: TilePaneEntity, id: TileLeafID) {
@@ -15,7 +15,11 @@ export function startMovingTab(this: TilePaneEntity, id: TileLeafID) {
   }
 }
 
-export function endMovingTab(this: TilePaneEntity, id: TileLeafID) {
+export function endMovingTab(
+  this: TilePaneEntity,
+  id: TileLeafID,
+  paneWithPreBox?: PaneWithPreBox
+) {
   const { children } = this
   if (!isTileNodeIDs(children)) return
   const indexInMovingTabs = this.movingTabs.findIndex((it) => it === id)
@@ -26,8 +30,15 @@ export function endMovingTab(this: TilePaneEntity, id: TileLeafID) {
   const indexInChildren = children.findIndex((it) => it === id)
   const newChildren = children.slice()
   newChildren.splice(indexInChildren, 1)
+  const isTakeOvered = this.parent?.children[0] === paneWithPreBox?.targetPane
   this.children = newChildren
   if (this.grow === 0) {
     this.removeSelf()
+  }
+  const isOneChild = (this.parent?.children.length ?? 0) === 1
+  if (paneWithPreBox) {
+    const { targetPane, into } = paneWithPreBox
+    const pane = isTakeOvered && isOneChild ? targetPane.parent : targetPane
+    pane?.insertLeaf(id, into)
   }
 }
