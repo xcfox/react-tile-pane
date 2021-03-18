@@ -7,6 +7,7 @@ export function takeOverChild(this: TilePaneEntity) {
   if (isTileNodeIDs(children)) return
   if (children.length === 1) {
     const oneChild = children[0]
+    oneChild.parent = this
     this.children = oneChild.children
   }
 }
