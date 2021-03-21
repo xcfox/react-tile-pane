@@ -7,6 +7,6 @@ export class StretchBarEntity {
     public previousPane: TileNode,
     public nextPane: TileNode
   ) {}
-  position = this.nextPane.rect
+  rect = this.nextPane.rect
   move = move
 }

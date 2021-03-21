@@ -1,17 +1,26 @@
-import { isTileNodeIDs, TileBranch, TileLeaf, TileNode } from '..'
-import { StretchBarEntity } from '../..'
-import { isTileLeaf } from '.'
+import {
+  TileBranch,
+  TileLeaf,
+  StretchBarEntity,
+  isTileNodeIDs,
+  isTileLeaf,
+} from '..'
 
 export function unfold(node: TileBranch) {
-  const nodes: TileNode[] = [node]
+  const leaves: TileLeaf[] = []
+  const branches = [node]
   const stretchBars: StretchBarEntity[] = []
   unfold(node)
   function unfold(pane: TileBranch) {
     const { children } = pane
     !isTileNodeIDs(children) &&
       (children as (TileBranch | TileLeaf)[]).forEach((p, i) => {
-        if (!isTileLeaf(p)) unfold(p)
-        nodes.push(p)
+        if (!isTileLeaf(p)) {
+          unfold(p)
+          branches.push(p)
+        } else {
+          leaves.push(p)
+        }
         const prevPane = children[i - 1]
         if (!prevPane) return
         const bar = new StretchBarEntity(pane, prevPane, p)
@@ -19,7 +28,8 @@ export function unfold(node: TileBranch) {
       })
   }
   return {
-    nodes,
+    leaves,
+    branches,
     stretchBars,
   }
 }
