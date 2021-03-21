@@ -1,5 +1,5 @@
-import { createTileBranch, TileBranchSubstance, unfold } from '../../..'
-import { TileNodeStore } from '..'
+import { createTileBranch, TileBranchSubstance, unfold } from '../../../..'
+import { TileNodeStore } from '../..'
 
 export function initRootNode(rootNodeSub: TileBranchSubstance): TileNodeStore {
   const rootNode = createTileBranch(rootNodeSub)

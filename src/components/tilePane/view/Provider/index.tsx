@@ -1,12 +1,13 @@
 import React, { memo, useMemo, useReducer } from 'react'
-import { TileBranchSubstance } from '../..'
+import { MovingTabReducer, movingTabsReducer, TileBranchSubstance } from '../..'
 import { initRootNode, reducer } from './controller'
 import {
+  MovingTabsContext,
+  MovingTabsDispatchContext,
   StretchBarsContext,
   TileBranchesContext,
   TileDispatchContext,
   TileLeavesContext,
-  TileRootNodeContext,
 } from './data'
 import { TileNodeReducer } from './typings'
 
@@ -20,22 +21,28 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   rootNode: rootNodeSub,
 }: TileProviderProps) => {
   const [
-    { rootNode, branches, leaves, stretchBars },
-    dispatch,
+    { branches, leaves, stretchBars },
+    tileNodeDispatch,
   ] = useReducer<TileNodeReducer>(reducer, initRootNode(rootNodeSub))
+  const [movingTabs, movingTabsDispatch] = useReducer<MovingTabReducer>(
+    movingTabsReducer,
+    []
+  )
   const childrenMemo = useMemo(() => children, [children])
   return (
-    <TileRootNodeContext.Provider value={rootNode}>
-      <TileBranchesContext.Provider value={branches}>
-        <TileLeavesContext.Provider value={leaves}>
-          <StretchBarsContext.Provider value={stretchBars}>
-            <TileDispatchContext.Provider value={dispatch}>
-              {childrenMemo}
-            </TileDispatchContext.Provider>
-          </StretchBarsContext.Provider>
-        </TileLeavesContext.Provider>
-      </TileBranchesContext.Provider>
-    </TileRootNodeContext.Provider>
+    <TileBranchesContext.Provider value={branches}>
+      <TileLeavesContext.Provider value={leaves}>
+        <StretchBarsContext.Provider value={stretchBars}>
+          <TileDispatchContext.Provider value={tileNodeDispatch}>
+            <MovingTabsContext.Provider value={movingTabs}>
+              <MovingTabsDispatchContext.Provider value={movingTabsDispatch}>
+                {childrenMemo}
+              </MovingTabsDispatchContext.Provider>
+            </MovingTabsContext.Provider>
+          </TileDispatchContext.Provider>
+        </StretchBarsContext.Provider>
+      </TileLeavesContext.Provider>
+    </TileBranchesContext.Provider>
   )
 }
 

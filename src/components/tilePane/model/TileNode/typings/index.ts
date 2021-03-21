@@ -24,7 +24,7 @@ export interface TileNodeRect {
 }
 
 export type TileNodeConstructor = [
-  id: string | undefined,
+  id: TileNodeID,
   parent: TileBranch | null,
   grow: number | undefined,
   rect: TileNodeRect | undefined
