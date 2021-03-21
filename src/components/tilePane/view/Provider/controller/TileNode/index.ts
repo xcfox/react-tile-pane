@@ -2,6 +2,6 @@ import { TileNodeReducer } from '../..'
 
 export * from './initRootNode'
 
-export const reducer: TileNodeReducer = (state, { type }) => {
+export const tileNodeReducer: TileNodeReducer = (state, { type }) => {
   return state
 }

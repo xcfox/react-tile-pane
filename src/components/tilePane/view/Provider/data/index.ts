@@ -7,13 +7,11 @@ import {
   StretchBarEntity,
   TileBranch,
   TileLeaf,
-  TilePane,
 } from '../../..'
 
 export const TileDispatchContext = createContext<Dispatch<TileNodeAction>>(
   (s) => s
 )
-export const TitlePanesContext = createContext<TilePane[]>([])
 export const TileBranchesContext = createContext<TileBranch[]>([])
 export const TileLeavesContext = createContext<TileLeaf[]>([])
 export const StretchBarsContext = createContext<StretchBarEntity[]>([])

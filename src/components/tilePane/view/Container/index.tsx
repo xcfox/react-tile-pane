@@ -1,6 +1,6 @@
 import React, { memo, useContext, useMemo } from 'react'
 import { ContainerRefContext } from '..'
-import { usePanes } from './hook'
+import { TitlePanes } from './components'
 
 export interface TileContainerProps {
   width?: string | number
@@ -12,11 +12,10 @@ const TileContainerInner: React.FC<TileContainerProps> = ({
   height = '100%',
 }) => {
   const targetRef = useContext(ContainerRefContext)
-  const panes = usePanes()
   return useMemo(
     () => (
       <div ref={targetRef} style={{ position: 'relative', width, height }}>
-        this is your TileContainer
+        <TitlePanes />
       </div>
     ),
     [height, targetRef, width]

@@ -11,6 +11,7 @@ export type TilePane = {
   child: React.ReactNode
 }
 
-export interface TilePaneWithRect extends TilePane {
+export interface TilePaneWithRect {
+  id: TileNodeID
   rect: TileNodeRect | null
 }

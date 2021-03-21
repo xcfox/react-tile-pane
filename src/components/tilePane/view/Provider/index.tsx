@@ -6,8 +6,8 @@ import {
   TileBranchSubstance,
   TilePane,
 } from '../..'
-import { initRootNode, reducer } from './controller'
 import {
+  TitlePanesContext,
   ContainerRectContext,
   ContainerRefContext,
   MovingTabsContext,
@@ -16,25 +16,31 @@ import {
   TileBranchesContext,
   TileDispatchContext,
   TileLeavesContext,
-  TitlePanesContext,
-} from './data'
-import { TileNodeReducer } from './typings'
+  TileNodeReducer,
+  initRootNode,
+  TabsBarContext,
+  tileNodeReducer,
+  TabsBarConfig,
+  defaultTabsBarConfig,
+} from '.'
 
 export interface TileProviderProps {
   children?: React.ReactNode
   rootNode: TileBranchSubstance
   tilePanes: TilePane[]
+  TabBar?: TabsBarConfig
 }
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
   children,
   rootNode: rootNodeSub,
   tilePanes,
+  TabBar = defaultTabsBarConfig,
 }: TileProviderProps) => {
   const [
     { branches, leaves, stretchBars },
     tileNodeDispatch,
-  ] = useReducer<TileNodeReducer>(reducer, initRootNode(rootNodeSub))
+  ] = useReducer<TileNodeReducer>(tileNodeReducer, initRootNode(rootNodeSub))
   const [movingTabs, movingTabsDispatch] = useReducer<MovingTabReducer>(
     movingTabsReducer,
     []
@@ -51,7 +57,9 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
                 <StretchBarsContext.Provider value={stretchBars}>
                   <TileDispatchContext.Provider value={tileNodeDispatch}>
                     <MovingTabsContext.Provider value={movingTabs}>
-                      {childrenMemo}
+                      <TabsBarContext.Provider value={TabBar}>
+                        {childrenMemo}
+                      </TabsBarContext.Provider>
                     </MovingTabsContext.Provider>
                   </TileDispatchContext.Provider>
                 </StretchBarsContext.Provider>
@@ -68,3 +76,4 @@ export const TileProvider = memo(TileProviderInner)
 export * from './typings'
 export * from './controller'
 export * from './data'
+export * from './config'
