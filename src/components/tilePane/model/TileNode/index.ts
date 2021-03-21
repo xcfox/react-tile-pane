@@ -1,56 +1,52 @@
-import { isTileLeaf } from './helper'
-import { TileBranchSubstance, TileLeafSubstance, TileNodeID } from './typings'
-import { calcChildGrows } from './util'
+import {
+  TileBranchSubstance,
+  TileLeafSubstance,
+  TileNodeConstructor,
+  TileNodeID,
+  TileNodeRect,
+} from './typings'
+import { branchDehydrate, leafDehydrate } from './util'
+import { branchSetChildren, leafSetChildren } from './util/setChildren'
 
 export class TileNode {
   constructor(
     public readonly id: string = Math.random().toLocaleString(),
     public readonly parent: TileBranch | null = null,
-    public grow: number = 1
+    public grow: number = 1,
+    public rect: TileNodeRect = {
+      top: 0,
+      left: 0,
+      width: 1,
+      height: 1,
+    }
   ) {}
 }
 
 export class TileLeaf extends TileNode {
   constructor(
-    id: string | undefined,
-    parent: TileBranch | null,
-    grow: number | undefined,
     public onTab: number = 0,
-    public children: TileNodeID[] = []
+    public children: TileNodeID[] = [],
+    ...rest: TileNodeConstructor
   ) {
-    super(id, parent, grow)
+    super(...rest)
   }
+  public setChildren = leafSetChildren
+  public dehydrate = leafDehydrate
 }
 
 export class TileBranch extends TileNode {
-  children: TileBranch[] | TileLeaf[]
+  public children!: TileBranch[] | TileLeaf[]
   constructor(
-    id: string | undefined,
-    parent: TileBranch | null,
-    grow: number | undefined,
     public isRow: boolean = false,
-    children: TileBranchSubstance[] | TileLeafSubstance[] = []
+    children: TileBranchSubstance[] | TileLeafSubstance[],
+    ...rest: TileNodeConstructor
   ) {
-    super(id, parent, grow)
-    const grows = calcChildGrows(children)
-    if (isTileLeaf(children)) {
-      this.children = children.map(
-        (it, i) =>
-          new TileLeaf(
-            undefined,
-            this,
-            grows[i],
-            it.onTab,
-            it.children instanceof Array ? it.children : [it.children]
-          )
-      )
-    } else {
-      this.children = children.map(
-        (it, i) =>
-          new TileBranch(undefined, this, grows[i], it.isRow, it.children)
-      )
-    }
+    super(...rest)
+    this.setChildren(children)
   }
+
+  public setChildren = branchSetChildren
+  public dehydrate = branchDehydrate
 }
 
 export * from './typings'
