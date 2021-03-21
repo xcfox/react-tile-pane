@@ -19,9 +19,8 @@ export type TileNodeAction = {
 }
 export type TileNodeReducer = Reducer<TileNodeStore, TileNodeAction>
 
-export type MovingTabs = MovingTab[]
 export type MovingTabAction = {
   idToRemove?: TileNodeID
   tabToInsert?: MovingTab
 }
-export type MovingTabReducer = Reducer<MovingTabs, MovingTabAction>
+export type MovingTabReducer = Reducer<MovingTab[], MovingTabAction>

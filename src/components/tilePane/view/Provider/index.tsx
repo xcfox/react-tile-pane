@@ -1,24 +1,35 @@
 import React, { memo, useMemo, useReducer } from 'react'
-import { MovingTabReducer, movingTabsReducer, TileBranchSubstance } from '../..'
+import useMeasure from 'react-use-measure'
+import {
+  MovingTabReducer,
+  movingTabsReducer,
+  TileBranchSubstance,
+  TilePane,
+} from '../..'
 import { initRootNode, reducer } from './controller'
 import {
+  ContainerRectContext,
+  ContainerRefContext,
   MovingTabsContext,
   MovingTabsDispatchContext,
   StretchBarsContext,
   TileBranchesContext,
   TileDispatchContext,
   TileLeavesContext,
+  TitlePanesContext,
 } from './data'
 import { TileNodeReducer } from './typings'
 
 export interface TileProviderProps {
   children?: React.ReactNode
   rootNode: TileBranchSubstance
+  tilePanes: TilePane[]
 }
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
   children,
   rootNode: rootNodeSub,
+  tilePanes,
 }: TileProviderProps) => {
   const [
     { branches, leaves, stretchBars },
@@ -29,23 +40,31 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
     []
   )
   const childrenMemo = useMemo(() => children, [children])
+  const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
-    <TileBranchesContext.Provider value={branches}>
-      <TileLeavesContext.Provider value={leaves}>
-        <StretchBarsContext.Provider value={stretchBars}>
-          <TileDispatchContext.Provider value={tileNodeDispatch}>
-            <MovingTabsContext.Provider value={movingTabs}>
-              <MovingTabsDispatchContext.Provider value={movingTabsDispatch}>
-                {childrenMemo}
-              </MovingTabsDispatchContext.Provider>
-            </MovingTabsContext.Provider>
-          </TileDispatchContext.Provider>
-        </StretchBarsContext.Provider>
-      </TileLeavesContext.Provider>
-    </TileBranchesContext.Provider>
+    <MovingTabsDispatchContext.Provider value={movingTabsDispatch}>
+      <ContainerRefContext.Provider value={targetRef}>
+        <TitlePanesContext.Provider value={tilePanes}>
+          <ContainerRectContext.Provider value={containerRect}>
+            <TileBranchesContext.Provider value={branches}>
+              <TileLeavesContext.Provider value={leaves}>
+                <StretchBarsContext.Provider value={stretchBars}>
+                  <TileDispatchContext.Provider value={tileNodeDispatch}>
+                    <MovingTabsContext.Provider value={movingTabs}>
+                      {childrenMemo}
+                    </MovingTabsContext.Provider>
+                  </TileDispatchContext.Provider>
+                </StretchBarsContext.Provider>
+              </TileLeavesContext.Provider>
+            </TileBranchesContext.Provider>
+          </ContainerRectContext.Provider>
+        </TitlePanesContext.Provider>
+      </ContainerRefContext.Provider>
+    </MovingTabsDispatchContext.Provider>
   )
 }
 
 export const TileProvider = memo(TileProviderInner)
 export * from './typings'
 export * from './controller'
+export * from './data'
