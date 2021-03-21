@@ -3,8 +3,8 @@ import {
   TileBranchSubstance,
   TileLeaf,
   TileLeafSubstance,
+  isTileLeaves,
 } from '..'
-import { isTileLeaf } from '../helper'
 
 export function leafDehydrate(this: TileLeaf): TileLeafSubstance {
   const { children, onTab, grow, id } = this
@@ -14,7 +14,7 @@ export function leafDehydrate(this: TileLeaf): TileLeafSubstance {
 export function branchDehydrate(this: TileBranch): TileBranchSubstance {
   const { children, isRow, grow, id } = this
 
-  const childrenDehydrated = isTileLeaf(children)
+  const childrenDehydrated = isTileLeaves(children)
     ? children.map((it) => it.dehydrate())
     : children.map((it) => it.dehydrate())
   return { children: childrenDehydrated, isRow, grow, id }

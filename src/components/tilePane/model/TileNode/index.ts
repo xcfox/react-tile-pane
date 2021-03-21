@@ -50,3 +50,4 @@ export class TileBranch extends TileNode {
 }
 
 export * from './typings'
+export * from './helper'

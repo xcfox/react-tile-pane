@@ -5,8 +5,8 @@ import {
   TileLeaf,
   TileLeafSubstance,
   TileNodeID,
+  isTileLeaves,
 } from '..'
-import { isTileLeaf } from '../helper'
 
 export function leafSetChildren(this: TileLeaf, children: TileNodeID[]) {
   this.children = children
@@ -19,7 +19,7 @@ export function branchSetChildren(
   const grows = calcChildGrows(children)
   const rect = calcChildRects(this, grows)
 
-  if (isTileLeaf(children)) {
+  if (isTileLeaves(children)) {
     this.children = children.map(
       (it, i) =>
         new TileLeaf(
