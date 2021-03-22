@@ -1,14 +1,32 @@
 import React, { createContext, memo, useMemo } from 'react'
-import { TileLeaf, TileNodeID } from '../../../..'
+import { TileLeaf, PaneName } from '../../../..'
 
 export interface TabBarProps {
   leaf: TileLeaf
   onTab: number
-  tabs: TileNodeID[]
+  tabs: PaneName[]
 }
 
-const TabBarInner: React.FC<TabBarProps> = () => {
-  return useMemo(() => <div>this is your TabBar</div>, [])
+const TabBarInner: React.FC<TabBarProps> = ({ tabs, onTab }) => {
+  return useMemo(
+    () => (
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'space-around',
+        }}
+      >
+        {tabs.map((tab, i) => (
+          <div style={{ color: onTab === i ? '#222222' : '#999999' }} key={tab}>
+            {tab}
+          </div>
+        ))}
+      </div>
+    ),
+    [onTab, tabs]
+  )
 }
 export type TabsBarPosition = 'left' | 'right' | 'top' | 'bottom'
 export type TabsBarConfig = {

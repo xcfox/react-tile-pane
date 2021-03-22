@@ -1,27 +1,20 @@
 import { CSSProperties, useContext, useMemo } from 'react'
 import {
+  completeUnit,
   TabsBarContext,
-  TabsBarPosition,
   TileNodeRect,
+  toCssCalcLength,
+  toCssLength,
+  toQuadrant,
 } from '../../../../../../..'
 
 export function useStyle(rect: TileNodeRect | null): CSSProperties {
   const tabBar = useContext(TabsBarContext)
   const { position } = tabBar
-  const [isVertical, isAfter] = useMemo(
-    () => [
-      (['top', 'bottom'] as TabsBarPosition[]).includes(position),
-      (['right', 'bottom'] as TabsBarPosition[]).includes(position),
-    ],
-    [position]
-  )
-  const thickness = useMemo(
-    () =>
-      typeof tabBar.thickness === 'number'
-        ? `${tabBar.thickness}px`
-        : tabBar.thickness,
-    [tabBar.thickness]
-  )
+  const [isVertical, isAfter] = useMemo(() => toQuadrant(position), [position])
+  const thickness = useMemo(() => completeUnit(tabBar.thickness), [
+    tabBar.thickness,
+  ])
   return rect
     ? {
         position: 'absolute',
@@ -43,12 +36,4 @@ export function useStyle(rect: TileNodeRect | null): CSSProperties {
     : {
         display: 'none',
       }
-}
-
-function toCssLength(length: number) {
-  return `${length * 100}%`
-}
-
-function toCssCalcLength(percent: number, offset: string, mode: '+' | '-') {
-  return `calc(${toCssLength(percent)} ${mode} ${offset})`
 }

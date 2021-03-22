@@ -1,6 +1,6 @@
 import React, { memo, useContext, useMemo } from 'react'
 import { ContainerRefContext } from '..'
-import { TilePanes } from './components'
+import { TabsBars, TilePanes } from './components'
 
 export interface TileContainerProps {
   width?: string | number
@@ -15,6 +15,7 @@ const TileContainerInner: React.FC<TileContainerProps> = ({
   return useMemo(
     () => (
       <div ref={targetRef} style={{ position: 'relative', width, height }}>
+        <TabsBars />
         <TilePanes />
       </div>
     ),
@@ -23,3 +24,4 @@ const TileContainerInner: React.FC<TileContainerProps> = ({
 }
 
 export const TileContainer = memo(TileContainerInner)
+export * from './utils'
