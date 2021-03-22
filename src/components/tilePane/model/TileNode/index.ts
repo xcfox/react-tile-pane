@@ -35,10 +35,10 @@ export class TileLeaf extends TileNode {
 }
 
 export class TileBranch extends TileNode {
-  public children!: TileBranch[] | TileLeaf[]
+  public children!: (TileBranch | TileLeaf)[]
   constructor(
     public isRow: boolean = false,
-    children: TileBranchSubstance[] | TileLeafSubstance[],
+    children: (TileBranchSubstance | TileLeafSubstance)[],
     ...rest: TileNodeConstructor
   ) {
     super(...rest)

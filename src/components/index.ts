@@ -1,1 +1,2 @@
-export * from './titlePane'
+// export * from './titlePane'
+export * from './tilePane'

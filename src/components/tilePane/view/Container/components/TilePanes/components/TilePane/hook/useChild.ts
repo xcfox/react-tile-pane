@@ -1,13 +1,13 @@
 import { useContext, useCallback, useMemo } from 'react'
 import { TitlePanesContext } from '../../../../../..'
-import { TileNodeID } from '../../../../../../..'
+import { PaneName } from '../../../../../../..'
 
-export function useChild(id: TileNodeID) {
+export function useChild(id: PaneName) {
   const tilePanes = useContext(TitlePanesContext)
 
   const findChildPane = useCallback(
-    (id: TileNodeID) => {
-      const pane = tilePanes.find((it) => it.id === id)
+    (id: PaneName) => {
+      const pane = tilePanes.find((it) => it.name === id)
       return pane?.child
     },
     [tilePanes]

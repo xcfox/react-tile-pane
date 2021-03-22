@@ -9,7 +9,7 @@ export function createTitlePanes<T extends Record<TileNodeID, ReactChild>>(
   Object.keys(obj).forEach((key) => {
     map[key] = key
     list.push({
-      id: key,
+      name: key,
       child: obj[key],
     })
   })

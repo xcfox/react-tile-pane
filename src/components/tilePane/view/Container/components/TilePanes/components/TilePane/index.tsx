@@ -6,7 +6,7 @@ export interface TilePaneProps {
   pane: TilePaneWithRect
 }
 const TilePaneInner: React.FC<TilePaneProps> = ({ pane }) => {
-  const child = useChild(pane.id)
+  const child = useChild(pane.name)
   const style = useStyle(pane.rect)
   return useMemo(() => <div style={style}>{child}</div>, [child, style])
 }

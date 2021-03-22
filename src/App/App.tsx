@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import {
-  createTileLeaves,
-  TitlePaneInterface,
-  PaneContainer,
-  PaneProvider,
-  DraggableTitle,
+  createTitlePanes,
+  TileBranchSubstance,
+  TileContainer,
+  TileProvider,
 } from '../components'
 import './App.css'
 
@@ -21,7 +20,7 @@ function Apple() {
   return <div className="pane">苹果</div>
 }
 
-const [nodeList, names] = createTileLeaves({
+const [nodeList, names] = createTitlePanes({
   arbutus: <Arbutus />,
   cherry: <div className="pane">樱桃</div>,
   apple: <Apple />,
@@ -31,7 +30,7 @@ const [nodeList, names] = createTileLeaves({
   pomelo: <div className="pane">柚子</div>,
 })
 
-const rootPane: TitlePaneInterface = {
+const rootPane: TileBranchSubstance = {
   children: [
     { children: [names.apple, names.arbutus] },
     {
@@ -53,15 +52,14 @@ const rootPane: TitlePaneInterface = {
 
 const App: React.FC = () => {
   return (
-    <PaneProvider tileLeaves={nodeList} rootPane={rootPane}>
+    <TileProvider tilePanes={nodeList} rootNode={rootPane}>
       <div className="App">
         <div style={{ height: 30 }} />
         <div className="fence">
-          <PaneContainer />
+          <TileContainer />
         </div>
       </div>
-      <DraggableTitle id={names.banana}>拖动这个🍌</DraggableTitle>
-    </PaneProvider>
+    </TileProvider>
   )
 }
 

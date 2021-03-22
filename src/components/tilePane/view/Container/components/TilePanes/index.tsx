@@ -8,7 +8,7 @@ const TilePanesInner: React.FC = () => {
     () => (
       <>
         {panes.map((pane) => (
-          <TilePane pane={pane} key={pane.id} />
+          <TilePane pane={pane} key={pane.name} />
         ))}
       </>
     ),

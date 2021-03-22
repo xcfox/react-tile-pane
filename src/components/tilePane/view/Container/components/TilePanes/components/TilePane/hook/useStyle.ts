@@ -26,21 +26,19 @@ export function useStyle(rect: TileNodeRect | null): CSSProperties {
     ? {
         position: 'absolute',
         height: isVertical
-          ? toCssCalcLength(rect.width, thickness, '-')
-          : toCssLength(rect.width),
+          ? toCssCalcLength(rect.height, thickness, '-')
+          : toCssLength(rect.height),
         width: isVertical
-          ? toCssLength(rect.height)
-          : toCssCalcLength(rect.height, thickness, '-'),
-        top: isVertical
-          ? isAfter
+          ? toCssLength(rect.width)
+          : toCssCalcLength(rect.width, thickness, '-'),
+        top:
+          isVertical && !isAfter
             ? toCssCalcLength(rect.top, thickness, '+')
-            : toCssLength(rect.top)
-          : toCssLength(rect.top),
-        left: isVertical
-          ? isAfter
+            : toCssLength(rect.top),
+        left:
+          !isVertical && !isAfter
             ? toCssCalcLength(rect.left, thickness, '+')
-            : toCssLength(rect.left)
-          : toCssLength(rect.left),
+            : toCssLength(rect.left),
       }
     : {
         display: 'none',

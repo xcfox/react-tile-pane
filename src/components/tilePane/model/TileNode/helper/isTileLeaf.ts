@@ -3,18 +3,9 @@ import {
   TileBranchSubstance,
   TileLeaf,
   TileLeafSubstance,
+  TileNodeID,
 } from '..'
-import { TileLeafID } from '../../../..'
 
-export function isTileLeaves(
-  nodes: TileLeafSubstance[] | TileBranchSubstance[] | TileLeaf[] | TileBranch[]
-): nodes is TileLeafSubstance[] | TileLeaf[] {
-  const { children = '0' } = nodes[0]
-  if (children instanceof Array) {
-    return isTileNodeIDs(children)
-  }
-  return true
-}
 export function isTileLeaf(
   node: TileLeafSubstance | TileBranchSubstance | TileLeaf | TileBranch
 ): node is TileLeafSubstance | TileLeaf {
@@ -27,11 +18,12 @@ export function isTileLeaf(
 
 export function isTileNodeIDs(
   list:
-    | TileLeafID[]
+    | TileNodeID[]
+    | (TileBranchSubstance | TileLeafSubstance)[]
     | TileLeafSubstance[]
     | TileBranchSubstance[]
     | TileLeaf[]
     | TileBranch[]
-): list is TileLeafID[] {
+): list is TileNodeID[] {
   return !(list[0] instanceof Object)
 }

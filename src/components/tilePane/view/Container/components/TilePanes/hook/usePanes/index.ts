@@ -7,14 +7,14 @@ export function usePanes() {
   const leaves = useContext(TileLeavesContext)
 
   const panes: TilePaneWithRect[] = useMemo(() => {
-    const panes: TilePaneWithRect[] = movingTabs.map((tab) => ({
-      id: tab.id,
+    const panes: TilePaneWithRect[] = movingTabs.map(({ name }) => ({
+      name,
       rect: null,
     }))
     leaves.forEach((leaf) => {
       panes.push(
-        ...leaf.children.map((id, i) => ({
-          id,
+        ...leaf.children.map((name, i) => ({
+          name,
           rect: leaf.onTab === i ? leaf.rect : null,
         }))
       )

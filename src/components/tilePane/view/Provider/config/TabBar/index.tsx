@@ -20,7 +20,7 @@ export type TabsBarConfig = {
 export const DefaultTabBar = memo(TabBarInner)
 export const defaultTabsBarConfig: TabsBarConfig = {
   render: DefaultTabBar,
-  thickness: 80,
+  thickness: 20,
   position: 'top',
 }
 export const TabsBarContext = createContext<TabsBarConfig>(defaultTabsBarConfig)

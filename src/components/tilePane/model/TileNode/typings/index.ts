@@ -5,7 +5,7 @@ export type TileNodeID = string
 export interface TileBranchSubstance {
   id?: TileNodeID
   isRow?: boolean | undefined
-  children: TileBranchSubstance[] | TileLeafSubstance[]
+  children: (TileBranchSubstance | TileLeafSubstance)[]
   grow?: number | undefined
 }
 

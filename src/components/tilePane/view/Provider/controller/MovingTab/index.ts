@@ -6,12 +6,12 @@ export const movingTabsReducer: MovingTabReducer = (
 ) => {
   const newMovingTabs = movingTabs.slice()
   if (idToRemove) {
-    const index = newMovingTabs.findIndex((it) => (it.id = idToRemove))
+    const index = newMovingTabs.findIndex((it) => (it.name = idToRemove))
     newMovingTabs.splice(index, 1)
   }
   if (tabToInsert) {
-    const { id } = tabToInsert
-    const existedTab = newMovingTabs.find((it) => (it.id = id))
+    const { name } = tabToInsert
+    const existedTab = newMovingTabs.find((it) => (it.name = name))
     if (!existedTab) {
       newMovingTabs.push(tabToInsert)
     }

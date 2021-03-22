@@ -1,17 +1,19 @@
 import React from 'react'
-import { TileLeaf, TileNodeID, TileNodeRect } from '../..'
+import { TileLeaf, TileNodeRect } from '../..'
+
+export type PaneName = string | number
 
 export type MovingTab = {
-  id: TileNodeID
+  name: PaneName
   leaf: TileLeaf
 }
 
 export type TilePane = {
-  id: TileNodeID
+  name: PaneName
   child: React.ReactNode
 }
 
 export interface TilePaneWithRect {
-  id: TileNodeID
+  name: PaneName
   rect: TileNodeRect | null
 }
