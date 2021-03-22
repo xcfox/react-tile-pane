@@ -7,17 +7,23 @@ import {
   TileNodeID,
 } from '../../..'
 
-export type TileNodeStore = {
+export type TileStore = {
   rootNode: TileBranch
   branches: TileBranch[]
   leaves: TileLeaf[]
   stretchBars: StretchBarEntity[]
+  movingTabs: MovingTab[]
 }
 
-export type TileNodeAction = {
-  type: string
+export type TileStoreAction = {
+  leafToSwitchTab?: {
+    leaf: TileLeaf
+    onTab: number
+  }
+  tabToStopMoving?: TileNodeID
+  tabToStartMoving?: MovingTab
 }
-export type TileNodeReducer = Reducer<TileNodeStore, TileNodeAction>
+export type TileNodeReducer = Reducer<TileStore, TileStoreAction>
 
 export type MovingTabAction = {
   idToRemove?: TileNodeID

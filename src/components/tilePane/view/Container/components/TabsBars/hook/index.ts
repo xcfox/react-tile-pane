@@ -1,5 +1,6 @@
 import { useContext, useMemo } from 'react'
-import { MovingTabsContext, TabBarProps, TileLeavesContext } from '../../../..'
+import { MovingTabsContext, TileLeavesContext } from '../../../..'
+import { TabBarProps } from '../components'
 
 export function useTabs() {
   const leaves = useContext(TileLeavesContext)

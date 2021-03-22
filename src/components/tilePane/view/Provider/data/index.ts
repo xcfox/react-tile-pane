@@ -1,6 +1,6 @@
 import { createContext, Dispatch } from 'react'
 import useMeasure, { RectReadOnly } from 'react-use-measure'
-import { TileNodeAction } from '..'
+import { TileStoreAction } from '..'
 import {
   MovingTabAction,
   MovingTab,
@@ -9,7 +9,7 @@ import {
   TileLeaf,
 } from '../../..'
 
-export const TileDispatchContext = createContext<Dispatch<TileNodeAction>>(
+export const TileDispatchContext = createContext<Dispatch<TileStoreAction>>(
   (s) => s
 )
 export const TileBranchesContext = createContext<TileBranch[]>([])

@@ -1,20 +1,25 @@
-import { MovingTabReducer } from '../..'
+import { TileStore } from '../..'
+import { MovingTab, TileNodeID } from '../../../..'
 
-export const movingTabsReducer: MovingTabReducer = (
-  movingTabs,
-  { idToRemove, tabToInsert }
-) => {
+export function startMovingTab(
+  { movingTabs, ...rest }: TileStore,
+  tabToStopMoving: MovingTab
+): TileStore {
   const newMovingTabs = movingTabs.slice()
-  if (idToRemove) {
-    const index = newMovingTabs.findIndex((it) => (it.name = idToRemove))
-    newMovingTabs.splice(index, 1)
+  const { name } = tabToStopMoving
+  const existedTab = newMovingTabs.find((it) => (it.name = name))
+  if (!existedTab) {
+    newMovingTabs.push(tabToStopMoving)
   }
-  if (tabToInsert) {
-    const { name } = tabToInsert
-    const existedTab = newMovingTabs.find((it) => (it.name = name))
-    if (!existedTab) {
-      newMovingTabs.push(tabToInsert)
-    }
-  }
-  return newMovingTabs
+  return { movingTabs: newMovingTabs, ...rest }
+}
+
+export function stopMovingTab(
+  { movingTabs, ...rest }: TileStore,
+  tabToStopMoving: TileNodeID
+): TileStore {
+  const newMovingTabs = movingTabs.slice()
+  const index = newMovingTabs.findIndex((it) => (it.name = tabToStopMoving))
+  newMovingTabs.splice(index, 1)
+  return { movingTabs: newMovingTabs, ...rest }
 }

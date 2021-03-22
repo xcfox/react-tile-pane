@@ -17,3 +17,4 @@ const TabsBarsInner: React.FC = () => {
 }
 
 export const TabsBars = memo(TabsBarsInner)
+export * from './components'
