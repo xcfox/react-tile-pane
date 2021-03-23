@@ -1,5 +1,5 @@
 import React, { memo, useContext, useMemo, useRef } from 'react'
-import { TileDispatchContext, TileLeavesContext } from '..'
+import { TileLeavesContext } from '..'
 import { PaneName } from '../..'
 import { PreBox } from './components'
 import { useDragAndPosition } from './hook'
@@ -17,17 +17,11 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
   const leaves = useContext(TileLeavesContext)
-  const dispatch = useContext(TileDispatchContext)
   const pane = useMemo(() => leaves.find((p) => p.children.includes(name)), [
     name,
     leaves,
   ])
-  const { position, bind } = useDragAndPosition(
-    paneWithPreBoxRef,
-    name,
-    pane,
-    dispatch
-  )
+  const { position, bind } = useDragAndPosition(paneWithPreBoxRef, name, pane)
 
   const style = useMemo(
     () =>

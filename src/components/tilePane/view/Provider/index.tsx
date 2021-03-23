@@ -34,7 +34,10 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   const [
     { branches, leaves, stretchBars, movingTabs },
     tileStoreDispatch,
-  ] = useReducer<TileStoreReducer>(tileStoreReducer, initRootNode(rootNodeSub))
+  ] = useReducer<TileStoreReducer>(tileStoreReducer, {
+    movingTabs: [],
+    ...initRootNode(rootNodeSub),
+  })
 
   const childrenMemo = useMemo(() => children, [children])
   const [targetRef, containerRect] = useMeasure({ scroll: true })

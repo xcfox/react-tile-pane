@@ -10,7 +10,7 @@ import { branchSetChildren, leafSetChildren } from './util/setChildren'
 
 export class TileNode {
   constructor(
-    public readonly id: string = Math.random().toLocaleString(),
+    public readonly id: string = Math.random().toString(36),
     public readonly parent: TileBranch | null = null,
     public grow: number = 1,
     public rect: TileNodeRect = {

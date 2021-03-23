@@ -6,12 +6,16 @@ import {
   toCssLength,
   toQuadrant,
 } from '../../../../../../..'
-export function useStyle(rect: TileNodeRect): CSSProperties {
+export function useStyle(
+  rect: TileNodeRect,
+  isHidden?: boolean
+): CSSProperties {
   const table = useContext(TabsBarContext)
   const { position } = table
   const [isVertical, isAfter] = useMemo(() => toQuadrant(position), [position])
   const thickness = useMemo(() => completeUnit(table.thickness), [table])
   return {
+    visibility: isHidden ? 'hidden' : undefined,
     position: 'absolute',
     width: isVertical ? toCssLength(rect.width) : thickness,
     height: isVertical ? thickness : toCssLength(rect.height),

@@ -5,6 +5,7 @@ import {
   TileBranch,
   MovingTab,
   TileNodeID,
+  TileStoreAction,
 } from '../../..'
 
 export type TileStore = {
@@ -15,14 +16,6 @@ export type TileStore = {
   movingTabs: MovingTab[]
 }
 
-export type TileStoreAction = {
-  leafToSwitchTab?: {
-    leaf: TileLeaf
-    onTab: number
-  }
-  tabToStopMoving?: TileNodeID
-  tabToStartMoving?: MovingTab
-}
 export type TileStoreReducer = Reducer<TileStore, TileStoreAction>
 
 export type MovingTabAction = {

@@ -8,11 +8,15 @@ export interface TabBarProps {
   tabs: PaneName[]
 }
 
+export type TabBarMoreProps = TabBarProps & {
+  isHidden?: boolean
+}
+
 export interface TabBarAction {
   switchTab: (onTab: number) => void
 }
 
-const TabsBarInner: React.FC<TabBarProps> = (props) => {
+const TabsBarInner: React.FC<TabBarMoreProps> = (props) => {
   const tabBar = useContext(TabsBarContext)
   const dispatch = useContext(TileDispatchContext)
 
@@ -31,7 +35,7 @@ const TabsBarInner: React.FC<TabBarProps> = (props) => {
   const action: TabBarAction = useMemo(() => ({ switchTab }), [switchTab])
 
   const { render: Render } = tabBar
-  const style = useStyle(props.leaf.rect)
+  const style = useStyle(props.leaf.rect, props.isHidden)
   return useMemo(
     () => (
       <div style={style}>

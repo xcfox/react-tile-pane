@@ -1,8 +1,14 @@
-import { TileStore } from '../..'
-import { MovingTab, TileNodeID } from '../../../..'
+import { initRootNode, TileStore } from '../..'
+import {
+  MovingTab,
+  PaneName,
+  TileBranch,
+  TileLeaf,
+  removeInArray,
+} from '../../../..'
 
 export function startMovingTab(
-  { movingTabs, ...rest }: TileStore,
+  { movingTabs, leaves, branches, rootNode }: TileStore,
   tabToStopMoving: MovingTab
 ): TileStore {
   const newMovingTabs = movingTabs.slice()
@@ -11,15 +17,39 @@ export function startMovingTab(
   if (!existedTab) {
     newMovingTabs.push(tabToStopMoving)
   }
-  return { movingTabs: newMovingTabs, ...rest }
+
+  const leaf = leaves.find((l) => l.children.includes(name))
+  if (leaf) {
+    const newChildren = removeInArray(leaf.children, name)
+    leaf.setChildren(newChildren)
+    if (newChildren.length === 0) {
+      removeLeaf(branches, leaf)
+    }
+  }
+
+  const nodes = initRootNode(rootNode.dehydrate())
+
+  return {
+    movingTabs: newMovingTabs,
+    ...nodes,
+  }
 }
 
 export function stopMovingTab(
   { movingTabs, ...rest }: TileStore,
-  tabToStopMoving: TileNodeID
+  tabToStopMoving: PaneName
 ): TileStore {
   const newMovingTabs = movingTabs.slice()
   const index = newMovingTabs.findIndex((it) => (it.name = tabToStopMoving))
   newMovingTabs.splice(index, 1)
   return { movingTabs: newMovingTabs, ...rest }
+}
+
+function removeLeaf(branches: TileBranch[], leaf: TileLeaf) {
+  const parent = branches.find((it) => it === leaf.parent)
+  if (parent) {
+    const arid = parent.dehydrate()
+    const newChildren = removeInArray(arid.children, (it) => it.id === leaf.id)
+    parent.setChildren(newChildren)
+  }
 }

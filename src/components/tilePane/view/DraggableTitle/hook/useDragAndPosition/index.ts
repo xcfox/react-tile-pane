@@ -1,16 +1,16 @@
-import { Dispatch, useState } from 'react'
+import { useState, useContext } from 'react'
 import { useGesture } from 'react-use-gesture'
 import { Vector2 } from 'react-use-gesture/dist/types'
-import { TileStoreAction } from '../../..'
+import { TileDispatchContext } from '../../..'
 import { PaneName, TileLeaf } from '../../../..'
 import { PaneWithPreBox } from '../../typings'
 
 export function useDragAndPosition(
   paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>,
-  id: PaneName,
-  parentPane: TileLeaf | undefined,
-  dispatch: Dispatch<TileStoreAction>
+  name: PaneName,
+  leaf: TileLeaf | undefined
 ) {
+  const dispatch = useContext(TileDispatchContext)
   const [position, setPosition] = useState<Vector2>()
 
   const bind = useGesture(
@@ -20,10 +20,10 @@ export function useDragAndPosition(
         setPosition(position)
       },
       onDragStart: () => {
-        return 0
+        leaf && dispatch({ tabToStartMoving: { name, leaf } })
       },
       onDragEnd: () => {
-        return 0
+        dispatch({ tabToStopMoving: name })
       },
     },
     { drag: { threshold: 10 } }

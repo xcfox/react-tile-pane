@@ -4,11 +4,11 @@ import {
   TileBranchSubstance,
   TileLeaf,
   TileLeafSubstance,
-  TileNodeID,
 } from '..'
+import { PaneName } from '../../../util'
 import { isTileLeaf } from '../helper'
 
-export function leafSetChildren(this: TileLeaf, children: TileNodeID[]) {
+export function leafSetChildren(this: TileLeaf, children: PaneName[]) {
   this.children = children
 }
 
