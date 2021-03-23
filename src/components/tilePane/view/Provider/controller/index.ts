@@ -1,5 +1,6 @@
 import { TileStoreReducer } from '../..'
 import { MovingTab, TileLeaf, PaneName } from '../../..'
+import { BarToMove, moveBar } from './moveBar'
 import { startMovingTab, stopMovingTab } from './MovingTab'
 import { switchLeafTab } from './switchLeafTab'
 
@@ -12,16 +13,16 @@ export type TileStoreAction = {
   }
   tabToStopMoving?: PaneName
   tabToStartMoving?: MovingTab
-  paneToRemove?: PaneName
-  paneToInsert?: PaneName
+  barToMove?: BarToMove
 }
 
 export const tileStoreReducer: TileStoreReducer = (
   state,
-  { leafToSwitchTab, tabToStopMoving, tabToStartMoving }
+  { leafToSwitchTab, tabToStopMoving, tabToStartMoving, barToMove }
 ) => {
   if (leafToSwitchTab) return switchLeafTab(state, leafToSwitchTab)
   if (tabToStartMoving) return startMovingTab(state, tabToStartMoving)
   if (tabToStopMoving) return stopMovingTab(state, tabToStopMoving)
+  if (barToMove) return moveBar(state, barToMove)
   return state
 }

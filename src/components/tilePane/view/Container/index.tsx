@@ -1,6 +1,6 @@
 import React, { memo, useContext, useMemo } from 'react'
 import { ContainerRefContext } from '..'
-import { TabsBars, TilePanes } from './components'
+import { StretchBars, TabsBars, TilePanes } from './components'
 
 export interface TileContainerProps {
   width?: string | number
@@ -17,6 +17,7 @@ const TileContainerInner: React.FC<TileContainerProps> = ({
       <div ref={targetRef} style={{ position: 'relative', width, height }}>
         <TabsBars />
         <TilePanes />
+        <StretchBars />
       </div>
     ),
     [height, targetRef, width]
