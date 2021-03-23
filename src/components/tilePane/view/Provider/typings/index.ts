@@ -23,7 +23,7 @@ export type TileStoreAction = {
   tabToStopMoving?: TileNodeID
   tabToStartMoving?: MovingTab
 }
-export type TileNodeReducer = Reducer<TileStore, TileStoreAction>
+export type TileStoreReducer = Reducer<TileStore, TileStoreAction>
 
 export type MovingTabAction = {
   idToRemove?: TileNodeID

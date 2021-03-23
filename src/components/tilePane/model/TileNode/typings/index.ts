@@ -1,4 +1,5 @@
 import { TileBranch } from '..'
+import { PaneName } from '../../..'
 
 export type TileNodeID = string
 
@@ -12,7 +13,7 @@ export interface TileBranchSubstance {
 export interface TileLeafSubstance {
   id?: TileNodeID
   onTab?: number
-  children: TileNodeID[] | TileNodeID
+  children: PaneName[] | PaneName
   grow?: number | undefined
 }
 

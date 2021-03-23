@@ -10,10 +10,10 @@ import {
   TileBranchesContext,
   TileDispatchContext,
   TileLeavesContext,
-  TileNodeReducer,
+  TileStoreReducer,
   initRootNode,
   TabsBarContext,
-  tileNodeReducer,
+  tileStoreReducer,
   TabsBarConfig,
   defaultTabsBarConfig,
 } from '.'
@@ -33,8 +33,8 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
 }: TileProviderProps) => {
   const [
     { branches, leaves, stretchBars, movingTabs },
-    tileNodeDispatch,
-  ] = useReducer<TileNodeReducer>(tileNodeReducer, initRootNode(rootNodeSub))
+    tileStoreDispatch,
+  ] = useReducer<TileStoreReducer>(tileStoreReducer, initRootNode(rootNodeSub))
 
   const childrenMemo = useMemo(() => children, [children])
   const [targetRef, containerRect] = useMeasure({ scroll: true })
@@ -45,7 +45,7 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
           <TileBranchesContext.Provider value={branches}>
             <TileLeavesContext.Provider value={leaves}>
               <StretchBarsContext.Provider value={stretchBars}>
-                <TileDispatchContext.Provider value={tileNodeDispatch}>
+                <TileDispatchContext.Provider value={tileStoreDispatch}>
                   <MovingTabsContext.Provider value={movingTabs}>
                     <TabsBarContext.Provider value={TabBar}>
                       {childrenMemo}

@@ -1,5 +1,6 @@
 import React, { createContext, memo, useMemo } from 'react'
 import { TabBarAction, TabBarProps } from '../../..'
+import { DraggableTitle } from '../../../DraggableTitle'
 
 export type TabBarPropsWithAction = TabBarProps & { action: TabBarAction }
 
@@ -19,13 +20,14 @@ const TabBarInner: React.FC<TabBarPropsWithAction> = ({
         }}
       >
         {tabs.map((tab, i) => (
-          <div
-            onClick={() => action.switchTab(i)}
-            style={{ color: onTab === i ? '#222222' : '#999999' }}
-            key={tab}
-          >
-            {tab}
-          </div>
+          <DraggableTitle name={tab} key={tab}>
+            <div
+              onClick={() => action.switchTab(i)}
+              style={{ color: onTab === i ? '#222222' : '#999999' }}
+            >
+              {tab}
+            </div>
+          </DraggableTitle>
         ))}
       </div>
     ),

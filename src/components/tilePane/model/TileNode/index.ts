@@ -1,8 +1,8 @@
+import { PaneName } from '../..'
 import {
   TileBranchSubstance,
   TileLeafSubstance,
   TileNodeConstructor,
-  TileNodeID,
   TileNodeRect,
 } from './typings'
 import { branchDehydrate, leafDehydrate } from './util'
@@ -25,7 +25,7 @@ export class TileNode {
 export class TileLeaf extends TileNode {
   constructor(
     public onTab: number = 0,
-    public children: TileNodeID[] = [],
+    public children: PaneName[] = [],
     ...rest: TileNodeConstructor
   ) {
     super(...rest)

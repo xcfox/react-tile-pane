@@ -1,10 +1,10 @@
-import { TileNodeReducer } from '../..'
+import { TileStoreReducer } from '../..'
 import { startMovingTab, stopMovingTab } from './MovingTab'
 import { switchLeafTab } from './switchLeafTab'
 
 export * from './initRootNode'
 
-export const tileNodeReducer: TileNodeReducer = (
+export const tileStoreReducer: TileStoreReducer = (
   state,
   { leafToSwitchTab, tabToStopMoving, tabToStartMoving }
 ) => {

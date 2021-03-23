@@ -5,6 +5,7 @@ import {
   TileLeafSubstance,
   TileNodeID,
 } from '..'
+import { PaneName } from '../../..'
 
 export function isTileLeaf(
   node: TileLeafSubstance | TileBranchSubstance | TileLeaf | TileBranch
@@ -18,8 +19,9 @@ export function isTileLeaf(
 
 export function isTileNodeIDs(
   list:
-    | TileNodeID[]
+    | PaneName[]
     | (TileBranchSubstance | TileLeafSubstance)[]
+    | (TileLeaf | TileBranch)[]
     | TileLeafSubstance[]
     | TileBranchSubstance[]
     | TileLeaf[]
