@@ -1,5 +1,11 @@
-import { initRootNode, TileStore } from '../..'
-import { MovingTab, removeInArray, TileBranch, TileLeaf } from '../../../..'
+import { TileStore } from '../..'
+import {
+  MovingTab,
+  removeInArray,
+  TileBranch,
+  TileLeaf,
+  unfold,
+} from '../../../..'
 
 export function startMovingTab(
   { movingTabs, leaves, branches, rootNode }: TileStore,
@@ -21,10 +27,11 @@ export function startMovingTab(
     }
   }
 
-  const nodes = initRootNode(rootNode.dehydrate())
+  const nodes = unfold(rootNode)
 
   return {
     movingTabs: newMovingTabs,
+    rootNode,
     ...nodes,
   }
 }
@@ -32,8 +39,10 @@ export function startMovingTab(
 function removeLeaf(branches: TileBranch[], leaf: TileLeaf) {
   const parent = branches.find((it) => it === leaf.parent)
   if (parent) {
-    const arid = parent.dehydrate()
-    const newChildren = removeInArray(arid.children, (it) => it.id === leaf.id)
+    const newChildren = removeInArray(
+      parent.children,
+      (it) => it.id === leaf.id
+    )
     parent.setChildren(newChildren)
   }
 }

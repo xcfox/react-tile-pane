@@ -1,5 +1,5 @@
 import { TileBranchSubstance } from '..'
 
-export function trim(branch: TileBranchSubstance): TileBranchSubstance {
+export function trimBranch(branch: TileBranchSubstance): TileBranchSubstance {
   return branch
 }
