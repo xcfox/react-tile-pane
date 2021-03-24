@@ -13,7 +13,7 @@ export function useTabs() {
       tabs: leaf.children.slice(),
     }))
     movingTabs.forEach((tab) => {
-      const tabBar = tabBarsProps.find((it) => it.leaf === tab.leaf)
+      const tabBar = tabBarsProps.find((it) => it.leaf.id === tab.leaf.id)
       if (tabBar) {
         tabBar.tabs.push(tab.name)
       } else {
