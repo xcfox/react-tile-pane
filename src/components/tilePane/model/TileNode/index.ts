@@ -1,4 +1,4 @@
-import { PaneName } from '../..'
+import { increasingID, PaneName } from '../..'
 import {
   TileBranchSubstance,
   TileLeafSubstance,
@@ -10,7 +10,7 @@ import { branchSetChildren, leafSetChildren } from './util/setChildren'
 
 export class TileNode {
   constructor(
-    public readonly id: string = Math.random().toString(36),
+    public readonly id: string = increasingID(),
     public readonly parent: TileBranch | null = null,
     public grow: number = 1,
     public rect: TileNodeRect = {
