@@ -15,8 +15,7 @@ export function move(this: StretchBarEntity, distance: number): boolean {
   if (isMoved) {
     this.previousPane.grow = previousPaneGrow
     this.nextPane.grow = nextPaneGrow
-    const { children } = this.parentPane.dehydrate()
-    this.parentPane.setChildren(children)
+    this.parentPane.setChildren(this.parentPane.children)
   }
   return isMoved
 }
