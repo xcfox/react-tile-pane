@@ -88,12 +88,22 @@ function fission(
   isRow: boolean
 ) {
   const { parent, grow } = node
-  if (!parent) return
-  const leaf: TileLeafSubstance = { grow, children: [pane] }
+  if (!parent) {
+    const newLeaf: TileLeafSubstance = { grow, children: [pane] }
+    const oldLeaf: TileBranchSubstance | TileLeafSubstance = isTileLeaf(node)
+      ? node.dehydrate()
+      : node.dehydrate()
+    if (!isTileLeaf(node)) {
+      node.isRow = isRow
+      node.setChildren(isNext ? [oldLeaf, newLeaf] : [newLeaf, oldLeaf])
+    }
+    return
+  }
+  const newLeaf: TileLeafSubstance = { grow, children: [pane] }
   const branch: TileBranchSubstance = {
     grow,
     isRow,
-    children: isNext ? [node, leaf] : [leaf, node],
+    children: isNext ? [node, newLeaf] : [newLeaf, node],
   }
   const newNodes = replaceInArray<TileBranchSubstance | TileLeafSubstance>(
     parent?.children,

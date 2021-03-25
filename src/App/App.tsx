@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   createTitlePanes,
+  DraggableTitle,
   TileBranchSubstance,
   TileContainer,
   TileProvider,
@@ -59,6 +60,7 @@ const App: React.FC = () => {
           <TileContainer />
         </div>
       </div>
+      <DraggableTitle name={names.banana}>拖动这个香蕉🍌</DraggableTitle>
     </TileProvider>
   )
 }

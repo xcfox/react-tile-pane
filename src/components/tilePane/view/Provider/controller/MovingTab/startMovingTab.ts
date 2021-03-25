@@ -24,12 +24,11 @@ export function startMovingTab(
     leaf.onTab = 0
     leaf.setChildren(newChildren)
     if (newChildren.length === 0) {
-      removeLeaf(branches, leaf)
+      removeNode(branches, leaf)
     }
   }
 
   const nodes = unfold(rootNode)
-
   return {
     movingTabs: newMovingTabs,
     rootNode,
@@ -37,13 +36,17 @@ export function startMovingTab(
   }
 }
 
-function removeLeaf(branches: TileBranch[], leaf: TileLeaf) {
-  const parent = branches.find((it) => it === leaf.parent)
+function removeNode(branches: TileBranch[], node: TileLeaf | TileBranch) {
+  const parent = branches.find((it) => it === node.parent)
   if (parent) {
     const newChildren = removeInArray(
       parent.children,
-      (it) => it.id === leaf.id
+      (it) => it.id === node.id
     )
-    parent.setChildren(newChildren)
+    if (newChildren.length === 0) {
+      removeNode(branches, parent)
+    } else {
+      parent.setChildren(newChildren)
+    }
   }
 }
