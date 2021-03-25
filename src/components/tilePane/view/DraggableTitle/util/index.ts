@@ -15,17 +15,17 @@ export function calcPreBox(
       const { left, top, width, height } = pane.rect
       if (pane.isRow) {
         if (y - top < height * branchProportion) {
-          return { targetPane: pane, into: 'top' }
+          return { targetNode: pane, into: 'top' }
         }
         if (top + height - y < height * branchProportion) {
-          return { targetPane: pane, into: 'bottom' }
+          return { targetNode: pane, into: 'bottom' }
         }
       } else {
         if (x - left < width * branchProportion) {
-          return { targetPane: pane, into: 'left' }
+          return { targetNode: pane, into: 'left' }
         }
         if (left + width - x < width * branchProportion) {
-          return { targetPane: pane, into: 'right' }
+          return { targetNode: pane, into: 'right' }
         }
       }
     }
@@ -35,18 +35,18 @@ export function calcPreBox(
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
       if (x - left < width * leafProportion) {
-        return { targetPane: pane, into: 'left' }
+        return { targetNode: pane, into: 'left' }
       }
       if (left + width - x < width * leafProportion) {
-        return { targetPane: pane, into: 'right' }
+        return { targetNode: pane, into: 'right' }
       }
       if (y - top < height * leafProportion) {
-        return { targetPane: pane, into: 'top' }
+        return { targetNode: pane, into: 'top' }
       }
       if (top + height - y < height * leafProportion) {
-        return { targetPane: pane, into: 'bottom' }
+        return { targetNode: pane, into: 'bottom' }
       }
-      return { targetPane: pane, into: 'center' }
+      return { targetNode: pane, into: 'center' }
     }
   }
 }

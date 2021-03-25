@@ -51,3 +51,4 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
 }
 
 export const DraggableTitle = memo(DraggableTitleInner)
+export * from './typings'

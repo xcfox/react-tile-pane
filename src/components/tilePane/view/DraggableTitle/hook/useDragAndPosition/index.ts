@@ -23,7 +23,9 @@ export function useDragAndPosition(
         leaf && dispatch({ tabToStartMoving: { name, leaf } })
       },
       onDragEnd: () => {
-        dispatch({ tabToStopMoving: name })
+        dispatch({
+          tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current },
+        })
       },
     },
     { drag: { threshold: 10 } }

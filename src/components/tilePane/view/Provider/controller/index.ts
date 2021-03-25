@@ -1,7 +1,7 @@
 import { TileStoreReducer } from '../..'
-import { MovingTab, TileLeaf, PaneName } from '../../..'
+import { MovingTab, TileLeaf } from '../../..'
 import { BarToMove, moveBar } from './moveBar'
-import { startMovingTab, stopMovingTab } from './MovingTab'
+import { startMovingTab, stopMovingTab, TabToStopMoving } from './MovingTab'
 import { switchLeafTab } from './switchLeafTab'
 
 export * from './initRootNode'
@@ -11,7 +11,7 @@ export type TileStoreAction = {
     leaf: TileLeaf
     onTab: number
   }
-  tabToStopMoving?: PaneName
+  tabToStopMoving?: TabToStopMoving
   tabToStartMoving?: MovingTab
   barToMove?: BarToMove
 }

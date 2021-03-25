@@ -58,8 +58,8 @@ function calcBoxPosition(
   paneWithPreBox: PaneWithPreBox,
   containerRect: RectReadOnly
 ): TileNodeRect {
-  const { targetPane, into } = paneWithPreBox
-  const { top, left, width, height } = targetPane.rect
+  const { targetNode, into } = paneWithPreBox
+  const { top, left, width, height } = targetNode.rect
 
   switch (into) {
     case 'center':

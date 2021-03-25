@@ -2,7 +2,7 @@ import {
   TileBranch,
   TileLeaf,
   StretchBarEntity,
-  isTileNodeIDs,
+  isTilePaneNames,
   isTileLeaf,
 } from '..'
 
@@ -13,7 +13,7 @@ export function unfold(node: TileBranch) {
   unfold(node)
   function unfold(pane: TileBranch) {
     const { children } = pane
-    !isTileNodeIDs(children) &&
+    !isTilePaneNames(children) &&
       (children as (TileBranch | TileLeaf)[]).forEach((p, i) => {
         if (!isTileLeaf(p)) {
           unfold(p)
