@@ -61,6 +61,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <DraggableTitle name={names.banana}>拖动这个香蕉🍌</DraggableTitle>
+      <a href="./index.html">查看文档</a>
     </TileProvider>
   )
 }

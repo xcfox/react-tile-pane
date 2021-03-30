@@ -11,6 +11,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-docs": "react-scripts build && node ./tools/buildDocs.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
@@ -47,6 +48,7 @@
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "ncp": "^2.0.0",
     "prettier": "^2.2.1",
     "react-scripts": "^4.0.3",
     "typescript": "^4.0.3",
