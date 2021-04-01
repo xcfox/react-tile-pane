@@ -14,28 +14,43 @@ export type TabBarMoreProps = TabBarProps & {
 
 export interface TabBarAction {
   switchTab: (onTab: number) => void
+  closeTab: (index: number) => void
 }
 
 const TabsBarInner: React.FC<TabBarMoreProps> = (props) => {
+  const { leaf, isHidden } = props
   const tabBar = useContext(TabsBarContext)
   const dispatch = useContext(TileDispatchContext)
 
   const switchTab = useCallback(
-    (onTab: number) => {
+    (onTab: number) =>
       dispatch({
         leafToSwitchTab: {
-          leaf: props.leaf,
+          leaf,
           onTab,
         },
-      })
-    },
-    [dispatch, props.leaf]
+      }),
+    [dispatch, leaf]
   )
 
-  const action: TabBarAction = useMemo(() => ({ switchTab }), [switchTab])
+  const closeTab = useCallback(
+    (index: number) =>
+      dispatch({
+        leafToCloseTab: {
+          leaf,
+          name: leaf.children[index],
+        },
+      }),
+    [dispatch, leaf]
+  )
+
+  const action: TabBarAction = useMemo(() => ({ switchTab, closeTab }), [
+    closeTab,
+    switchTab,
+  ])
 
   const { render: Render } = tabBar
-  const style = useStyle(props.leaf.rect, props.isHidden)
+  const style = useStyle(leaf.rect, isHidden)
   return useMemo(
     () => (
       <div style={style}>

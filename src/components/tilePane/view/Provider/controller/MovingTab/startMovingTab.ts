@@ -9,12 +9,13 @@ import {
 
 export function startMovingTab(
   { movingTabs, leaves, branches, rootNode }: TileStore,
-  tabToStopMoving: MovingTab
+  tabToStopMoving: MovingTab,
+  notMoving?: boolean
 ): TileStore {
   const newMovingTabs = movingTabs.slice()
   const { name } = tabToStopMoving
   const existedTab = newMovingTabs.find((it) => (it.name = name))
-  if (!existedTab) {
+  if (!notMoving && !existedTab) {
     newMovingTabs.push(tabToStopMoving)
   }
 

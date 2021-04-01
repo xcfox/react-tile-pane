@@ -11,6 +11,7 @@ export type TileStoreAction = {
     leaf: TileLeaf
     onTab: number
   }
+  leafToCloseTab?: MovingTab
   tabToStopMoving?: TabToStopMoving
   tabToStartMoving?: MovingTab
   barToMove?: BarToMove
@@ -18,9 +19,16 @@ export type TileStoreAction = {
 
 export const tileStoreReducer: TileStoreReducer = (
   state,
-  { leafToSwitchTab, tabToStopMoving, tabToStartMoving, barToMove }
+  {
+    leafToSwitchTab,
+    tabToStopMoving,
+    tabToStartMoving,
+    barToMove,
+    leafToCloseTab,
+  }
 ) => {
   if (leafToSwitchTab) return switchLeafTab(state, leafToSwitchTab)
+  if (leafToCloseTab) return startMovingTab(state, leafToCloseTab, true)
   if (tabToStartMoving) return startMovingTab(state, tabToStartMoving)
   if (tabToStopMoving) return stopMovingTab(state, tabToStopMoving)
   if (barToMove) return moveBar(state, barToMove)
