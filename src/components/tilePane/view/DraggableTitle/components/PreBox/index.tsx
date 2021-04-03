@@ -3,10 +3,12 @@ import { Vector2 } from 'react-use-gesture/dist/types'
 import { RectReadOnly } from 'react-use-measure'
 import {
   ContainerRectContext,
+  PreBoxConfigContext,
   TileBranchesContext,
   TileLeavesContext,
 } from '../../..'
-import { TileNodeRect } from '../../../../model'
+import { isTileLeaf, TileNodeRect } from '../../../../model'
+import { useThrottleFn } from '../../hook'
 import { PaneWithPreBox } from '../../typings'
 import { calcPreBox } from '../../util'
 
@@ -22,33 +24,45 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   const containerRect = useContext(ContainerRectContext)
   const branches = useContext(TileBranchesContext)
   const leaves = useContext(TileLeavesContext)
+  const { throttle, style, className } = useContext(PreBoxConfigContext)
+
   const innerPosition = useMemo(() => {
     return [
       (position[0] - containerRect.left) / containerRect.width,
       (position[1] - containerRect.top) / containerRect.height,
     ] as Vector2
   }, [containerRect, position])
+
+  const calcLazyPreBox = useThrottleFn(calcPreBox, throttle)
   const paneWithPreBox = useMemo(
-    () => calcPreBox(branches, leaves, innerPosition),
-    [branches, innerPosition, leaves]
+    () => calcLazyPreBox(branches, leaves, innerPosition),
+    [branches, calcLazyPreBox, innerPosition, leaves]
   )
   paneWithPreBoxRef.current = paneWithPreBox
   return useMemo(() => {
     if (!paneWithPreBox) return null
+    const isLeaf = isTileLeaf(paneWithPreBox.targetNode)
+    const styled =
+      typeof style === 'function' ? style(paneWithPreBox.into, isLeaf) : style
+    const classNamed =
+      typeof className === 'function'
+        ? className(paneWithPreBox.into, isLeaf)
+        : className
     const boxPosition = calcBoxPosition(paneWithPreBox, containerRect)
 
     return (
       <div
+        className={classNamed}
         style={{
+          ...styled,
           zIndex: 1,
           visibility: 'visible',
-          background: '#e4a4fd66',
           position: 'fixed',
           ...boxPosition,
         }}
       />
     )
-  }, [containerRect, paneWithPreBox])
+  }, [className, containerRect, paneWithPreBox, style])
 }
 
 const proportion = 0.5

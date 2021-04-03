@@ -1,5 +1,4 @@
-import { CSSProperties } from 'react'
-import { createContext } from 'react'
+import { CSSProperties, createContext } from 'react'
 import style from './style.module.css'
 
 export type StretchBarConfig = {
