@@ -13,12 +13,24 @@ export interface StretchBarProps {
 }
 
 const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
+  const { isRow } = bar.parentPane
   const containerRect = useContext(ContainerRectContext)
   const dispatch = useContext(TileDispatchContext)
-  const { thickness } = useContext(StretchBarConfigContext)
+  const { thickness, style, className } = useContext(StretchBarConfigContext)
+
+  const styled = useMemo(
+    () => (typeof style === 'function' ? style(isRow) : style),
+    [isRow, style]
+  )
+
+  const classNamed = useMemo(
+    () => (typeof className === 'function' ? className(isRow) : className),
+    [className, isRow]
+  )
+
   const moveBar = useCallback(
     (mx: number, my: number) => {
-      const distance = bar.parentPane.isRow
+      const distance = isRow
         ? mx / containerRect.width
         : my / containerRect.height
       dispatch({
@@ -28,7 +40,7 @@ const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
         },
       })
     },
-    [bar, containerRect.height, containerRect.width, dispatch]
+    [bar, containerRect.height, containerRect.width, dispatch, isRow]
   )
 
   const bind = useDrag(
@@ -38,20 +50,20 @@ const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
     { enabled: true }
   )
   const { top, left, width, height } = bar.nextPane.rect
-  const { isRow } = bar.parentPane
 
   return useMemo(
     () => (
       <div
         {...bind()}
+        className={classNamed}
         style={{
+          ...styled,
           position: 'absolute',
-          background: '#8191ec66',
           ...calcBarStyles({ top, left, width, height }, thickness, isRow),
         }}
       />
     ),
-    [bind, height, isRow, left, thickness, top, width]
+    [bind, classNamed, height, isRow, left, styled, thickness, top, width]
   )
 }
 
