@@ -4,6 +4,7 @@ import { RectReadOnly } from 'react-use-measure'
 import {
   ContainerRectContext,
   PreBoxConfigContext,
+  PreBoxTarget,
   TileBranchesContext,
   TileLeavesContext,
 } from '../../..'
@@ -24,7 +25,7 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   const containerRect = useContext(ContainerRectContext)
   const branches = useContext(TileBranchesContext)
   const leaves = useContext(TileLeavesContext)
-  const { throttle, style, className } = useContext(PreBoxConfigContext)
+  const { throttle, style, className, child } = useContext(PreBoxConfigContext)
 
   const innerPosition = useMemo(() => {
     return [
@@ -40,15 +41,14 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   )
   paneWithPreBoxRef.current = paneWithPreBox
   return useMemo(() => {
-    if (!paneWithPreBox) return null
-    const isLeaf = isTileLeaf(paneWithPreBox.targetNode)
-    const styled =
-      typeof style === 'function' ? style(paneWithPreBox.into, isLeaf) : style
+    const targetType = calcTargetType()
+    const into = paneWithPreBox?.into ?? 'center'
+    const styled = typeof style === 'function' ? style(into, targetType) : style
     const classNamed =
-      typeof className === 'function'
-        ? className(paneWithPreBox.into, isLeaf)
-        : className
+      typeof className === 'function' ? className(into, targetType) : className
     const boxPosition = calcBoxPosition(paneWithPreBox, containerRect)
+    const children =
+      typeof child === 'function' ? child(into, targetType) : child
 
     return (
       <div
@@ -60,18 +60,34 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
           position: 'fixed',
           ...boxPosition,
         }}
-      />
+      >
+        {children}
+      </div>
     )
-  }, [className, containerRect, paneWithPreBox, style])
+
+    function calcTargetType(): PreBoxTarget {
+      if (!paneWithPreBox) return null
+      return isTileLeaf(paneWithPreBox?.targetNode ?? branches[0])
+        ? 'leaf'
+        : 'branch'
+    }
+  }, [branches, child, className, containerRect, paneWithPreBox, style])
 }
 
 const proportion = 0.5
 export const PreBox = memo(PreBoxInner)
 
 function calcBoxPosition(
-  paneWithPreBox: PaneWithPreBox,
+  paneWithPreBox: PaneWithPreBox | undefined,
   containerRect: RectReadOnly
 ): TileNodeRect {
+  if (!paneWithPreBox)
+    return {
+      top: containerRect.top,
+      left: containerRect.left,
+      height: containerRect.height,
+      width: containerRect.width,
+    }
   const { targetNode, into } = paneWithPreBox
   const { top, left, width, height } = targetNode.rect
 
