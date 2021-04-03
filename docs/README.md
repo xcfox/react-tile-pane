@@ -2,7 +2,7 @@
 
 ## preview
 
-You can see the demo on https://xcfox.github.io/react-tile-pane/index
+You can see the demo on https://xcfox.github.io/react-tile-pane/demo/
 
 ## Some Similar projects
 

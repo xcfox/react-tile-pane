@@ -33,12 +33,12 @@ const [nodeList, names] = createTitlePanes({
 
 const rootPane: TileBranchSubstance = {
   children: [
-    { children: [names.apple, names.arbutus] },
+    { children: [names.apple, names.cherry] },
     {
       isRow: true,
       grow: 2,
       children: [
-        { children: names.cherry },
+        { children: names.arbutus },
         { children: names.lemon },
         {
           children: [
@@ -61,7 +61,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <DraggableTitle name={names.banana}>拖动这个香蕉🍌</DraggableTitle>
-      <a href="./index.html">查看文档</a>
+      <a href="https://xcfox.github.io/react-tile-pane/">查看文档</a>
     </TileProvider>
   )
 }
