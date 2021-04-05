@@ -1,6 +1,7 @@
 import React, { createContext, memo, useMemo } from 'react'
 import { TabBarAction, TabBarProps } from '../../..'
 import { DraggableTitle } from '../../../DraggableTitle'
+import style from './style.module.css'
 
 export type TabBarPropsWithAction = TabBarProps & { action: TabBarAction }
 
@@ -11,22 +12,14 @@ const TabBarInner: React.FC<TabBarPropsWithAction> = ({
 }) => {
   return useMemo(
     () => (
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: '100%',
-          justifyContent: 'space-around',
-        }}
-      >
+      <div className={style.tabBar}>
         {tabs.map((tab, i) => (
-          <DraggableTitle name={tab} key={tab}>
-            <div
-              onClick={() => action.switchTab(i)}
-              style={{ color: onTab === i ? '#222222' : '#999999' }}
-            >
-              {tab}
-            </div>
+          <DraggableTitle
+            name={tab}
+            key={tab}
+            className={i === onTab ? style.tabTitle : style.tabTitleOff}
+          >
+            <div onClick={() => action.switchTab(i)}>{tab}</div>
           </DraggableTitle>
         ))}
       </div>
@@ -44,7 +37,7 @@ export type TabsBarConfig = {
 export const DefaultTabBar = memo(TabBarInner)
 export const defaultTabsBarConfig: TabsBarConfig = {
   render: DefaultTabBar,
-  thickness: 20,
+  thickness: 24,
   position: 'top',
 }
 export const TabsBarContext = createContext<TabsBarConfig>(defaultTabsBarConfig)

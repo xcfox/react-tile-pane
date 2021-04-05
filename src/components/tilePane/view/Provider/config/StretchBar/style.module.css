@@ -1,16 +1,24 @@
 .rowBar {
   cursor: ew-resize;
-  background: #d4e5ec;
-  transition: background 233ms;
+  background: #a9d7e2;
+  transition-property: background, width;
+  transition-duration: 233ms;
+  width: 4px;
 }
 .colBar {
   cursor: ns-resize;
-  background: #d4e5ec;
-  transition: background 233ms;
+  background: #a9d7e2;
+  transition-property: background, height;
+  transition-duration: 233ms;
+  height: 4px;
 }
 .rowBar:hover {
   background: #7dd0db;
+  height: 6px;
+  width: 6px;
 }
 .colBar:hover {
   background: #7dd0db;
+  height: 6px;
+  width: 6px;
 }

@@ -1,4 +1,4 @@
-import React, { memo, useContext, useMemo, useRef } from 'react'
+import React, { memo, useContext, useMemo, useRef, CSSProperties } from 'react'
 import { TileLeavesContext } from '..'
 import { PaneName } from '../..'
 import { PreBox } from './components'
@@ -8,11 +8,15 @@ import { PaneWithPreBox } from './typings'
 export interface DraggableTitleProps {
   name: PaneName
   children?: React.ReactNode
+  style?: CSSProperties
+  className?: string
 }
 
 const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
   name,
   children,
+  style,
+  className,
 }) => {
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
@@ -23,10 +27,11 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
   ])
   const { position, bind } = useDragAndPosition(paneWithPreBoxRef, name, pane)
 
-  const style = useMemo(
+  const styled = useMemo(
     () =>
       (position
         ? {
+            ...style,
             visibility: 'visible',
             position: 'fixed',
             top: position[1],
@@ -34,19 +39,19 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
             transform: 'translate(-50%,-50%)',
             zIndex: 1,
           }
-        : {}) as React.CSSProperties,
-    [position]
+        : style) as React.CSSProperties,
+    [position, style]
   )
   return useMemo(
     () => (
       <>
         {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
-        <div {...{ ...bind(), style }} style={style}>
+        <div {...{ ...bind() }} style={styled} className={className}>
           {children}
         </div>
       </>
     ),
-    [bind, children, position, style]
+    [bind, children, className, position, styled]
   )
 }
 

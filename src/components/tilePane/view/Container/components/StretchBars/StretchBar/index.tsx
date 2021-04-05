@@ -12,9 +12,7 @@ export interface StretchBarProps {
 const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
   const { isRow } = bar.parentPane
   const containerRect = useContext(ContainerRectContext)
-  const { thickness, style, className, child } = useContext(
-    StretchBarConfigContext
-  )
+  const { style, className, child } = useContext(StretchBarConfigContext)
   const move = useThrottleMove(bar)
 
   const styled = useMemo(
@@ -57,24 +55,13 @@ const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
         style={{
           ...styled,
           position: 'absolute',
-          ...calcBarStyles({ top, left, width, height }, thickness, isRow),
+          ...calcBarStyles({ top, left, width, height }, isRow),
         }}
       >
         {children}
       </div>
     ),
-    [
-      bind,
-      children,
-      classNamed,
-      height,
-      isRow,
-      left,
-      styled,
-      thickness,
-      top,
-      width,
-    ]
+    [bind, children, classNamed, height, isRow, left, styled, top, width]
   )
 }
 
