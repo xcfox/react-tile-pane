@@ -8,6 +8,7 @@ import {
   TileBranch,
   TileLeaf,
 } from '../../..'
+import { Vector2 } from '../hook'
 
 export const TileDispatchContext = createContext<Dispatch<TileStoreAction>>(
   (s) => s
@@ -36,3 +37,4 @@ const defaultRect: RectReadOnly = {
   y: 0,
 }
 export const ContainerRectContext = createContext(defaultRect)
+export const MousePositionContext = createContext<Vector2>([0, 0])
