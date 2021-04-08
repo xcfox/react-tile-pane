@@ -29,7 +29,7 @@ export interface UseMouseDragOption {
 }
 
 export function useMouseDrag({
-  threshold = 6,
+  threshold = 8,
   onEnd,
   onStart,
 }: UseMouseDragOption) {
@@ -62,7 +62,10 @@ export function useMouseDrag({
     onEnd && onEnd()
   }, [onEnd])
 
-  const bind = { onMouseDown, onMouseMove, onMouseUp }
+  const onMouseLeave = useCallback(() => {
+    setMouseDownXY(undefined)
+  }, [])
+  const bind = { onMouseDown, onMouseMove, onMouseUp, onMouseLeave }
   return { bind, isDragging }
 }
 
