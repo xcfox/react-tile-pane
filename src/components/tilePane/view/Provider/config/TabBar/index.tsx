@@ -21,12 +21,15 @@ const TabBarInner: React.FC<TabBarPropsWithAction> = ({
             name={tab}
             key={tab}
           >
-            <div className={style.tabInner} onClick={() => action.switchTab(i)}>
-              <div className={i === onTab ? style.tabTitle : style.tabTitleOff}>
-                {tab}
-              </div>
+            <div
+              className={i === onTab ? style.tabInner : style.tabInnerOff}
+              onClick={() => action.switchTab(i)}
+            >
+              <div className={style.tabTitle}>{tab}</div>
               {!checkTabMoving(tabs[i]) && (
-                <div className={style.off} onClick={() => action.closeTab(i)} />
+                <div className={style.off} onClick={() => action.closeTab(i)}>
+                  ×
+                </div>
               )}
             </div>
           </DraggableTitle>

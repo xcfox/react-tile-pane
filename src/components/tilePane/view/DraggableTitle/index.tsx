@@ -36,7 +36,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   const [targetRef, rect] = useMeasure({ scroll: true })
 
   useEffect(() => {
-    console.log(name, rect)
+    // console.log(name, rect)
   }, [name, rect])
 
   const styled = useMemo(
