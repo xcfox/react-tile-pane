@@ -2,21 +2,22 @@ import React, { memo, useContext, useMemo, useRef, CSSProperties } from 'react'
 import { TileLeavesContext } from '..'
 import { PaneName } from '../..'
 import { PreBox } from './components'
-import { useDragAndPosition } from './hook'
+import { useDragAndPosition, useMovingChecker } from './hook'
 import { PaneWithPreBox } from './typings'
+import { orFn } from './util'
 
 export interface DraggableTitleProps {
   name: PaneName
-  children?: React.ReactNode
-  style?: CSSProperties
-  className?: string
+  children?: React.ReactNode | ((isMoving: boolean) => React.ReactNode)
+  style?: CSSProperties | ((isMoving: boolean) => CSSProperties)
+  className?: string | ((isMoving: boolean) => string)
 }
 
 const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
   name,
-  children,
-  style,
-  className,
+  children: childrenFn,
+  style: styleFn,
+  className: classNameFn,
 }) => {
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
@@ -26,6 +27,18 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
     leaves,
   ])
   const { position, bind } = useDragAndPosition(paneWithPreBoxRef, name, pane)
+  const checkMoving = useMovingChecker()
+  const isMoving = checkMoving(name)
+
+  const style = useMemo(() => orFn(styleFn, isMoving), [isMoving, styleFn])
+  const children = useMemo(() => orFn(childrenFn, isMoving), [
+    childrenFn,
+    isMoving,
+  ])
+  const className = useMemo(() => orFn(classNameFn, isMoving), [
+    classNameFn,
+    isMoving,
+  ])
 
   const styled = useMemo(
     () =>
@@ -57,3 +70,4 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = ({
 
 export const DraggableTitle = memo(DraggableTitleInner)
 export * from './typings'
+export * from './hook/useMovingChecker'

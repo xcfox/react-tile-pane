@@ -1,6 +1,6 @@
 import React, { createContext, memo, useMemo } from 'react'
 import { TabBarAction, TabBarProps } from '../../..'
-import { DraggableTitle } from '../../../DraggableTitle'
+import { DraggableTitle, useMovingChecker } from '../../../DraggableTitle'
 import style from './style.module.css'
 
 export type TabBarPropsWithAction = TabBarProps & { action: TabBarAction }
@@ -10,21 +10,30 @@ const TabBarInner: React.FC<TabBarPropsWithAction> = ({
   onTab,
   action,
 }) => {
+  const checkTabMoving = useMovingChecker()
+
   return useMemo(
     () => (
       <div className={style.tabBar}>
         {tabs.map((tab, i) => (
           <DraggableTitle
+            className={(isMoving) => (isMoving ? style.tabMoving : style.tab)}
             name={tab}
             key={tab}
-            className={i === onTab ? style.tabTitle : style.tabTitleOff}
           >
-            <div onClick={() => action.switchTab(i)}>{tab}</div>
+            <div className={style.tabInner} onClick={() => action.switchTab(i)}>
+              <div className={i === onTab ? style.tabTitle : style.tabTitleOff}>
+                {tab}
+              </div>
+              {!checkTabMoving(tabs[i]) && (
+                <div className={style.off} onClick={() => action.closeTab(i)} />
+              )}
+            </div>
           </DraggableTitle>
         ))}
       </div>
     ),
-    [action, onTab, tabs]
+    [action, checkTabMoving, onTab, tabs]
   )
 }
 export type TabsBarPosition = 'left' | 'right' | 'top' | 'bottom'

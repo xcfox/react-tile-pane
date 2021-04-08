@@ -1,26 +1,35 @@
 import React, { memo, useContext, useMemo } from 'react'
-import { ContainerRefContext } from '..'
+import { ContainerRefContext, MovingTabsContext } from '..'
 import { StretchBars, TabsBars, TilePanes } from './components'
 
 export interface TileContainerProps {
-  width?: string | number
-  height?: string | number
+  style?: React.CSSProperties
+  className?: string
 }
 
 const TileContainerInner: React.FC<TileContainerProps> = ({
-  width = '100%',
-  height = '100%',
+  style = { width: '100%', height: '100%' },
+  className,
 }) => {
   const targetRef = useContext(ContainerRefContext)
+  const movingTabs = useContext(MovingTabsContext)
   return useMemo(
     () => (
-      <div ref={targetRef} style={{ position: 'relative', width, height }}>
+      <div
+        ref={targetRef}
+        className={className}
+        style={{
+          ...style,
+          position: 'relative',
+          userSelect: movingTabs.length ? 'none' : 'auto',
+        }}
+      >
         <TabsBars />
         <TilePanes />
         <StretchBars />
       </div>
     ),
-    [height, targetRef, width]
+    [className, movingTabs.length, style, targetRef]
   )
 }
 
