@@ -10,7 +10,7 @@ import useMeasure from 'react-use-measure'
 import { TileLeavesContext } from '..'
 import { PaneName } from '../..'
 import { PreBox } from './components'
-import { useDragAndPosition, useMovingChecker } from './hook'
+import { useDragAndPosition, useMovingChecker, useSpring } from './hook'
 import { PaneWithPreBox } from './typings'
 import { orFn } from './util'
 
@@ -30,7 +30,11 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
     leaves,
     name,
   ])
-  const { position, bind } = useDragAndPosition(paneWithPreBoxRef, name, pane)
+  const { position, bind, velocity } = useDragAndPosition(
+    paneWithPreBoxRef,
+    name,
+    pane
+  )
   const { style, className, children } = useFn(props)
 
   const [targetRef, rect] = useMeasure({ scroll: true })
@@ -38,6 +42,8 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   useEffect(() => {
     // console.log(name, rect)
   }, [name, rect])
+
+  const scale = useSpring(velocity + 1)
 
   const styled = useMemo(
     () =>
@@ -48,17 +54,17 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
             position: 'fixed',
             left: position[0],
             top: position[1],
-            transform: 'translate(-50%,-50%)',
+            transform: `translate(-50%,-50%) scale(${scale})`,
             zIndex: 1,
           }
         : style) as React.CSSProperties,
-    [position, style]
+    [position, scale, style]
   )
   return useMemo(
     () => (
       <>
         {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
-        <div {...bind} ref={targetRef} style={styled} className={className}>
+        <div {...bind()} ref={targetRef} style={styled} className={className}>
           {children}
         </div>
       </>

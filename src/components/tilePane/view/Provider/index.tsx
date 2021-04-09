@@ -37,7 +37,11 @@ export interface TileProviderProps {
   stretchBar?: StretchBarConfig
 }
 
-function MousePositionProvider({ children }: { children?: React.ReactNode }) {
+export function MousePositionProvider({
+  children,
+}: {
+  children?: React.ReactNode
+}) {
   const mousePosition = useMouseXY()
   return (
     <MousePositionContext.Provider value={mousePosition}>
@@ -65,31 +69,29 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   const childrenMemo = useMemo(() => children, [children])
   const [targetRef, containerRect] = useMeasure({ scroll: true })
   return (
-    <MousePositionProvider>
-      <ContainerRefContext.Provider value={targetRef}>
-        <PreBoxConfigContext.Provider value={preBox}>
-          <TitlePanesContext.Provider value={tilePanes}>
-            <ContainerRectContext.Provider value={containerRect}>
-              <TileBranchesContext.Provider value={branches}>
-                <StretchBarConfigContext.Provider value={stretchBar}>
-                  <TileLeavesContext.Provider value={leaves}>
-                    <StretchBarsContext.Provider value={stretchBars}>
-                      <TileDispatchContext.Provider value={tileStoreDispatch}>
-                        <MovingTabsContext.Provider value={movingTabs}>
-                          <TabsBarContext.Provider value={tabBar}>
-                            {childrenMemo}
-                          </TabsBarContext.Provider>
-                        </MovingTabsContext.Provider>
-                      </TileDispatchContext.Provider>
-                    </StretchBarsContext.Provider>
-                  </TileLeavesContext.Provider>
-                </StretchBarConfigContext.Provider>
-              </TileBranchesContext.Provider>
-            </ContainerRectContext.Provider>
-          </TitlePanesContext.Provider>
-        </PreBoxConfigContext.Provider>
-      </ContainerRefContext.Provider>
-    </MousePositionProvider>
+    <ContainerRefContext.Provider value={targetRef}>
+      <PreBoxConfigContext.Provider value={preBox}>
+        <TitlePanesContext.Provider value={tilePanes}>
+          <ContainerRectContext.Provider value={containerRect}>
+            <TileBranchesContext.Provider value={branches}>
+              <StretchBarConfigContext.Provider value={stretchBar}>
+                <TileLeavesContext.Provider value={leaves}>
+                  <StretchBarsContext.Provider value={stretchBars}>
+                    <TileDispatchContext.Provider value={tileStoreDispatch}>
+                      <MovingTabsContext.Provider value={movingTabs}>
+                        <TabsBarContext.Provider value={tabBar}>
+                          {childrenMemo}
+                        </TabsBarContext.Provider>
+                      </MovingTabsContext.Provider>
+                    </TileDispatchContext.Provider>
+                  </StretchBarsContext.Provider>
+                </TileLeavesContext.Provider>
+              </StretchBarConfigContext.Provider>
+            </TileBranchesContext.Provider>
+          </ContainerRectContext.Provider>
+        </TitlePanesContext.Provider>
+      </PreBoxConfigContext.Provider>
+    </ContainerRefContext.Provider>
   )
 }
 

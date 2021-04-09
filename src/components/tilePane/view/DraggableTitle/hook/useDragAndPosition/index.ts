@@ -1,10 +1,8 @@
-import { useContext, useCallback } from 'react'
-import {
-  MousePositionContext,
-  TileDispatchContext,
-  useMouseDrag,
-} from '../../..'
+import { useState, useContext } from 'react'
+import { useGesture } from 'react-use-gesture'
+import { TileDispatchContext } from '../../..'
 import { PaneName, TileLeaf } from '../../../..'
+// import { useMouse } from '..'
 import { PaneWithPreBox } from '../../typings'
 
 export function useDragAndPosition(
@@ -13,18 +11,28 @@ export function useDragAndPosition(
   leaf: TileLeaf | undefined
 ) {
   const dispatch = useContext(TileDispatchContext)
-  const mouseXY = useContext(MousePositionContext)
+  const [position, setPosition] = useState<[number, number]>()
+  const [velocity, setVelocities] = useState(0)
 
-  const onStart = useCallback(() => {
-    leaf && dispatch({ tabToStartMoving: { name, leaf } })
-  }, [dispatch, leaf, name])
-  const onEnd = useCallback(() => {
-    dispatch({
-      tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current },
-    })
-  }, [dispatch, name, paneWithPreBoxRef])
+  const bind = useGesture(
+    {
+      onDrag: ({ down, xy, velocity }) => {
+        if (down) {
+          setPosition(xy)
+          setVelocities(velocity)
+        } else {
+          setVelocities(0)
+          setPosition(undefined)
+        }
+      },
+      onDragStart: () => leaf && dispatch({ tabToStartMoving: { name, leaf } }),
+      onDragEnd: () =>
+        dispatch({
+          tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current },
+        }),
+    },
+    { drag: { threshold: 10 } }
+  )
 
-  const { bind, isDragging } = useMouseDrag({ onStart, onEnd })
-
-  return { bind, position: isDragging ? mouseXY : undefined }
+  return { bind, position, velocity }
 }
