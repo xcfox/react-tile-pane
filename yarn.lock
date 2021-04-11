@@ -9925,11 +9925,6 @@ readdirp@~3.5.0:
   dependencies:
     picomatch "^2.2.1"
 
-rebound@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npm.taobao.org/rebound/download/rebound-0.1.0.tgz#0638c61a93666bb515a58a03e1cfb34021e88b72"
-  integrity sha1-BjjGGpNma7UVpYoD4c+zQCHoi3I=
-
 recursive-readdir@2.2.2:
   version "2.2.2"
   resolved "https://registry.npm.taobao.org/recursive-readdir/download/recursive-readdir-2.2.2.tgz#9946fb3274e1628de6e36b2f6714953b4845094f"

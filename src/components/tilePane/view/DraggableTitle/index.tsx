@@ -10,7 +10,7 @@ import useMeasure from 'react-use-measure'
 import { TileLeavesContext } from '..'
 import { PaneName } from '../..'
 import { PreBox } from './components'
-import { useDragAndPosition, useMovingChecker, useSpring } from './hook'
+import { useDragAndPosition, useMovingChecker } from './hook'
 import { PaneWithPreBox } from './typings'
 import { orFn } from './util'
 
@@ -43,8 +43,6 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
     // console.log(name, rect)
   }, [name, rect])
 
-  const scale = useSpring(velocity + 1)
-
   const styled = useMemo(
     () =>
       (position
@@ -54,11 +52,14 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
             position: 'fixed',
             left: position[0],
             top: position[1],
-            transform: `translate(-50%,-50%) scale(${scale})`,
+            transform: `translate(-50%,-50%) scale(${velocity + 1})`,
+            transitionProperty: 'transform',
+            transitionDuration: '77ms',
+            transitionTimingFunction: 'ease-out',
             zIndex: 1,
           }
         : style) as React.CSSProperties,
-    [position, scale, style]
+    [position, style, velocity]
   )
   return useMemo(
     () => (
