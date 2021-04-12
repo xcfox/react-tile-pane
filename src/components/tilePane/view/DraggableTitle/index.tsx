@@ -62,15 +62,13 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   return useMemo(
     () => (
       <>
-        {isDragging && position && (
-          <PreBox {...{ paneWithPreBoxRef, position }} />
-        )}
+        {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
         <div {...bind()} ref={targetRef} style={styled} className={className}>
           {children}
         </div>
       </>
     ),
-    [bind, children, className, isDragging, position, styled, targetRef]
+    [bind, children, className, position, styled, targetRef]
   )
 }
 
