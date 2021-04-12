@@ -1,11 +1,11 @@
 import React, { memo, useMemo, useReducer } from 'react'
 import useMeasure from 'react-use-measure'
 import {
-  MousePositionContext,
   PreBoxConfig,
   StretchBarConfig,
   TileBranchSubstance,
   TilePane,
+  TitleRectsProvider,
 } from '../..'
 import {
   TitlePanesContext,
@@ -26,7 +26,6 @@ import {
   defaultStretchBar,
 } from '.'
 import { defaultPreBox, PreBoxConfigContext } from './config'
-import { useMouseXY } from './hook'
 
 export interface TileProviderProps {
   children?: React.ReactNode
@@ -35,19 +34,6 @@ export interface TileProviderProps {
   tabBar?: TabsBarConfig
   preBox?: PreBoxConfig
   stretchBar?: StretchBarConfig
-}
-
-export function MousePositionProvider({
-  children,
-}: {
-  children?: React.ReactNode
-}) {
-  const mousePosition = useMouseXY()
-  return (
-    <MousePositionContext.Provider value={mousePosition}>
-      {children}
-    </MousePositionContext.Provider>
-  )
 }
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
@@ -80,7 +66,9 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
                     <TileDispatchContext.Provider value={tileStoreDispatch}>
                       <MovingTabsContext.Provider value={movingTabs}>
                         <TabsBarContext.Provider value={tabBar}>
-                          {childrenMemo}
+                          <TitleRectsProvider>
+                            {childrenMemo}
+                          </TitleRectsProvider>
                         </TabsBarContext.Provider>
                       </MovingTabsContext.Provider>
                     </TileDispatchContext.Provider>

@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from 'react'
 import useMeasure from 'react-use-measure'
-import { TileLeavesContext } from '..'
+import { SetTitleRectsContext, TileLeavesContext } from '..'
 import { PaneName } from '../..'
 import { PreBox } from './components'
 import { useDragAndPosition, useMovingChecker } from './hook'
@@ -25,6 +25,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   const { name } = props
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
+  const checkMoving = useMovingChecker()
   const leaves = useContext(TileLeavesContext)
   const pane = useMemo(() => leaves.find((p) => p.children.includes(name)), [
     leaves,
@@ -35,13 +36,16 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
     name,
     pane
   )
-  const { style, className, children } = useFn(props)
+
+  const isMoving = checkMoving(name)
+  const { style, className, children } = useFn(props, isMoving)
 
   const [targetRef, rect] = useMeasure({ scroll: true })
+  const setTitleRects = useContext(SetTitleRectsContext)
 
   useEffect(() => {
-    // console.log(name, rect)
-  }, [name, rect])
+    setTitleRects({ name, rect })
+  }, [isMoving, name, rect, setTitleRects])
 
   const styled = useMemo(
     () =>
@@ -74,15 +78,14 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   )
 }
 
-function useFn({
-  name,
-  children: childrenFn,
-  style: styleFn,
-  className: classNameFn,
-}: DraggableTitleProps) {
-  const checkMoving = useMovingChecker()
-  const isMoving = checkMoving(name)
-
+function useFn(
+  {
+    children: childrenFn,
+    style: styleFn,
+    className: classNameFn,
+  }: DraggableTitleProps,
+  isMoving: boolean
+) {
   const style = useMemo(() => orFn(styleFn, isMoving), [isMoving, styleFn])
   const children = useMemo(() => orFn(childrenFn, isMoving), [
     childrenFn,

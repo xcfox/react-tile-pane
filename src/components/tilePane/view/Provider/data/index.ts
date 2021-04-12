@@ -38,3 +38,4 @@ const defaultRect: RectReadOnly = {
 }
 export const ContainerRectContext = createContext(defaultRect)
 export const MousePositionContext = createContext<Vector2>([0, 0])
+export * from './TitleRects'

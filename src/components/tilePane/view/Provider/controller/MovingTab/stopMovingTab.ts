@@ -30,6 +30,9 @@ export function stopMovingTab(
   } else return { movingTabs: newMovingTabs, ...rest }
 }
 
+const next: Into[] = ['right', 'bottom']
+const row: Into[] = ['right', 'left']
+
 function insertPane(
   pane: PaneName,
   preBox: PaneWithPreBox,
@@ -37,9 +40,9 @@ function insertPane(
 ) {
   const { targetNode: node, into } = preBox
   const { leaves, branches } = nodes
-  const isNext = ['right', 'bottom'].includes(into)
+  const isNext = next.includes(into)
   const isBrother = isSegment(node, into)
-  const isRow = ['right', 'left'].includes(into)
+  const isRow = row.includes(into)
 
   if (isTileLeaf(node)) {
     const leaf = leaves.find((it) => it === node)
@@ -49,6 +52,11 @@ function insertPane(
         newChildren.push(pane)
         leaf.setChildren(newChildren)
         leaf.onTab = leaf.children.length - 1
+      } else if (typeof into === 'number') {
+        const newChildren = leaf.children.slice()
+        newChildren.splice(into, 0, pane)
+        leaf.setChildren(newChildren)
+        leaf.onTab = into
       } else {
         isBrother
           ? segment(node, pane, isNext)
