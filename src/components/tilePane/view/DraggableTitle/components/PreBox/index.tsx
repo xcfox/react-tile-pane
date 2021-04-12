@@ -1,6 +1,7 @@
 import React, { memo, useContext, useMemo } from 'react'
 import { Vector2 } from 'react-use-gesture/dist/types'
 import {
+  absolute2Relative,
   ContainerRectContext,
   PreBoxConfigContext,
   PreBoxTarget,
@@ -14,7 +15,6 @@ import { PaneWithPreBox } from '../../typings'
 import {
   calcPreBox,
   calcBoxPosition,
-  absolute2Relative,
   calcLeafWithTitleRect,
   calcTitleBoxPosition,
   toInContainer,
@@ -40,11 +40,7 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   )
 
   const titleRects = useContext(TitleRectsContext)
-  const leafWithTitleRects = calcLeafWithTitleRect(
-    titleRects,
-    leaves,
-    containerRect
-  )
+  const leafWithTitleRects = calcLeafWithTitleRect(titleRects, leaves)
 
   const calcLazyPreBox = useThrottleFn(calcPreBox, throttle)
   const paneWithPreBox = useMemo(

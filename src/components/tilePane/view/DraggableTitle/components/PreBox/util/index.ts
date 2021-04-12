@@ -69,6 +69,5 @@ function isInPane(position: TileNodeRect, [x, y]: [number, number]) {
   return left < x && x < left + width && top < y && y < top + height
 }
 
-export * from './absolute2Relative'
 export * from './calcBoxPosition'
 export * from './calcLeafWithTitleRect'

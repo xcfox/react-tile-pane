@@ -37,9 +37,10 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   const [targetRef, rect] = useMeasure({ scroll: true })
   const setTitleRects = useContext(SetTitleRectsContext)
 
+  const { left, height, top, width } = rect
   useEffect(() => {
-    setTitleRects({ name, rect })
-  }, [name, rect, setTitleRects])
+    setTitleRects({ name, rect: { left, height, top, width } })
+  }, [height, left, name, rect, setTitleRects, top, width])
 
   const styled = useMemo(
     () =>

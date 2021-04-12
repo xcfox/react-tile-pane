@@ -2,7 +2,6 @@ import { useState, useContext } from 'react'
 import { useGesture } from 'react-use-gesture'
 import { TileDispatchContext } from '../../..'
 import { PaneName, TileLeaf } from '../../../..'
-// import { useMouse } from '..'
 import { PaneWithPreBox } from '../../typings'
 
 export function useDragAndPosition(
