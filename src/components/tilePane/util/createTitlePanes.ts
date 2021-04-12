@@ -1,10 +1,10 @@
 import { ReactChild } from 'react'
-import { TileNodeID, TilePane } from '..'
+import { PaneName, TilePane } from '..'
 
-export function createTitlePanes<T extends Record<TileNodeID, ReactChild>>(
+export function createTitlePanes<T extends Record<PaneName, ReactChild>>(
   obj: T
 ): [TilePane[], Record<keyof T, keyof T>] {
-  const map = {} as Record<TileNodeID, keyof T>
+  const map = {} as Record<PaneName, keyof T>
   const list: TilePane[] = []
   Object.keys(obj).forEach((key) => {
     map[key] = key

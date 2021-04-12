@@ -26,6 +26,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
   const checkMoving = useMovingChecker()
+  const isMoving = checkMoving(name)
   const leaves = useContext(TileLeavesContext)
   const pane = useMemo(() => leaves.find((p) => p.children.includes(name)), [
     leaves,
@@ -37,7 +38,6 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
     pane
   )
 
-  const isMoving = checkMoving(name)
   const { style, className, children } = useFn(props, isMoving)
 
   const [targetRef, rect] = useMeasure({ scroll: true })
@@ -68,13 +68,15 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   return useMemo(
     () => (
       <>
-        {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
+        {isMoving && position && (
+          <PreBox {...{ paneWithPreBoxRef, position }} />
+        )}
         <div {...bind()} ref={targetRef} style={styled} className={className}>
           {children}
         </div>
       </>
     ),
-    [bind, children, className, position, styled, targetRef]
+    [bind, children, className, isMoving, position, styled, targetRef]
   )
 }
 

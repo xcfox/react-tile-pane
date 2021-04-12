@@ -5,7 +5,7 @@ export type PaneName = string | number
 
 export type MovingTab = {
   name: PaneName
-  leaf: TileLeaf
+  leaf?: TileLeaf
 }
 
 export type TilePane = {

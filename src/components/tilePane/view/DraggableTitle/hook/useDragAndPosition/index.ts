@@ -25,7 +25,7 @@ export function useDragAndPosition(
           setPosition(undefined)
         }
       },
-      onDragStart: () => leaf && dispatch({ tabToStartMoving: { name, leaf } }),
+      onDragStart: () => dispatch({ tabToStartMoving: { name, leaf } }),
       onDragEnd: () =>
         dispatch({
           tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current },

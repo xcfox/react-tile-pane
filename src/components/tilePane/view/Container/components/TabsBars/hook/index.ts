@@ -13,13 +13,15 @@ export function useTabs() {
       tabs: leaf.children.slice(),
     }))
     movingTabs.forEach((tab) => {
-      const tabBar = tabBarsProps.find((it) => it.leaf.id === tab.leaf.id)
+      const { leaf } = tab
+      if (!leaf) return
+      const tabBar = tabBarsProps.find((it) => it.leaf.id === leaf.id)
       if (tabBar) {
         tabBar.tabs.push(tab.name)
       } else {
         tabBarsProps.push({
-          leaf: tab.leaf,
-          onTab: tab.leaf.onTab,
+          leaf: leaf,
+          onTab: leaf.onTab,
           tabs: [tab.name],
           isHidden: true,
         })
