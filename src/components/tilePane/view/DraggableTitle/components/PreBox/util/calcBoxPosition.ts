@@ -74,20 +74,20 @@ export function calcTitleBoxPosition(
   if (!isTileLeaf(targetNode)) return
   const { children } = targetNode
   const previousTitle = children[into - 1]
-  const currentTitle = children[into] ?? children[into - 1]
+  const currentTitle = children[into]
   const previous = leafWithTitleRects.find((it) => it.title === previousTitle)
   const current = leafWithTitleRects.find((it) => it.title === currentTitle)
 
   if (previous && current) {
-    const { top, height, left: cL } = current.titleRect
-    const { left: pL, width: pW } = previous.titleRect
+    const { top, height, left: cL } = current.rect
+    const { left: pL, width: pW } = previous.rect
     return { top, height, left: (cL + pL + pW - width) / 2, width }
   } else if (current) {
-    const { top, left, height } = current.titleRect
+    const { top, left, height } = current.rect
     return { top, left, height, width }
   } else if (previous) {
-    const { top, left, height } = previous.titleRect
-    return { top, left, height, width }
+    const { top, left: pL, height, width: pW } = previous.rect
+    return { top, left: pL + pW - width, height, width }
   }
 }
 

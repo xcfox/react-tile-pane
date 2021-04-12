@@ -13,11 +13,12 @@ export function calcPreBox(
   if (!innerPosition) return
   const [x, y] = innerPosition
 
-  for (const { leaf, titleRect, index } of leafWithTitleRects) {
+  for (const { leaf, rect: titleRect, index } of leafWithTitleRects) {
     if (isInPane(titleRect, innerPosition)) {
+      const into = x < titleRect.left + titleRect.width / 2 ? index : index + 1
       return {
         targetNode: leaf,
-        into: index,
+        into,
       }
     }
   }

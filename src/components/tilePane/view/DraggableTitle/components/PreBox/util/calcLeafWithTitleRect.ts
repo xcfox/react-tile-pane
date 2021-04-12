@@ -6,7 +6,7 @@ export interface LeafWithTitleRect {
   leaf: TileLeaf
   index: number
   title: PaneName
-  titleRect: TileNodeRect
+  rect: TileNodeRect
 }
 
 export function calcLeafWithTitleRect(
@@ -31,7 +31,7 @@ export function calcLeafWithTitleRect(
         leaf,
         title,
         index,
-        titleRect: { top, left, width, height },
+        rect: { top, left, width, height },
       })
     })
   })
