@@ -7,10 +7,10 @@ import React, {
   useEffect,
 } from 'react'
 import useMeasure from 'react-use-measure'
-import { SetTitleRectsContext, TileLeavesContext } from '..'
+import { LeafContext, SetTitleRectsContext } from '..'
 import { PaneName } from '../..'
 import { PreBox } from './components'
-import { useDragAndPosition, useMovingChecker } from './hook'
+import { useDragAndPosition } from './hook'
 import { PaneWithPreBox } from './typings'
 import { orFn } from './util'
 
@@ -25,27 +25,21 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   const { name } = props
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
-  const checkMoving = useMovingChecker()
-  const isMoving = checkMoving(name)
-  const leaves = useContext(TileLeavesContext)
-  const pane = useMemo(() => leaves.find((p) => p.children.includes(name)), [
-    leaves,
-    name,
-  ])
-  const { position, bind, velocity } = useDragAndPosition(
+  const pane = useContext(LeafContext)
+  const { position, bind, velocity, isDragging } = useDragAndPosition(
     paneWithPreBoxRef,
     name,
     pane
   )
 
-  const { style, className, children } = useFn(props, isMoving)
+  const { style, className, children } = useFn(props, isDragging)
 
   const [targetRef, rect] = useMeasure({ scroll: true })
   const setTitleRects = useContext(SetTitleRectsContext)
 
   useEffect(() => {
     setTitleRects({ name, rect })
-  }, [isMoving, name, rect, setTitleRects])
+  }, [name, rect, setTitleRects])
 
   const styled = useMemo(
     () =>
@@ -68,7 +62,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   return useMemo(
     () => (
       <>
-        {isMoving && position && (
+        {isDragging && position && (
           <PreBox {...{ paneWithPreBoxRef, position }} />
         )}
         <div {...bind()} ref={targetRef} style={styled} className={className}>
@@ -76,7 +70,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
         </div>
       </>
     ),
-    [bind, children, className, isMoving, position, styled, targetRef]
+    [bind, children, className, isDragging, position, styled, targetRef]
   )
 }
 

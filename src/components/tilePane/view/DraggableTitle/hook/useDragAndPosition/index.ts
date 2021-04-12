@@ -13,14 +13,17 @@ export function useDragAndPosition(
   const dispatch = useContext(TileDispatchContext)
   const [position, setPosition] = useState<[number, number]>()
   const [velocity, setVelocities] = useState(0)
+  const [isDragging, toggleDragging] = useState(false)
 
   const bind = useGesture(
     {
       onDrag: ({ down, xy, velocity }) => {
         if (down) {
+          toggleDragging(true)
           setPosition(xy)
           setVelocities(velocity)
         } else {
+          toggleDragging(false)
           setVelocities(0)
           setPosition(undefined)
         }
@@ -34,5 +37,5 @@ export function useDragAndPosition(
     { drag: { threshold: 10 } }
   )
 
-  return { bind, position, velocity }
+  return { bind, position, velocity, isDragging }
 }

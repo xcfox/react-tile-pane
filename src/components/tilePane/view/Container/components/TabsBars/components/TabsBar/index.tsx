@@ -1,4 +1,10 @@
-import React, { memo, useCallback, useContext, useMemo } from 'react'
+import React, {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react'
 import { TabsBarContext, TileDispatchContext } from '../../../../..'
 import { PaneName, TileLeaf } from '../../../../../..'
 import { useStyle } from './hook'
@@ -16,6 +22,8 @@ export interface TabBarAction {
   switchTab: (onTab: number) => void
   closeTab: (index: number) => void
 }
+
+export const LeafContext = createContext<TileLeaf | undefined>(undefined)
 
 const TabsBarInner: React.FC<TabBarMoreProps> = (props) => {
   const { leaf, isHidden } = props
@@ -53,11 +61,13 @@ const TabsBarInner: React.FC<TabBarMoreProps> = (props) => {
   const style = useStyle(leaf.rect, isHidden)
   return useMemo(
     () => (
-      <div style={style}>
-        <Render action={action} {...props} />
-      </div>
+      <LeafContext.Provider value={leaf}>
+        <div style={style}>
+          <Render action={action} {...props} />
+        </div>
+      </LeafContext.Provider>
     ),
-    [Render, action, props, style]
+    [Render, action, leaf, props, style]
   )
 }
 
