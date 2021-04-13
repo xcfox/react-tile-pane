@@ -26,7 +26,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
   const pane = useContext(LeafContext)
-  const { position, bind, velocity, isDragging } = useDragAndPosition(
+  const { position, bind, isDragging } = useDragAndPosition(
     paneWithPreBoxRef,
     name,
     pane
@@ -51,14 +51,12 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
             position: 'fixed',
             left: position[0],
             top: position[1],
-            transform: `translate(-50%,-50%) scale(${velocity + 1})`,
-            transitionProperty: 'transform',
-            transitionDuration: '77ms',
-            transitionTimingFunction: 'ease-out',
+            transform: 'translate(-50%,-50%)',
             zIndex: 1,
+            userSelect: 'none',
           }
         : style) as React.CSSProperties,
-    [position, style, velocity]
+    [position, style]
   )
   return useMemo(
     () => (

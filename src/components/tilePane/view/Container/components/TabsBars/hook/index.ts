@@ -17,9 +17,9 @@ export function useTabs() {
       if (!leaf) return
       const tabBar = tabBarsProps.find((it) => it.leaf.id === leaf.id)
       if (tabBar) {
-        tabBar.tabs.push(tab.name)
+        tabBar.tabs.splice(tab.tabIndex, 0, tab.name)
       } else {
-        tabBarsProps.push({
+        tabBarsProps.splice(tab.leafIndex, 0, {
           leaf: leaf,
           onTab: leaf.onTab,
           tabs: [tab.name],
@@ -29,5 +29,6 @@ export function useTabs() {
     })
     return tabBarsProps
   }, [leaves, movingTabs])
+
   return tabBarsProps
 }

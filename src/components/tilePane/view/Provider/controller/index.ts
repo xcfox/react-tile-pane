@@ -11,9 +11,9 @@ export type TileStoreAction = {
     leaf: TileLeaf
     onTab: number
   }
-  leafToCloseTab?: MovingTab
+  leafToCloseTab?: Pick<MovingTab, 'name' | 'leaf'>
   tabToStopMoving?: TabToStopMoving
-  tabToStartMoving?: MovingTab
+  tabToStartMoving?: Pick<MovingTab, 'name' | 'leaf'>
   barToMove?: BarToMove
 }
 

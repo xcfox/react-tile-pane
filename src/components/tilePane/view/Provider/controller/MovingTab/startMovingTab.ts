@@ -9,17 +9,16 @@ import {
 
 export function startMovingTab(
   { movingTabs, leaves, branches, rootNode }: TileStore,
-  tabToStopMoving: MovingTab,
+  tabToStopMoving: Pick<MovingTab, 'name' | 'leaf'>,
   notMoving?: boolean
 ): TileStore {
   const newMovingTabs = movingTabs.slice()
   const { name } = tabToStopMoving
   const existedTab = newMovingTabs.find((it) => (it.name = name))
-  if (!notMoving && !existedTab) {
-    newMovingTabs.push(tabToStopMoving)
-  }
 
+  const leafIndex = leaves.findIndex((l) => l === tabToStopMoving.leaf)
   const leaf = leaves.find((l) => l.children.includes(name))
+  const tabIndex = leaf?.children.findIndex((it) => it === name) ?? -1
   if (leaf) {
     const newChildren = removeInArray(leaf.children, name)
     leaf.onTab = 0
@@ -27,6 +26,9 @@ export function startMovingTab(
     if (newChildren.length === 0) {
       removeNode(branches, leaf)
     }
+  }
+  if (!notMoving && !existedTab) {
+    newMovingTabs.push({ ...tabToStopMoving, tabIndex, leafIndex })
   }
 
   const nodes = unfold(rootNode)

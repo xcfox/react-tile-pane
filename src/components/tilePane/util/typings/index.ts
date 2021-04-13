@@ -6,6 +6,8 @@ export type PaneName = string | number
 export type MovingTab = {
   name: PaneName
   leaf?: TileLeaf
+  tabIndex: number
+  leafIndex: number
 }
 
 export type TilePane = {
