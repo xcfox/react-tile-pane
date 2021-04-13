@@ -4,12 +4,10 @@ import {
   absolute2Relative,
   ContainerRectContext,
   PreBoxConfigContext,
-  PreBoxTarget,
   TileBranchesContext,
   TileLeavesContext,
   TitleRectsContext,
 } from '../../..'
-import { isTileLeaf } from '../../../../model'
 import { useThrottleFn } from '../../hook'
 import { PaneWithPreBox } from '../../typings'
 import {
@@ -49,18 +47,19 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   )
   paneWithPreBoxRef.current = paneWithPreBox
   return useMemo(() => {
-    const targetType = calcTargetType()
-    const into = paneWithPreBox?.into ?? 'center'
-    const styled = typeof style === 'function' ? style(into, targetType) : style
+    const styled =
+      typeof style === 'function' ? style(paneWithPreBox ?? {}) : style
     const classNamed =
-      typeof className === 'function' ? className(into, targetType) : className
+      typeof className === 'function'
+        ? className(paneWithPreBox ?? {})
+        : className
     const boxPosition =
       toInContainer(
         calcTitleBoxPosition(paneWithPreBox, leafWithTitleRects),
         containerRect
       ) ?? calcBoxPosition(paneWithPreBox, containerRect)
     const children =
-      typeof child === 'function' ? child(into, targetType) : child
+      typeof child === 'function' ? child(paneWithPreBox ?? {}) : child
 
     return (
       <div
@@ -76,15 +75,7 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
         {children}
       </div>
     )
-
-    function calcTargetType(): PreBoxTarget {
-      if (!paneWithPreBox) return null
-      return isTileLeaf(paneWithPreBox?.targetNode ?? branches[0])
-        ? 'leaf'
-        : 'branch'
-    }
   }, [
-    branches,
     child,
     className,
     containerRect,

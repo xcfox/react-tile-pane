@@ -1,5 +1,5 @@
 import { RectReadOnly } from 'react-use-measure'
-import { isTileLeaf, TileNodeRect } from '../../../../../model'
+import { TileNodeRect } from '../../../../../model'
 import { PaneWithPreBox } from '../../../typings'
 import { proportion } from '..'
 import { LeafWithTitleRect } from '.'
@@ -15,8 +15,10 @@ export function calcBoxPosition(
       height: containerRect.height,
       width: containerRect.width,
     }
-  const { targetNode, into } = paneWithPreBox
-  const { top, left, width, height } = targetNode.rect
+  const node = paneWithPreBox.leaf ?? paneWithPreBox.branch
+  if (!node) return { top: 0, left: 0, height: 1, width: 1 }
+  const { target, into } = node
+  const { top, left, width, height } = target.rect
 
   switch (into) {
     case 'left':
@@ -68,26 +70,17 @@ export function calcTitleBoxPosition(
   paneWithPreBox: PaneWithPreBox | undefined,
   leafWithTitleRects: LeafWithTitleRect[]
 ): TileNodeRect | undefined {
-  if (!paneWithPreBox) return
-  const { targetNode, into } = paneWithPreBox
-  if (typeof into !== 'number') return
-  if (!isTileLeaf(targetNode)) return
-  const { children } = targetNode
-  const previousTitle = children[into - 1]
+  if (!paneWithPreBox?.tab) return
+  const { target, into, isEnd } = paneWithPreBox.tab
+  const { children } = target
   const currentTitle = children[into]
-  const previous = leafWithTitleRects.find((it) => it.title === previousTitle)
   const current = leafWithTitleRects.find((it) => it.title === currentTitle)
 
-  if (previous && current) {
-    const { top, height, left: cL } = current.rect
-    const { left: pL, width: pW } = previous.rect
-    return { top, height, left: (cL + pL + pW - width) / 2, width }
-  } else if (current) {
-    const { top, left, height } = current.rect
-    return { top, left, height, width }
-  } else if (previous) {
-    const { top, left: pL, height, width: pW } = previous.rect
-    return { top, left: pL + pW - width, height, width }
+  if (current) {
+    const { top, left, height, width: w } = current.rect
+    return isEnd
+      ? { top, height, width, left: left + w - width }
+      : { top, left, height, width }
   }
 }
 

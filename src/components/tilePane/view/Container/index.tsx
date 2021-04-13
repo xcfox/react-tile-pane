@@ -33,6 +33,6 @@ const TileContainerInner: React.FC<TileContainerProps> = ({
   )
 }
 
-export const TileContainer = memo(TileContainerInner)
 export * from './utils'
 export * from './components'
+export const TileContainer = memo(TileContainerInner)

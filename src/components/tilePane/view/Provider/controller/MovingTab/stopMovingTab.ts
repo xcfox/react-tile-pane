@@ -38,35 +38,39 @@ function insertPane(
   preBox: PaneWithPreBox,
   nodes: Pick<TileStore, 'branches' | 'leaves'>
 ) {
-  const { targetNode: node, into } = preBox
+  // const { targetNode: node, into } = preBox
+  const node = preBox.leaf ?? preBox.branch ?? preBox.tab
+  if (!node) return
+  const { target, into } = node
   const { leaves, branches } = nodes
-  const isNext = next.includes(into)
-  const isBrother = isSegment(node, into)
-  const isRow = row.includes(into)
+  const isNext = typeof into === 'number' ? false : next.includes(into)
+  const isBrother = typeof into === 'number' ? false : isSegment(target, into)
+  const isRow = typeof into === 'number' ? false : row.includes(into)
 
-  if (isTileLeaf(node)) {
-    const leaf = leaves.find((it) => it === node)
+  if (isTileLeaf(target)) {
+    const leaf = leaves.find((it) => it === target)
     if (leaf) {
       if (into === 'center') {
         const newChildren = leaf.children.slice()
         newChildren.push(pane)
         leaf.setChildren(newChildren)
         leaf.onTab = leaf.children.length - 1
-      } else if (typeof into === 'number') {
+      } else if (preBox.tab) {
         const newChildren = leaf.children.slice()
-        newChildren.splice(into, 0, pane)
+        const index = preBox.tab.into + (preBox.tab.isEnd ? 1 : 0)
+        newChildren.splice(index, 0, pane)
         leaf.setChildren(newChildren)
-        leaf.onTab = into
+        leaf.onTab = index
       } else {
         isBrother
-          ? segment(node, pane, isNext)
-          : fission(node, pane, isNext, isRow)
+          ? segment(target, pane, isNext)
+          : fission(target, pane, isNext, isRow)
       }
     }
   } else {
-    const branch = branches.find((it) => it === node)
+    const branch = branches.find((it) => it === target)
     if (branch) {
-      fission(node, pane, isNext, isRow)
+      fission(target, pane, isNext, isRow)
     }
   }
 }

@@ -15,10 +15,13 @@ export function calcPreBox(
 
   for (const { leaf, rect: titleRect, index } of leafWithTitleRects) {
     if (isInPane(titleRect, innerPosition)) {
-      const into = x < titleRect.left + titleRect.width / 2 ? index : index + 1
+      const isEnd = titleRect.left + titleRect.width / 2 < x
       return {
-        targetNode: leaf,
-        into,
+        tab: {
+          target: leaf,
+          into: index,
+          isEnd,
+        },
       }
     }
   }
@@ -28,17 +31,17 @@ export function calcPreBox(
       const { left, top, width, height } = pane.rect
       if (pane.isRow) {
         if (y - top < height * branchProportion) {
-          return { targetNode: pane, into: 'top' }
+          return { branch: { target: pane, into: 'top' } }
         }
         if (top + height - y < height * branchProportion) {
-          return { targetNode: pane, into: 'bottom' }
+          return { branch: { target: pane, into: 'bottom' } }
         }
       } else {
         if (x - left < width * branchProportion) {
-          return { targetNode: pane, into: 'left' }
+          return { branch: { target: pane, into: 'left' } }
         }
         if (left + width - x < width * branchProportion) {
-          return { targetNode: pane, into: 'right' }
+          return { branch: { target: pane, into: 'right' } }
         }
       }
     }
@@ -48,18 +51,18 @@ export function calcPreBox(
     if (isInPane(pane.rect, innerPosition)) {
       const { left, top, width, height } = pane.rect
       if (x - left < width * leafProportion) {
-        return { targetNode: pane, into: 'left' }
+        return { leaf: { target: pane, into: 'left' } }
       }
       if (left + width - x < width * leafProportion) {
-        return { targetNode: pane, into: 'right' }
+        return { leaf: { target: pane, into: 'right' } }
       }
       if (y - top < height * leafProportion) {
-        return { targetNode: pane, into: 'top' }
+        return { leaf: { target: pane, into: 'top' } }
       }
       if (top + height - y < height * leafProportion) {
-        return { targetNode: pane, into: 'bottom' }
+        return { leaf: { target: pane, into: 'bottom' } }
       }
-      return { targetNode: pane, into: 'center' }
+      return { leaf: { target: pane, into: 'center' } }
     }
   }
 }

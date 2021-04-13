@@ -18,7 +18,7 @@ export function startMovingTab(
 
   const leafIndex = leaves.findIndex((l) => l === tabToStopMoving.leaf)
   const leaf = leaves.find((l) => l.children.includes(name))
-  const tabIndex = leaf?.children.findIndex((it) => it === name) ?? -1
+  const tabIndex = leaf?.children.findIndex((it) => it === name) ?? 0
   if (leaf) {
     const newChildren = removeInArray(leaf.children, name)
     leaf.onTab = 0
