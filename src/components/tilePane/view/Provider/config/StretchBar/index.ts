@@ -1,5 +1,5 @@
 import { CSSProperties, createContext, ReactChild } from 'react'
-import style from './style.module.css'
+import style from '../style.module.css'
 
 export type StretchBarConfig = {
   style?: ((isRow: boolean) => CSSProperties) | CSSProperties

@@ -60,3 +60,44 @@
   margin-right: 10px;
   cursor: pointer;
 }
+
+.rowBar {
+  cursor: ew-resize;
+  background: #a9d7e2;
+  transition-property: background, width;
+  transition-duration: 233ms;
+  width: 4px;
+}
+.colBar {
+  cursor: ns-resize;
+  background: #a9d7e2;
+  transition-property: background, height;
+  transition-duration: 233ms;
+  height: 4px;
+}
+.rowBar:hover {
+  background: #7dd0db;
+  height: 6px;
+  width: 6px;
+}
+.colBar:hover {
+  background: #7dd0db;
+  height: 6px;
+  width: 6px;
+}
+.preBox {
+  background: #23c6cc57;
+  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
+}
+.preBoxInTab {
+  background: #23c6cc;
+  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
+}
+.preBranch {
+  background: #35cf9457;
+  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
+}
+.noPreBox {
+  background: #ffffff00;
+  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
+}

@@ -1,7 +1,7 @@
 import React, { createContext, memo, useMemo } from 'react'
 import { TabBarAction, TabBarProps } from '../../..'
 import { DraggableTitle, useMovingChecker } from '../../../DraggableTitle'
-import style from './style.module.css'
+import style from '../style.module.css'
 
 export type TabBarPropsWithAction = TabBarProps & { action: TabBarAction }
 

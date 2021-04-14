@@ -1,6 +1,6 @@
 import { CSSProperties, createContext, ReactChild } from 'react'
 import { PaneWithPreBox } from '../../..'
-import style from './style.module.css'
+import style from '../style.module.css'
 
 export type PreBoxTarget = 'leaf' | 'branch' | 'tab' | null
 
