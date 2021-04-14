@@ -17,7 +17,7 @@ export const defaultPreBox: PreBoxConfig = {
   className: ({ branch, leaf, tab }) => {
     if (branch) return style.preBranch
     if (leaf) return style.preBox
-    if (tab) return style.preBox
+    if (tab) return style.preBoxInTab
     return style.noPreBox
   },
 }

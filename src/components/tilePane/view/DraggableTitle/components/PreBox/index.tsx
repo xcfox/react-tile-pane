@@ -4,6 +4,7 @@ import {
   absolute2Relative,
   ContainerRectContext,
   PreBoxConfigContext,
+  TabsBarContext,
   TileBranchesContext,
   TileLeavesContext,
   TitleRectsContext,
@@ -31,6 +32,7 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   const branches = useContext(TileBranchesContext)
   const leaves = useContext(TileLeavesContext)
   const { throttle, style, className, child } = useContext(PreBoxConfigContext)
+  const { preBox: preBoxInTabBar } = useContext(TabsBarContext)
 
   const innerPosition = useMemo(
     () => absolute2Relative(containerRect, ...position),
@@ -42,8 +44,22 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
 
   const calcLazyPreBox = useThrottleFn(calcPreBox, throttle)
   const paneWithPreBox = useMemo(
-    () => calcLazyPreBox(branches, leaves, leafWithTitleRects, innerPosition),
-    [branches, calcLazyPreBox, innerPosition, leafWithTitleRects, leaves]
+    () =>
+      calcLazyPreBox(
+        branches,
+        leaves,
+        leafWithTitleRects,
+        innerPosition,
+        preBoxInTabBar
+      ),
+    [
+      branches,
+      calcLazyPreBox,
+      innerPosition,
+      leafWithTitleRects,
+      leaves,
+      preBoxInTabBar,
+    ]
   )
   paneWithPreBoxRef.current = paneWithPreBox
   return useMemo(() => {
@@ -55,7 +71,11 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
         : className
     const boxPosition =
       toInContainer(
-        calcTitleBoxPosition(paneWithPreBox, leafWithTitleRects),
+        calcTitleBoxPosition(
+          paneWithPreBox,
+          leafWithTitleRects,
+          preBoxInTabBar
+        ),
         containerRect
       ) ?? calcBoxPosition(paneWithPreBox, containerRect)
     const children =
@@ -81,6 +101,7 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
     containerRect,
     leafWithTitleRects,
     paneWithPreBox,
+    preBoxInTabBar,
     style,
   ])
 }

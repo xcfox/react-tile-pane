@@ -44,6 +44,10 @@ export type TabsBarConfig = {
   render: React.FC<TabBarPropsWithAction>
   thickness: number | string
   position: TabsBarPosition
+  preBox?: {
+    isRow?: boolean
+    isReverse?: boolean
+  }
 }
 
 export const DefaultTabBar = memo(TabBarInner)
@@ -51,5 +55,9 @@ export const defaultTabsBarConfig: TabsBarConfig = {
   render: DefaultTabBar,
   thickness: 24,
   position: 'top',
+  preBox: {
+    isRow: true,
+    isReverse: false,
+  },
 }
 export const TabsBarContext = createContext<TabsBarConfig>(defaultTabsBarConfig)

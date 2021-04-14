@@ -2,6 +2,10 @@
   background: #23c6cc57;
   transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
 }
+.preBoxInTab {
+  background: #23c6cc;
+  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
+}
 .preBranch {
   background: #35cf9457;
   transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;

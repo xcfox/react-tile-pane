@@ -3,6 +3,7 @@ import { TileNodeRect } from '../../../../../model'
 import { PaneWithPreBox } from '../../../typings'
 import { proportion } from '..'
 import { LeafWithTitleRect } from '.'
+import { TabsBarConfig } from '../../../..'
 
 export function calcBoxPosition(
   paneWithPreBox: PaneWithPreBox | undefined,
@@ -65,22 +66,38 @@ export function calcBoxPosition(
   }
 }
 
-const width = 0.02
+const thickness = 0.01
 export function calcTitleBoxPosition(
   paneWithPreBox: PaneWithPreBox | undefined,
-  leafWithTitleRects: LeafWithTitleRect[]
+  leafWithTitleRects: LeafWithTitleRect[],
+  config: TabsBarConfig['preBox']
 ): TileNodeRect | undefined {
   if (!paneWithPreBox?.tab) return
-  const { target, into, isEnd } = paneWithPreBox.tab
+  const { target, into, isNext } = paneWithPreBox.tab
   const { children } = target
   const currentTitle = children[into]
   const current = leafWithTitleRects.find((it) => it.title === currentTitle)
 
   if (current) {
-    const { top, left, height, width: w } = current.rect
-    return isEnd
-      ? { top, height, width, left: left + w - width }
-      : { top, left, height, width }
+    const { top, left, height, width } = current.rect
+    const isEnd = config?.isReverse ? !isNext : isNext
+    const intoLeft = { top, left, height, width: thickness }
+    const intoRight = {
+      top,
+      height,
+      width: thickness,
+      left: left + width - thickness,
+    }
+    const intoTop = { top, left, height: thickness, width }
+    const intoBottom = {
+      top: top + height - thickness,
+      height: thickness,
+      width,
+      left,
+    }
+    const intoPrev = config?.isRow ? intoLeft : intoTop
+    const intoNext = config?.isRow ? intoRight : intoBottom
+    return isEnd ? intoNext : intoPrev
   }
 }
 
