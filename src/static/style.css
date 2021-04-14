@@ -1,4 +1,4 @@
-.tabTitle {
+.react-tile-pane-tabTitle {
   height: 100%;
   flex-grow: 1;
   display: flex;
@@ -6,29 +6,29 @@
   align-items: center;
 }
 
-.tabBar {
+.react-tile-pane-tabBar {
   display: flex;
   width: 100%;
   height: 100%;
   justify-content: space-around;
 }
-.tab {
+.react-tile-pane-tab {
   width: 100%;
   height: 100%;
 }
-.tabMoving {
+.react-tile-pane-tabMoving {
   padding: 0.3em 1em;
   border-radius: 4px;
   background: #f5ffd3;
 }
 
-.tabInner {
+.react-tile-pane-tabInner {
   height: 100%;
   display: flex;
   align-items: center;
   color: #000000;
 }
-.tabInnerOff {
+.react-tile-pane-tabInnerOff {
   height: 100%;
   border-left: 1px solid #d1d1d18f;
   border-bottom: 1px solid #b9b9b98f;
@@ -39,14 +39,14 @@
   box-shadow: inset 0px 1px 5px 2px #cfcfcf9c;
 }
 
-.tabInner:hover .off {
+.react-tile-pane-tabInner:hover .react-tile-pane-off {
   opacity: 1;
 }
 
-.tabInnerOff:hover .off {
+.react-tile-pane-tabInnerOff:hover .react-tile-pane-off {
   opacity: 1;
 }
-.off {
+.react-tile-pane-off {
   transition: 233ms;
   flex-grow: 0;
   opacity: 0;
@@ -61,43 +61,43 @@
   cursor: pointer;
 }
 
-.rowBar {
+.react-tile-pane-rowBar {
   cursor: ew-resize;
   background: #a9d7e2;
   transition-property: background, width;
   transition-duration: 233ms;
   width: 4px;
 }
-.colBar {
+.react-tile-pane-colBar {
   cursor: ns-resize;
   background: #a9d7e2;
   transition-property: background, height;
   transition-duration: 233ms;
   height: 4px;
 }
-.rowBar:hover {
+.react-tile-pane-rowBar:hover {
   background: #7dd0db;
   height: 6px;
   width: 6px;
 }
-.colBar:hover {
+.react-tile-pane-colBar:hover {
   background: #7dd0db;
   height: 6px;
   width: 6px;
 }
-.preBox {
+.react-tile-pane-preBox {
   background: #23c6cc57;
   transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
 }
-.preBoxInTab {
+.react-tile-pane-preBoxInTab {
   background: #23c6cc;
   transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
 }
-.preBranch {
+.react-tile-pane-preBranch {
   background: #35cf9457;
   transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
 }
-.noPreBox {
+.react-tile-pane-noPreBox {
   background: #ffffff00;
   transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
 }

@@ -1,6 +1,4 @@
 import { CSSProperties, createContext, ReactChild } from 'react'
-import style from '../style.module.css'
-
 export type StretchBarConfig = {
   style?: ((isRow: boolean) => CSSProperties) | CSSProperties
   className?: ((isRow: boolean) => string) | string
@@ -10,7 +8,8 @@ export type StretchBarConfig = {
 }
 
 export const defaultStretchBar: StretchBarConfig = {
-  className: (isRow) => (isRow ? style.rowBar : style.colBar),
+  className: (isRow) =>
+    isRow ? 'react-tile-pane-rowBar' : 'react-tile-pane-colBar',
 }
 
 export const StretchBarConfigContext = createContext<StretchBarConfig>(

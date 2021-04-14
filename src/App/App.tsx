@@ -7,6 +7,7 @@ import {
   TileProvider,
 } from '../components'
 import './App.css'
+import '../static/style.css'
 
 function Arbutus() {
   const [number, count] = useState(1)

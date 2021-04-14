@@ -1,6 +1,5 @@
 import { CSSProperties, createContext, ReactChild } from 'react'
 import { PaneWithPreBox } from '../../..'
-import style from '../style.module.css'
 
 export type PreBoxTarget = 'leaf' | 'branch' | 'tab' | null
 
@@ -15,10 +14,10 @@ export type PreBoxConfig = {
 export const defaultPreBox: PreBoxConfig = {
   throttle: 66,
   className: ({ branch, leaf, tab }) => {
-    if (branch) return style.preBranch
-    if (leaf) return style.preBox
-    if (tab) return style.preBoxInTab
-    return style.noPreBox
+    if (branch) return 'react-tile-pane-preBranch'
+    if (leaf) return 'react-tile-pane-preBox'
+    if (tab) return 'react-tile-pane-preBoxInTab'
+    return 'react-tile-pane-noPreBox'
   },
 }
 
