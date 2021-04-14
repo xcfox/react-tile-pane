@@ -2,8 +2,12 @@
   "name": "react-tile-pane",
   "author": "xcfox",
   "description": "A React tiling pane manager",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xcfox/react-tile-pane.git"
+  },
   "keywords": [
     "react",
     "layout",
@@ -32,8 +36,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-docs": "react-scripts build && node ./tools/buildDocs.js",
-    "build-pack": "tsc -p tsconfig.pack.json && yarn run copy-css && yarn run copy-package.json && cd dist && yarn pack",
+    "build-pack": "tsc -p tsconfig.pack.json && yarn run copy-all",
+    "copy-all": "yarn run copy-css && yarn run copy-package.json && yarn run copy-readme",
     "copy-css": "copyfiles -f src/static/style.css dist",
+    "copy-readme": "copyfiles README.md dist",
     "copy-package.json": "copyfiles package.json dist",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
