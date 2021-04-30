@@ -8,8 +8,8 @@ export type StretchBarConfig = {
 }
 
 export const defaultStretchBar: StretchBarConfig = {
-  className: (isRow) =>
-    isRow ? 'react-tile-pane-rowBar' : 'react-tile-pane-colBar',
+  className: (isRow) => (isRow ? 'react-tile-pane-Bar' : 'react-tile-pane-Bar'),
+  style: (isRow) => ({ cursor: isRow ? 'ew-resize' : 'ns-resize' }),
 }
 
 export const StretchBarConfigContext = createContext<StretchBarConfig>(

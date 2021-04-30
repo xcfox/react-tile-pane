@@ -61,26 +61,15 @@
   cursor: pointer;
 }
 
-.react-tile-pane-rowBar {
+.react-tile-pane-Bar {
   cursor: ew-resize;
-  background: #a9d7e2;
-  transition-property: background, width;
+  background: #b6b6b6;
+  transition-property: background, width, height;
   transition-duration: 233ms;
   width: 4px;
-}
-.react-tile-pane-colBar {
-  cursor: ns-resize;
-  background: #a9d7e2;
-  transition-property: background, height;
-  transition-duration: 233ms;
   height: 4px;
 }
-.react-tile-pane-rowBar:hover {
-  background: #7dd0db;
-  height: 6px;
-  width: 6px;
-}
-.react-tile-pane-colBar:hover {
+.react-tile-pane-Bar:hover {
   background: #7dd0db;
   height: 6px;
   width: 6px;

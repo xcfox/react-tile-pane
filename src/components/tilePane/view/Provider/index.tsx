@@ -24,8 +24,14 @@ import {
   defaultTabsBarConfig,
   StretchBarConfigContext,
   defaultStretchBar,
+  PaneContext,
 } from '.'
-import { defaultPreBox, PreBoxConfigContext } from './config'
+import {
+  defaultPane,
+  defaultPreBox,
+  PaneConfig,
+  PreBoxConfigContext,
+} from './config'
 
 export interface TileProviderProps {
   children?: React.ReactNode
@@ -34,6 +40,7 @@ export interface TileProviderProps {
   tabBar?: TabsBarConfig
   preBox?: PreBoxConfig
   stretchBar?: StretchBarConfig
+  pane?: PaneConfig
 }
 
 const TileProviderInner: React.FC<TileProviderProps> = ({
@@ -43,6 +50,7 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
   tabBar = defaultTabsBarConfig,
   stretchBar = defaultStretchBar,
   preBox = defaultPreBox,
+  pane = defaultPane,
 }: TileProviderProps) => {
   const [
     { branches, leaves, stretchBars, movingTabs },
@@ -62,17 +70,19 @@ const TileProviderInner: React.FC<TileProviderProps> = ({
             <TileBranchesContext.Provider value={branches}>
               <StretchBarConfigContext.Provider value={stretchBar}>
                 <TileLeavesContext.Provider value={leaves}>
-                  <StretchBarsContext.Provider value={stretchBars}>
-                    <TileDispatchContext.Provider value={tileStoreDispatch}>
-                      <MovingTabsContext.Provider value={movingTabs}>
-                        <TabsBarContext.Provider value={tabBar}>
-                          <TitleRectsProvider>
-                            {childrenMemo}
-                          </TitleRectsProvider>
-                        </TabsBarContext.Provider>
-                      </MovingTabsContext.Provider>
-                    </TileDispatchContext.Provider>
-                  </StretchBarsContext.Provider>
+                  <PaneContext.Provider value={pane}>
+                    <StretchBarsContext.Provider value={stretchBars}>
+                      <TileDispatchContext.Provider value={tileStoreDispatch}>
+                        <MovingTabsContext.Provider value={movingTabs}>
+                          <TabsBarContext.Provider value={tabBar}>
+                            <TitleRectsProvider>
+                              {childrenMemo}
+                            </TitleRectsProvider>
+                          </TabsBarContext.Provider>
+                        </MovingTabsContext.Provider>
+                      </TileDispatchContext.Provider>
+                    </StretchBarsContext.Provider>
+                  </PaneContext.Provider>
                 </TileLeavesContext.Provider>
               </StretchBarConfigContext.Provider>
             </TileBranchesContext.Provider>
