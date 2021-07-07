@@ -2,6 +2,11 @@
 
 A React tiling pane manager
 
+## install
+```shell
+npm install react-use-gesture react-use-measure react-tile-pane
+```
+
 ## preview
 
 You can see the demo on https://xcfox.github.io/react-tile-pane/demo/

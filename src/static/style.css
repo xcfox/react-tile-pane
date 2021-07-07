@@ -64,8 +64,6 @@
 .react-tile-pane-Bar {
   cursor: ew-resize;
   background: #b6b6b6;
-  transition-property: background, width, height;
-  transition-duration: 233ms;
   width: 4px;
   height: 4px;
 }

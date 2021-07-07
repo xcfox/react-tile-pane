@@ -12,14 +12,7 @@ const destination = path.resolve(__dirname, "../docs/demo")
 const buff = fs.readFileSync(filePath)
 const html = buff.toString('utf-8')
 console.log(html)
-const demoPage = html
-  .replace("=\"/", "=\"./")
-  .replace("=\"/", "=\"./")
-  .replace("=\"/", "=\"./")
-  .replace("=\"/", "=\"./")
-  .replace("=\"/", "=\"./")
-  .replace("=\"/", "=\"./")
-  .replace("=\"/", "=\"./")
+const demoPage = html.split("=\"/").join("=\"./")
 
 fs.writeFileSync(filePath, demoPage)
 
