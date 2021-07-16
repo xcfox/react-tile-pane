@@ -1,7 +1,7 @@
 import { ReactChild } from 'react'
 import { PaneName, TilePane } from '..'
 
-export function createTitlePanes<T extends Record<PaneName, ReactChild>>(
+export function createTilePanes<T extends Record<PaneName, ReactChild>>(
   obj: T
 ): [TilePane[], Record<keyof T, keyof T>] {
   const map = {} as Record<PaneName, keyof T>

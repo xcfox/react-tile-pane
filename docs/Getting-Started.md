@@ -6,7 +6,7 @@
 npm i react-use-gesture react-use-measure react-tile-pane
 ```
 
-or use yarn"
+or use yarn
 
 ```shell
 yarn add react-use-gesture react-use-measure react-tile-pane

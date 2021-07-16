@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-  createTitlePanes,
+  createTilePanes,
   DraggableTitle,
   TileBranchSubstance,
   TileContainer,
@@ -22,7 +22,7 @@ function Apple() {
   return <div className="pane">苹果</div>
 }
 
-const [nodeList, names] = createTitlePanes({
+const [nodeList, names] = createTilePanes({
   arbutus: <Arbutus />,
   cherry: <div className="pane">樱桃</div>,
   apple: <Apple />,
