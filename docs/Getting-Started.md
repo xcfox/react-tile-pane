@@ -1,6 +1,6 @@
 # Getting started
 
-## Quick start
+## Quick Start
 
 ```shell
 npm i react-use-gesture react-use-measure react-tile-pane
@@ -16,12 +16,82 @@ react-tile-pane use [react-use-gesture](https://www.npmjs.com/package/react-use-
 
 ## Example
 
+### Create Tile Panes
+
+First you need to create the Tile Panes List:
+
+```tsx
+const [paneList, names] = createTilePanes({
+  arbutus: <Arbutus />,
+  cherry: <div style={paneStyle}>樱桃</div>,
+  apple: <Apple />,
+  banana: <div style={paneStyle}>香蕉🍌</div>,
+  lemon: <div style={paneStyle}>柠檬</div>,
+  mango: <div style={paneStyle}>芒果</div>,
+  pomelo: <div style={paneStyle}>柚子</div>,
+})
+```
+
+As above, `createTilePanes` accepts a dictionary containing `ReactChild`, and return a paneList and a `names` dictionary. The structure of the output dictionary is consistent with the input, each item in the dictionary is essentially a string.
+
+### Describe Layout
+
+```tsx
+const rootPane: TileBranchSubstance = {
+  children: [
+    { children: [names.apple, names.cherry] },
+    {
+      isRow: true,
+      grow: 2,
+      children: [
+        { children: names.arbutus },
+        { children: names.lemon },
+        {
+          children: [
+            { children: names.mango, grow: 3 },
+            { children: names.pomelo },
+          ],
+        },
+      ],
+    },
+  ],
+}
+```
+
+As above, we place items in the same level into the same children's array.  
+`grow` is same as [flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow), This property specifies how much of the remaining space in the `TileBranch` should be assigned to the item. Its default value is 1.  
+`isRow` is used to declare whether the panes is displayed as a row or a column.  
+If the item of `names` dictionary in children's array, it displayed as a Multi-Tag Pane.
+
+### Container
+
+```tsx
+const App: React.FC = () => {
+  return (
+    <TileProvider tilePanes={paneList} rootNode={rootPane}>
+      <div className="App">
+        <div style={{ height: 30 }} />
+        <div style={{ border: '#afafaf solid 2px', width: 1000, height: 600 }}>
+          <TileContainer />
+        </div>
+      </div>
+      <DraggableTitle name={names.banana}>拖动这个香蕉🍌</DraggableTitle>
+    </TileProvider>
+  )
+}
+```
+
+As above, we input `paneList` and `rootNode` into `TileProvider` as prop `tilePanes` and prop `rootNode`.  
+Then, we put `TileContainer` in `TileProvider`. `DraggableTitle` can also be put in `TileProvider`.
+
+### Full Example File
+
 App.tsc
 
 ```tsx
 import React, { useState } from 'react'
 import {
-  createTitlePanes,
+  createTilePanes,
   DraggableTitle,
   TileBranchSubstance,
   TileContainer,
@@ -50,7 +120,7 @@ function Apple() {
   return <div style={paneStyle}>苹果</div>
 }
 
-const [nodeList, names] = createTitlePanes({
+const [paneList, names] = createTilePanes({
   arbutus: <Arbutus />,
   cherry: <div style={paneStyle}>樱桃</div>,
   apple: <Apple />,
@@ -82,7 +152,7 @@ const rootPane: TileBranchSubstance = {
 
 const App: React.FC = () => {
   return (
-    <TileProvider tilePanes={nodeList} rootNode={rootPane}>
+    <TileProvider tilePanes={paneList} rootNode={rootPane}>
       <div className="App">
         <div style={{ height: 30 }} />
         <div style={{ border: '#afafaf solid 2px', width: 1000, height: 600 }}>
@@ -90,7 +160,6 @@ const App: React.FC = () => {
         </div>
       </div>
       <DraggableTitle name={names.banana}>拖动这个香蕉🍌</DraggableTitle>
-      <a href="https://xcfox.github.io/react-tile-pane/">查看文档</a>
     </TileProvider>
   )
 }
