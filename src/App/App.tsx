@@ -5,9 +5,12 @@ import {
   TileBranchSubstance,
   TileContainer,
   TileProvider,
+  useRootPane,
 } from '../components'
 import './App.css'
 import '../static/style.css'
+
+const localStorageKey = 'react-tile-pane-layout'
 
 function Arbutus() {
   const [number, count] = useState(1)
@@ -52,9 +55,20 @@ const rootPane: TileBranchSubstance = {
   ],
 }
 
+function SaveLayout() {
+  const rootNode = useRootPane()
+  localStorage.setItem(localStorageKey, JSON.stringify(rootNode))
+  return <></>
+}
+
 const App: React.FC = () => {
+  const localRoot = localStorage.getItem(localStorageKey)
+  const root = localRoot
+    ? (JSON.parse(localRoot) as TileBranchSubstance)
+    : rootPane
   return (
-    <TileProvider tilePanes={nodeList} rootNode={rootPane}>
+    <TileProvider tilePanes={nodeList} rootNode={root}>
+      <SaveLayout />
       <div className="App">
         <div style={{ height: 30 }} />
         <div className="fence">
