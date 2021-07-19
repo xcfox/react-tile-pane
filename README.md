@@ -2,16 +2,21 @@
 
 A React tiling pane manager
 
-## install
+## Install
+
 ```shell
 npm install react-use-gesture react-use-measure react-tile-pane
 ```
 
-## preview
+## Features
+
+✨ Drag and Drop  
+✨ Multiple tags  
+✨ Fully customizable styles
 
 You can see the demo on https://xcfox.github.io/react-tile-pane/demo/
 
-## document
+## Document
 
 You can see the document on https://xcfox.github.io/react-tile-pane/
 
