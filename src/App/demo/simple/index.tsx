@@ -73,7 +73,7 @@ export const SimpleDemo: React.FC = () => {
           <TileContainer />
         </div>
       </div>
-      <DraggableTitle name={names.banana}>拖动这个香蕉🍌</DraggableTitle>
+      <DraggableTitle name={names.arbutus}>拖动这个杨梅</DraggableTitle>
       <a href="https://xcfox.github.io/react-tile-pane/">查看文档</a>
     </TileProvider>
   )

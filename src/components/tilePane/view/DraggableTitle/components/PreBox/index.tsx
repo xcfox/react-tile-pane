@@ -1,23 +1,13 @@
 import React, { memo, useContext, useMemo } from 'react'
 import { Vector2 } from 'react-use-gesture/dist/types'
 import {
-  absolute2Relative,
   ContainerRectContext,
   PreBoxConfigContext,
   TabsBarContext,
-  TileBranchesContext,
-  TileLeavesContext,
-  TitleRectsContext,
 } from '../../..'
-import { useThrottleFn } from '../../hook'
 import { PaneWithPreBox } from '../../typings'
-import {
-  calcPreBox,
-  calcBoxPosition,
-  calcLeafWithTitleRect,
-  calcTitleBoxPosition,
-  toInContainer,
-} from './util'
+import { useCalcPreBox } from './hook/useCalcPreBox'
+import { calcBoxPosition, calcTitleBoxPosition, toInContainer } from './util'
 
 export interface PreBoxProps {
   paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>
@@ -29,39 +19,15 @@ const PreBoxInner: React.FC<PreBoxProps> = ({
   paneWithPreBoxRef,
 }) => {
   const containerRect = useContext(ContainerRectContext)
-  const branches = useContext(TileBranchesContext)
-  const leaves = useContext(TileLeavesContext)
   const { throttle, style, className, child } = useContext(PreBoxConfigContext)
   const { preBox: preBoxInTabBar } = useContext(TabsBarContext)
 
-  const innerPosition = useMemo(
-    () => absolute2Relative(containerRect, ...position),
-    [containerRect, position]
-  )
-
-  const titleRects = useContext(TitleRectsContext)
-  const leafWithTitleRects = calcLeafWithTitleRect(titleRects, leaves)
-
-  const calcLazyPreBox = useThrottleFn(calcPreBox, throttle)
-  const paneWithPreBox = useMemo(
-    () =>
-      calcLazyPreBox(
-        branches,
-        leaves,
-        leafWithTitleRects,
-        innerPosition,
-        preBoxInTabBar
-      ),
-    [
-      branches,
-      calcLazyPreBox,
-      innerPosition,
-      leafWithTitleRects,
-      leaves,
-      preBoxInTabBar,
-    ]
+  const { paneWithPreBox, leafWithTitleRects } = useCalcPreBox(
+    position,
+    throttle
   )
   paneWithPreBoxRef.current = paneWithPreBox
+
   return useMemo(() => {
     const styled =
       typeof style === 'function' ? style(paneWithPreBox ?? {}) : style

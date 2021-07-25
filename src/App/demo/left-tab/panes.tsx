@@ -4,11 +4,11 @@ import { createTilePanes, TileBranchSubstance } from '../../../components'
 import { styles } from './style'
 
 const nodes = {
-  pineapple: <div style={styles.pane}>菠萝</div>,
-  banana: <div style={styles.pane}>香蕉</div>,
-  lemon: <div style={styles.pane}>柠檬</div>,
-  grape: <div style={styles.pane}>葡萄</div>,
-  kiwifruit: <div style={styles.pane}>猕猴桃</div>,
+  pineapple: <div style={styles.pane}>pineapple</div>,
+  banana: <div style={styles.pane}>banana</div>,
+  lemon: <div style={styles.pane}>lemon</div>,
+  grape: <div style={styles.pane}>grape</div>,
+  kiwifruit: <div style={styles.pane}>kiwifruit</div>,
 }
 
 export type nodeNames = keyof typeof nodes
