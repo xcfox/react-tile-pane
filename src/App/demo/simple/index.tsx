@@ -69,7 +69,6 @@ export const SimpleDemo: React.FC = () => {
     <TileProvider tilePanes={nodeList} rootNode={root}>
       <SaveLayout />
       <div className="App">
-        <div style={{ height: 30 }} />
         <div className="fence">
           <TileContainer />
         </div>

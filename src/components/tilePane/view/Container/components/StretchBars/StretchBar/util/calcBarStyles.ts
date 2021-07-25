@@ -2,6 +2,7 @@ import { TileNodeRect } from '../../../../../..'
 
 export function calcBarStyles(
   { top, left, width, height }: TileNodeRect,
+  offset: number,
   isRow?: boolean
 ) {
   return {
@@ -9,6 +10,6 @@ export function calcBarStyles(
     left: left * 100 + '%',
     width: isRow ? undefined : width * 100 + '%',
     height: isRow ? height * 100 + '%' : undefined,
-    transform: `translate${isRow ? 'X' : 'Y'}(-50%)`,
+    transform: `translate${isRow ? 'X' : 'Y'}(${offset}%)`,
   }
 }

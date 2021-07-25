@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+body {
+  transition: 111ms;
+  transition-property: background, color;
+}
+
 .fence {
   border: #afafaf solid 2px;
   width: 1000px;
@@ -14,6 +19,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #ffffff;
+  color: #000000;
 }
 
 .App-logo {

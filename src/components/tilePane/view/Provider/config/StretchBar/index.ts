@@ -3,6 +3,7 @@ export type StretchBarConfig = {
   style?: ((isRow: boolean) => CSSProperties) | CSSProperties
   className?: ((isRow: boolean) => string) | string
   child?: ((isRow: boolean) => ReactChild) | ReactChild
+  position?: 'middle' | 'front' | 'back'
   /** **millisecond**, Controls the minimum Trigger Period of the Stretch Bar */
   throttle?: number
 }

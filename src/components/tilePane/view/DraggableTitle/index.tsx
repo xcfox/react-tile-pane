@@ -14,12 +14,12 @@ import { useDragAndPosition } from './hook'
 import { PaneWithPreBox } from './typings'
 import { orFn } from './util'
 
-export interface DraggableTitleProps {
+export type DraggableTitleProps = {
   name: PaneName
   children?: React.ReactNode | ((isMoving: boolean) => React.ReactNode)
   style?: CSSProperties | ((isMoving: boolean) => CSSProperties)
   className?: string | ((isMoving: boolean) => string)
-}
+} & React.DOMAttributes<HTMLDivElement>
 
 const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
   const { name } = props
@@ -32,7 +32,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
     pane
   )
 
-  const { style, className, children } = useFn(props, isDragging)
+  const { style, className, children, rest } = useFn(props, isDragging)
 
   const [targetRef, rect] = useMeasure({ scroll: true })
   const setTitleRects = useContext(SetTitleRectsContext)
@@ -62,12 +62,18 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
     () => (
       <>
         {position && <PreBox {...{ paneWithPreBoxRef, position }} />}
-        <div {...bind()} ref={targetRef} style={styled} className={className}>
+        <div
+          {...bind()}
+          {...rest}
+          ref={targetRef}
+          style={styled}
+          className={className}
+        >
           {children}
         </div>
       </>
     ),
-    [bind, children, className, position, styled, targetRef]
+    [bind, children, className, position, rest, styled, targetRef]
   )
 }
 
@@ -76,6 +82,7 @@ function useFn(
     children: childrenFn,
     style: styleFn,
     className: classNameFn,
+    ...rest
   }: DraggableTitleProps,
   isMoving: boolean
 ) {
@@ -88,7 +95,7 @@ function useFn(
     classNameFn,
     isMoving,
   ])
-  return { style, children, className }
+  return { style, children, className, rest }
 }
 
 export const DraggableTitle = memo(DraggableTitleInner)
