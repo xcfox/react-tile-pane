@@ -5,7 +5,7 @@ import {
   TileBranchSubstance,
   TileContainer,
   TileProvider,
-  useRootPane,
+  useGetRootNode,
 } from '../../../components'
 import '../../../static/style.css'
 
@@ -55,8 +55,8 @@ const rootPane: TileBranchSubstance = {
 }
 
 function SaveLayout() {
-  const rootNode = useRootPane()
-  localStorage.setItem(localStorageKey, JSON.stringify(rootNode))
+  const getRootNode = useGetRootNode()
+  localStorage.setItem(localStorageKey, JSON.stringify(getRootNode()))
   return <></>
 }
 

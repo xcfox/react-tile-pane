@@ -1,5 +1,4 @@
 import { useContext, useMemo } from 'react'
-import { Vector2 } from '..'
 import {
   TileBranchesContext,
   TileLeavesContext,
@@ -13,6 +12,14 @@ import {
   calcPreBox,
 } from '../../../DraggableTitle/components/PreBox/util'
 
+export type Vector2 = [number, number]
+
+/** Accepts an array in [x, y] format, with each number between 0 and 1, the pane will be moved to that position in the container.
+ *  when null is passed in, the pane will be closed.
+ * @example
+ * move(names.apple, null)  // close the `apple` pane
+ * move(names.apple, [0.99, 0.01])  // move `apple` pane to upper right corner
+ */
 export type MovePane = (name: PaneName, position?: Vector2 | null) => void
 
 export function useMovePane(): MovePane {

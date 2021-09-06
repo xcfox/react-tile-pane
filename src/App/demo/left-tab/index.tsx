@@ -5,11 +5,15 @@ import {
   TileProvider,
   useGetLeaf,
   useMovePane,
+  useGetRootNode,
+  TileBranchSubstance,
 } from '../../../components'
 import { icons, nodeList, rootPane } from './panes'
 import { color, styles } from './style'
 import { tabBarConfig } from './tab-bar'
 import css from './style/index.module.css'
+
+const localStorageKey = 'react-tile-pane-left-tab-layout'
 
 function PaneIcon({ name }: { name: keyof typeof icons }) {
   const getLeaf = useGetLeaf()
@@ -48,10 +52,14 @@ function PaneIcon({ name }: { name: keyof typeof icons }) {
 }
 
 export const LeftTabDemo: React.FC = () => {
+  const localRoot = localStorage.getItem(localStorageKey)
+  const root = localRoot
+    ? (JSON.parse(localRoot) as TileBranchSubstance)
+    : rootPane
   return (
     <TileProvider
       tilePanes={nodeList}
-      rootNode={rootPane}
+      rootNode={root}
       tabBar={tabBarConfig}
       stretchBar={{
         className: css.stretchBar,
@@ -65,6 +73,13 @@ export const LeftTabDemo: React.FC = () => {
           <PaneIcon key={name} {...{ name }} />
         ))}
       </div>
+      <AutoSaveLayout />
     </TileProvider>
   )
+}
+
+function AutoSaveLayout() {
+  const getRootNode = useGetRootNode()
+  localStorage.setItem(localStorageKey, JSON.stringify(getRootNode()))
+  return <></>
 }

@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { TileBranchesContext } from '../..'
 
-export function useRootPane() {
+export function useGetRootNode() {
   const nodes = useContext(TileBranchesContext)
-  return nodes[0].dehydrate()
+  return () => nodes[0].dehydrate()
 }

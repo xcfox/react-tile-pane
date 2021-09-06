@@ -2,7 +2,7 @@
   "name": "react-tile-pane",
   "author": "xcfox",
   "description": "A React tiling pane manager",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "license": "MIT",
   "repository": {
     "type": "git",

@@ -69,6 +69,8 @@ As above, we place items in the same level into the same children's array.
 `isRow` is used to declare whether the panes is displayed as a row or a column.  
 If the item of `names` dictionary in children's array, it displayed as a Multi-Tag Pane.
 
+> Note: Each name can only appear in the layout at most once.
+
 ## Container
 
 ```tsx
@@ -207,9 +209,74 @@ It accepts `render`, `thickness`, `position` attributes.
 
 ## Hooks
 
-hooks help you do more complex operations.
+Hooks help you do more complex operations.
 
-> Note: hooks only work inside the TileContainer
+> Note: Hooks only work inside the `TileContainer`
+
+Examples can be viewed at https://github.com/xcfox/react-tile-pane/blob/main/src/App/demo/left-tab/index.tsx
+
+### useGetLeaf
+
+Get a function to get pane by name.
+
+```tsx
+// Used in a React Function Components
+const getLeaf = useGetLeaf()
+// get a leaf by its name, when the pane is not displayed, it will return undefined
+const leaf = getLeaf(names.apple)
+```
+
+### useMove
+
+Get a function to move the pane.
+
+```tsx
+// Used in a React Function Components
+const move = useMovePane()
+return (
+  <div>
+    <div
+      // When an array of length 2 is passed in, the pane will be moved to that position in the container.
+      // When null is passed in, the pane will be closed.
+      onClick={() => move(name, isShowing ? null : [0.99, 0.5])}
+      style={{
+        cursor: 'pointer',
+        background: isShowing ? color.primary : color.secondary,
+        width: 14,
+        height: 14,
+        borderRadius: 99,
+      }}
+    />
+  </div>
+)
+```
+
+### useGetRootNode
+
+Get a function to get `RootNode`, used to persist the current layout.
+
+```tsx
+const localStorageKey = 'react-tile-pane-left-tab-layout'
+
+function AutoSaveLayout() {
+  const getRootNode = useGetRootNode()
+  localStorage.setItem(localStorageKey, JSON.stringify(getRootNode()))
+  return <></>
+}
+
+export const LeftTabDemo: React.FC = () => {
+  const localRoot = localStorage.getItem(localStorageKey)
+  const root = localRoot
+    ? (JSON.parse(localRoot) as TileBranchSubstance)
+    : rootPane
+  return (
+    <TileProvider tilePanes={nodeList} rootNode={root} tabBar={tabBarConfig}>
+      <TileContainer style={styles.container} />
+      <AutoSaveLayout />
+    </TileProvider>
+  )
+}
+```
 
 ## Some Similar projects
 
