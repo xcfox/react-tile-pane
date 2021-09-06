@@ -74,7 +74,9 @@ export const SimpleDemo: React.FC = () => {
         </div>
       </div>
       <DraggableTitle name={names.arbutus}>Drag this arbutus</DraggableTitle>
-      <a href="https://xcfox.github.io/react-tile-pane/">document</a>
+      <a href="https://github.com/xcfox/react-tile-pane#quick-start">
+        document
+      </a>
     </TileProvider>
   )
 }
