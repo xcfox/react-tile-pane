@@ -21,17 +21,17 @@ function Arbutus() {
 }
 
 function Apple() {
-  return <div className="pane">苹果</div>
+  return <div className="pane">apple</div>
 }
 
 const [nodeList, names] = createTilePanes({
   arbutus: <Arbutus />,
-  cherry: <div className="pane">樱桃</div>,
+  cherry: <div className="pane">cherry</div>,
   apple: <Apple />,
-  banana: <div className="pane">香蕉🍌</div>,
-  lemon: <div className="pane">柠檬</div>,
-  mango: <div className="pane">芒果</div>,
-  pomelo: <div className="pane">柚子</div>,
+  banana: <div className="pane">banana</div>,
+  lemon: <div className="pane">lemon</div>,
+  mango: <div className="pane">mango</div>,
+  pomelo: <div className="pane">pomelo</div>,
 })
 
 const rootPane: TileBranchSubstance = {
@@ -73,8 +73,8 @@ export const SimpleDemo: React.FC = () => {
           <TileContainer />
         </div>
       </div>
-      <DraggableTitle name={names.arbutus}>拖动这个杨梅</DraggableTitle>
-      <a href="https://xcfox.github.io/react-tile-pane/">查看文档</a>
+      <DraggableTitle name={names.arbutus}>Drag this arbutus</DraggableTitle>
+      <a href="https://xcfox.github.io/react-tile-pane/">document</a>
     </TileProvider>
   )
 }

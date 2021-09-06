@@ -48,10 +48,17 @@ const TabBarInner: React.FC<TabBarPropsWithAction> = ({
   )
 }
 export type TabsBarPosition = 'left' | 'right' | 'top' | 'bottom'
+/**How TabsBar look like?*/
 export type TabsBarConfig = {
+  /**To customize how the TabsBar is rendered*/
   render: React.FC<TabBarPropsWithAction>
+  /**Accepts a CSS length attribute, which defaults to px if number is passed in
+   * @example 20, '20px', '2vw'
+   */
   thickness: number | string
+  /**Where to position the TabsBar in the pane */
   position: TabsBarPosition
+  /**How preBox in TabsBar look like?*/
   preBox?: {
     isRow?: boolean
     isReverse?: boolean

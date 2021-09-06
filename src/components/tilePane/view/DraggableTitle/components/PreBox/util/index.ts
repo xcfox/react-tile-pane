@@ -29,7 +29,7 @@ export function calcPreBox(
         tab: {
           target: leaf,
           into: index,
-          isNext,
+          hasNext: isNext,
         },
       }
     }

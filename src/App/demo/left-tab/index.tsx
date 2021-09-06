@@ -56,7 +56,7 @@ export const LeftTabDemo: React.FC = () => {
       stretchBar={{
         className: css.stretchBar,
         style: (isRow) => ({ cursor: isRow ? 'ew-resize' : 'ns-resize' }),
-        position: 'front',
+        position: 'previous',
       }}
     >
       <TileContainer style={styles.container} />

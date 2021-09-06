@@ -73,7 +73,7 @@ export function calcTitleBoxPosition(
   config: TabsBarConfig['preBox']
 ): TileNodeRect | undefined {
   if (!paneWithPreBox?.tab) return
-  const { target, into, isNext } = paneWithPreBox.tab
+  const { target, into, hasNext: isNext } = paneWithPreBox.tab
   const { children } = target
   const currentTitle = children[into]
   const current = leafWithTitleRects.find((it) => it.title === currentTitle)

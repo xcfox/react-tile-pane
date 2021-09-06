@@ -12,7 +12,7 @@ export interface StretchBarProps {
 const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
   const { isRow } = bar.parentPane
   const containerRect = useContext(ContainerRectContext)
-  const { style, className, child, position = 'middle' } = useContext(
+  const { style, className, child, position = 'previous' } = useContext(
     StretchBarConfigContext
   )
   const move = useThrottleMove(bar)
@@ -85,12 +85,12 @@ const StretchBarInner: React.FC<StretchBarProps> = ({ bar }) => {
 export const StretchBar = React.memo(StretchBarInner)
 
 function positionToOffset(
-  position: 'middle' | 'front' | 'back' = 'middle'
+  position: 'middle' | 'previous' | 'next' = 'middle'
 ): number {
   switch (position) {
-    case 'front':
+    case 'previous':
       return -100
-    case 'back':
+    case 'next':
       return -0
     default:
       return -50

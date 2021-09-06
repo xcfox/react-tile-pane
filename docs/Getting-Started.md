@@ -117,7 +117,7 @@ function Arbutus() {
 }
 
 function Apple() {
-  return <div style={paneStyle}>苹果</div>
+  return <div style={paneStyle}>apple</div>
 }
 
 const [paneList, names] = createTilePanes({

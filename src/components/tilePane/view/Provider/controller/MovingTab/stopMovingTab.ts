@@ -57,7 +57,7 @@ function insertPane(
         leaf.onTab = leaf.children.length - 1
       } else if (preBox.tab) {
         const newChildren = leaf.children.slice()
-        const index = preBox.tab.into + (preBox.tab.isNext ? 1 : 0)
+        const index = preBox.tab.into + (preBox.tab.hasNext ? 1 : 0)
         newChildren.splice(index, 0, pane)
         leaf.setChildren(newChildren)
         leaf.onTab = index
