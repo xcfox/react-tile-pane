@@ -66,6 +66,8 @@ export const styles = createStyles({
     ...flex.between,
     background: color.secondaryLL,
     marginBottom: 6,
+    cursor: 'move',
+    userSelect: 'none',
   },
   tabTitleOn: {
     height: thickness * 0.8,
@@ -73,6 +75,8 @@ export const styles = createStyles({
     ...flex.between,
     background: color.secondaryL,
     marginBottom: 6,
+    cursor: 'move',
+    userSelect: 'none',
   },
   pane: {
     background: color.back,
