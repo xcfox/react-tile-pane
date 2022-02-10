@@ -3,16 +3,16 @@
 ## Quick Start
 
 ```shell
-npm i react-use-gesture react-use-measure react-tile-pane
+npm i @use-gesture/react react-use-measure react-tile-pane
 ```
 
 or use yarn
 
 ```shell
-yarn add react-use-gesture react-use-measure react-tile-pane
+yarn add @use-gesture/react react-use-measure react-tile-pane
 ```
 
-react-tile-pane use [react-use-gesture](https://www.npmjs.com/package/react-use-gesture), [react-use-measure](react-use-measure) as peerDependencies, you need to install them together.
+react-tile-pane use [@use-gesture/react](https://www.npmjs.com/package/@use-gesture/react), [react-use-measure](react-use-measure) as peerDependencies, you need to install them together.
 
 ## Example
 

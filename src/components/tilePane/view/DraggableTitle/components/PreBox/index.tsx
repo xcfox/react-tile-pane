@@ -1,5 +1,5 @@
 import React, { memo, useContext, useMemo } from 'react'
-import { Vector2 } from 'react-use-gesture/dist/types'
+import { Vector2 } from '@use-gesture/react'
 import {
   ContainerRectContext,
   PreBoxConfigContext,

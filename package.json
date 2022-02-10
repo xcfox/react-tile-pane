@@ -2,7 +2,7 @@
   "name": "react-tile-pane",
   "author": "xcfox",
   "description": "A React tiling pane manager",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,9 +25,9 @@
     "window-manager"
   ],
   "peerDependencies": {
+    "@use-gesture/react": ">= 10.0.0",
     "react": ">= 16.8",
     "react-dom": ">= 16.8",
-    "react-use-gesture": ">= 9.1.3",
     "react-use-measure": ">= 2.0.3"
   },
   "scripts": {
@@ -70,6 +70,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "@use-gesture/react": "^10.2.5",
     "copyfiles": "^2.4.1",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",
@@ -80,9 +81,8 @@
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-use-gesture": "^9.1.3",
-    "react-use-measure": "^2.0.3",
     "react-scripts": "^4.0.3",
+    "react-use-measure": "^2.0.3",
     "typescript": "^4.0.3",
     "typescript-plugin-css-modules": "^3.2.0",
     "web-vitals": "^0.2.4"

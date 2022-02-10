@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { useGesture } from 'react-use-gesture'
+import { useGesture } from '@use-gesture/react'
 import { TileDispatchContext } from '../../..'
 import { PaneName, TileLeaf } from '../../../..'
 import { PaneWithPreBox } from '../../typings'
@@ -11,7 +11,6 @@ export function useDragAndPosition(
 ) {
   const dispatch = useContext(TileDispatchContext)
   const [position, setPosition] = useState<[number, number]>()
-  const [velocity, setVelocities] = useState(0)
   const isDragging = !!position
 
   const bind = useGesture(
@@ -19,9 +18,7 @@ export function useDragAndPosition(
       onDrag: ({ down, xy, velocity }) => {
         if (down) {
           setPosition(xy)
-          setVelocities(velocity)
         } else {
-          setVelocities(0)
           setPosition(undefined)
         }
       },
@@ -34,5 +31,5 @@ export function useDragAndPosition(
     { drag: { threshold: 10 } }
   )
 
-  return { bind, position, velocity, isDragging }
+  return { bind, position, isDragging }
 }

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { useDrag } from 'react-use-gesture'
+import { useDrag } from '@use-gesture/react'
 import { ContainerRectContext, StretchBarConfigContext } from '../../../..'
 import { StretchBarEntity } from '../../../../..'
 import { useThrottleMove } from './hook'

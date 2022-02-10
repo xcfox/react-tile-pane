@@ -9,16 +9,16 @@ An online demo is available at https://xcfox.github.io/react-tile-pane/demo/
 ## install
 
 ```shell
-npm install react-use-gesture react-use-measure react-tile-pane
+npm install @use-gesture/react react-use-measure react-tile-pane
 ```
 
 or use yarn
 
 ```shell
-yarn add react-use-gesture react-use-measure react-tile-pane
+yarn add @use-gesture/react react-use-measure react-tile-pane
 ```
 
-react-tile-pane use [react-use-gesture](https://www.npmjs.com/package/react-use-gesture), [react-use-measure](react-use-measure) as peerDependencies, you need to install them at the same time.
+react-tile-pane use [@use-gesture/react](https://www.npmjs.com/package/@use-gesture/react), [react-use-measure](https://www.npmjs.com/package/react-use-measure) as peerDependencies, you need to install them at the same time.
 
 ## Quick Start
 
