@@ -9,7 +9,7 @@ export function useThrottleFn<Fn extends (...args: any[]) => any>(
   const timerRef = useRef<number>()
 
   const throttledFn = useCallback(
-    (...arg) => {
+    (...arg: any[]) => {
       if (!timerRef.current) {
         timerRef.current = window.setTimeout(() => {
           clearTimeout(timerRef.current)

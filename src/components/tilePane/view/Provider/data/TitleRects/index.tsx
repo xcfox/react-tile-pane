@@ -30,7 +30,9 @@ export const SetTitleRectsContext = createContext<
   React.Dispatch<DispatchTitleRectsReducer>
 >(() => void null)
 
-export const TitleRectsProvider: React.FC = ({ children }) => {
+export const TitleRectsProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const containerRect = useContext(ContainerRectContext)
   const [titleRects, setTitleRects] = useReducer<TitleRectsReducer>(reducer, {})
 
@@ -61,7 +63,9 @@ export const TitleRectsProvider: React.FC = ({ children }) => {
   }
 }
 
-export const LeafWithTitleRectProvider: React.FC = ({ children }) => {
+export const LeafWithTitleRectProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   return useMemo(() => <>{children}</>, [children])
 }
 

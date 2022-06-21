@@ -1,5 +1,3 @@
-export function isNotNil<T extends unknown>(
-  target: T | undefined | null
-): target is T {
+export function isNotNil<T>(target: T | undefined | null): target is T {
   return target !== null && target !== undefined
 }

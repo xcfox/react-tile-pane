@@ -73,13 +73,14 @@ export const LeftTabDemo: React.FC = () => {
           <PaneIcon key={name} {...{ name }} />
         ))}
       </div>
-      <AutoSaveLayout />
+      {/* <AutoSaveLayout /> */}
     </TileProvider>
   )
 }
 
 function AutoSaveLayout() {
   const getRootNode = useGetRootNode()
-  localStorage.setItem(localStorageKey, JSON.stringify(getRootNode()))
+  console.debug('[rootNode]', getRootNode())
+  // localStorage.setItem(localStorageKey, JSON.stringify(getRootNode()))
   return <></>
 }
