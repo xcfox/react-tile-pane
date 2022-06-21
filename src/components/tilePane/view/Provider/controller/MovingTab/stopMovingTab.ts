@@ -84,10 +84,15 @@ function segment(node: TileBranch | TileLeaf, pane: PaneName, isNext: boolean) {
   node.grow = grow
   const indexInParent = parent.children.findIndex((it) => it === node)
   const index = isNext ? indexInParent + 1 : indexInParent
-  const newNodes: (
-    | TileBranchSubstance
-    | TileLeafSubstance
-  )[] = parent.children.slice()
+  const newNodes: (TileBranchSubstance | TileLeafSubstance)[] =
+    parent.children.slice()
+  if (
+    newNodes.find(({ children }) => {
+      if (children instanceof Array) return children.includes(pane as any)
+      return children === pane
+    })
+  )
+    return
   newNodes.splice(index, 0, leaf)
   parent.setChildren(newNodes)
 }
@@ -105,12 +110,17 @@ function fission(
     const oldLeaf: TileBranchSubstance | TileLeafSubstance = isTileLeaf(node)
       ? node.dehydrate()
       : node.dehydrate()
+
+    if (substanceHasPane(oldLeaf, pane)) return
     if (!isTileLeaf(node)) {
       node.isRow = isRow
       node.setChildren(isNext ? [oldLeaf, newLeaf] : [newLeaf, oldLeaf])
     }
     return
   }
+  const brother = parent.children.filter((it) => it !== node)
+  if (brother.some((it) => hasPane(it, pane))) return
+
   const newLeaf: TileLeafSubstance = { grow, children: [pane] }
   const branch: TileBranchSubstance = {
     grow,
@@ -129,4 +139,21 @@ function isSegment(node: TileBranch | TileLeaf, into: Into): boolean {
   const isRow = node.parent?.isRow
   const segmentInto: Into[] = isRow ? ['left', 'right'] : ['top', 'bottom']
   return segmentInto.includes(into)
+}
+
+function hasPane(node: TileBranch | TileLeaf, pane: PaneName): boolean {
+  if (isTileLeaf(node)) return node.children.includes(pane)
+  return node.children.some((it) => hasPane(it, pane))
+}
+
+function substanceHasPane(
+  substance: TileBranchSubstance | TileLeafSubstance,
+  pane: PaneName
+): boolean {
+  if (substance.children instanceof Array)
+    return substance.children.some((it) => {
+      if (typeof it === 'object') return substanceHasPane(it, pane)
+      return it === pane
+    })
+  return substance.children === pane
 }
