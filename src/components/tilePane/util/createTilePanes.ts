@@ -1,17 +1,17 @@
-import { ReactChild } from 'react'
-import { PaneName, TilePane } from '..'
+import { ReactNode } from 'react'
+import { TilePane } from '..'
 
-export function createTilePanes<T extends Record<PaneName, ReactChild>>(
-  obj: T
-): [TilePane[], Record<keyof T, keyof T>] {
-  const map = {} as Record<PaneName, keyof T>
+export function createTilePanes<Keys extends string = string>(obj: {
+  [K in Keys]: ReactNode
+}): [TilePane[], { [K in Keys]: K }] {
+  const map = {} as any
   const list: TilePane[] = []
   Object.keys(obj).forEach((key) => {
     map[key] = key
     list.push({
       name: key,
-      child: obj[key],
+      child: obj[key as Keys],
     })
   })
-  return [list, map as Record<keyof T, keyof T>]
+  return [list, map as { [K in Keys]: K }]
 }

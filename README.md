@@ -38,7 +38,7 @@ const [paneList, names] = createTilePanes({
 })
 ```
 
-As above, `createTilePanes` accepts a dictionary containing `ReactChild`, and return a `paneList` and a `names` dictionary. The structure of the output dictionary is consistent with the input, each item in the dictionary is essentially a string.
+As above, `createTilePanes` accepts a dictionary containing `ReactNode`, and return a `paneList` and a `names` dictionary. The structure of the output dictionary is consistent with the input, each item in the dictionary is essentially a string.
 
 ### Describe Layout
 
