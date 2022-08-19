@@ -278,6 +278,15 @@ export const LeftTabDemo: React.FC = () => {
 }
 ```
 
+### useReset
+
+Get a function to reset layout.
+
+```tsx
+const reset = useReset()
+const handleClick = useCallback(() => reset(rootPane), [])
+```
+
 ## Some Similar projects
 
 - [react-mosaic](https://github.com/nomcopter/react-mosaic)
