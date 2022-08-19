@@ -1,8 +1,8 @@
-import { CSSProperties, createContext, ReactChild } from 'react'
+import { CSSProperties, createContext, ReactNode } from 'react'
 export type StretchBarConfig = {
   style?: ((isRow: boolean) => CSSProperties) | CSSProperties
   className?: ((isRow: boolean) => string) | string
-  child?: ((isRow: boolean) => ReactChild) | ReactChild
+  child?: ((isRow: boolean) => ReactNode) | ReactNode
   /** The StretchBar does not occupy the container area,
    *  but actually floats on top of the pane.
    *  position is used to specify whether the StretchBar floats in the middle of the adjacent pane,
@@ -17,6 +17,5 @@ export const defaultStretchBar: StretchBarConfig = {
   style: (isRow) => ({ cursor: isRow ? 'ew-resize' : 'ns-resize' }),
 }
 
-export const StretchBarConfigContext = createContext<StretchBarConfig>(
-  defaultStretchBar
-)
+export const StretchBarConfigContext =
+  createContext<StretchBarConfig>(defaultStretchBar)

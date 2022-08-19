@@ -75,19 +75,3 @@
   height: 6px;
   width: 6px;
 }
-.react-tile-pane-preBox {
-  background: #23c6cc57;
-  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
-}
-.react-tile-pane-preBoxInTab {
-  background: #23c6cc;
-  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
-}
-.react-tile-pane-preBranch {
-  background: #35cf9457;
-  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
-}
-.react-tile-pane-noPreBox {
-  background: #ffffff00;
-  transition: cubic-bezier(0.5, 0.1, 0.165, 1) 233ms;
-}
