@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { useGesture } from '@use-gesture/react'
+import { DragConfig, GestureHandlers, useGesture } from '@use-gesture/react'
 import { TileDispatchContext } from '../../..'
 import { PaneName, TileLeaf } from '../../../..'
 import { PaneWithPreBox } from '../../typings'
@@ -7,7 +7,11 @@ import { PaneWithPreBox } from '../../typings'
 export function useDragAndPosition(
   paneWithPreBoxRef: React.MutableRefObject<PaneWithPreBox | undefined>,
   name: PaneName,
-  leaf: TileLeaf | undefined
+  leaf: TileLeaf | undefined,
+  hook: Partial<
+    Pick<GestureHandlers, 'onDrag' | 'onDragEnd' | 'onDragStart'>
+  > = {},
+  drag: DragConfig = { threshold: 10, filterTaps: true }
 ) {
   const dispatch = useContext(TileDispatchContext)
   const [position, setPosition] = useState<[number, number]>()
@@ -15,20 +19,27 @@ export function useDragAndPosition(
 
   const bind = useGesture(
     {
-      onDrag: ({ down, xy, velocity }) => {
+      onDrag: (e) => {
+        hook?.onDrag?.(e)
+        const { down, xy } = e
         if (down) {
           setPosition(xy)
         } else {
           setPosition(undefined)
         }
       },
-      onDragStart: () => dispatch({ tabToStartMoving: { name, leaf } }),
-      onDragEnd: () =>
+      onDragStart: (e) => {
+        hook?.onDragStart?.(e)
+        dispatch({ tabToStartMoving: { name, leaf } })
+      },
+      onDragEnd: (e) => {
         dispatch({
           tabToStopMoving: { pane: name, preBox: paneWithPreBoxRef.current },
-        }),
+        })
+        hook?.onDragEnd?.(e)
+      },
     },
-    { drag: { threshold: 10 } }
+    { drag }
   )
 
   return { bind, position, isDragging }

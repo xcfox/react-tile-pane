@@ -1,3 +1,4 @@
+import { DragConfig, GestureHandlers } from '@use-gesture/react'
 import React, {
   memo,
   useContext,
@@ -19,17 +20,21 @@ export type DraggableTitleProps = {
   children?: React.ReactNode | ((isMoving: boolean) => React.ReactNode)
   style?: CSSProperties | ((isMoving: boolean) => CSSProperties)
   className?: string | ((isMoving: boolean) => string)
-} & React.DOMAttributes<HTMLDivElement>
+  dragConfig?: DragConfig
+} & React.DOMAttributes<HTMLDivElement> &
+  Partial<Pick<GestureHandlers, 'onDrag' | 'onDragEnd' | 'onDragStart'>>
 
 const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
-  const { name } = props
+  const { name, dragConfig } = props
   const paneWithPreBoxRef = useRef<PaneWithPreBox>()
 
   const pane = useContext(LeafContext)
   const { position, bind, isDragging } = useDragAndPosition(
     paneWithPreBoxRef,
     name,
-    pane
+    pane,
+    props,
+    dragConfig
   )
 
   const { style, className, children, rest } = useFn(props, isDragging)
@@ -66,7 +71,7 @@ const DraggableTitleInner: React.FC<DraggableTitleProps> = (props) => {
           {...bind()}
           {...rest}
           ref={targetRef}
-          style={styled}
+          style={{ ...styled, touchAction: 'none' }}
           className={className}
         >
           {children}
@@ -87,14 +92,14 @@ function useFn(
   isMoving: boolean
 ) {
   const style = useMemo(() => orFn(styleFn, isMoving), [isMoving, styleFn])
-  const children = useMemo(() => orFn(childrenFn, isMoving), [
-    childrenFn,
-    isMoving,
-  ])
-  const className = useMemo(() => orFn(classNameFn, isMoving), [
-    classNameFn,
-    isMoving,
-  ])
+  const children = useMemo(
+    () => orFn(childrenFn, isMoving),
+    [childrenFn, isMoving]
+  )
+  const className = useMemo(
+    () => orFn(classNameFn, isMoving),
+    [classNameFn, isMoving]
+  )
   return { style, children, className, rest }
 }
 
