@@ -3,6 +3,18 @@
   "author": "xcfox",
   "description": "A React tiling pane manager",
   "version": "0.5.0",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "dist/*"
+  ],
+  "exports": {
+    ".": {}
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -63,6 +75,7 @@
     ]
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^9.0.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -88,6 +101,9 @@
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "react-use-measure": "^2.0.3",
+    "rollup": "^3.2.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "typescript": "^4.0.3",
     "typescript-plugin-css-modules": "^3.2.0",
     "web-vitals": "^0.2.4"

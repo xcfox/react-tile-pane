@@ -175,7 +175,7 @@ const App: React.FC = () => {
 export default App
 ```
 
-## Custom-Styles
+## Custom Styles
 
 `React Tile Pane` does not focus on styles.
 It is recommended to use custom styles.
