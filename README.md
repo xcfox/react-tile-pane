@@ -71,7 +71,7 @@ If the item of `names` dictionary in children's array, it displayed as a Multi-T
 
 > Note: Each name can only appear in the layout at most once.
 
-## Container
+### Container
 
 ```tsx
 const App: React.FC = () => {
@@ -207,13 +207,44 @@ It accepts `render`, `thickness`, `position` attributes.
 - `thickness`: Accepts a CSS length attribute, which defaults to px if number is passed in
 - `position`: Where to position the TabsBar in the pane
 
-## Hooks
+## Hooks and Components
 
-Hooks help you do more complex operations.
+Hooks and components help you do more complex operations.
 
-> Note: Hooks only work inside the `TileContainer`
+> Note: Hooks and Components only work inside the `TileContainer`
 
 Examples can be viewed at https://github.com/xcfox/react-tile-pane/blob/main/src/App/demo/left-tab/index.tsx
+
+### DraggableTitle
+
+`DraggableTitle` used to open a new pane from outside the container.
+It accepts `style`, `className`, `children` attributes.
+
+- `name`: Associate a pane from the paneList by the name
+
+- `dragConfig`: Drag behavior, see more information in [use-gesture doc](https://use-gesture.netlify.app/docs/options/)
+- `onDrag`: Actions triggered when dragging, see more information in [use-gesture doc](https://use-gesture.netlify.app/docs/gestures/#about-the-drag-gesture)
+- `onDragEnd`: Actions triggered when drag ends
+- `onDragStart`: Actions triggered when drag starts
+
+#### Example
+
+```tsx
+function PaneIcon({ name }: { name: keyof typeof icons }) {
+  const getLeaf = useGetLeaf()
+  const move = useMovePane()
+  const leaf = getLeaf(name)
+  const isShowing = !!leaf
+  return (
+    <div>
+      <div style={{ width: 40, height: 40, cursor: 'move' }}>
+        <DraggableTitle name={name}>{icons[name]}</DraggableTitle>
+      </div>
+      <div onClick={() => move(name, isShowing ? null : [0.99, 0.5])} />
+    </div>
+  )
+}
+```
 
 ### useGetLeaf
 
@@ -287,7 +318,7 @@ const reset = useReset()
 const handleClick = useCallback(() => reset(rootPane), [])
 ```
 
-## Some Similar projects
+## Some similar projects
 
 - [react-mosaic](https://github.com/nomcopter/react-mosaic)
 - [FlexLayout](https://github.com/caplin/FlexLayout)
