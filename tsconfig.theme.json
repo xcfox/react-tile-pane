@@ -5,6 +5,7 @@
     "declaration": true,
     "emitDeclarationOnly": true
   },
-  "include": ["src/components"],
+  "include": ["src/theme"],
+  "exclude": ["src/components"],
   "extends": "./tsconfig.json"
 }

@@ -1,4 +1,4 @@
-.stretchBar {
+.left-stretch-bar {
   cursor: ew-resize;
   background: #12171d;
   width: 4px;
@@ -6,7 +6,7 @@
   transition: 233ms;
   transition-property: background;
 }
-.stretchBar:hover {
+.left-stretch-bar:hover {
   background: #567091;
   height: 6px;
   width: 6px;

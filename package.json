@@ -10,11 +10,9 @@
   "files": [
     "README.md",
     "LICENSE",
-    "dist/*"
+    "dist/*",
+    "theme/*"
   ],
-  "exports": {
-    ".": {}
-  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -95,15 +93,18 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "glob": "^8.0.3",
     "ncp": "^2.0.0",
     "prettier": "^2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
+    "react-tile-pane": "file:./src/components",
     "react-use-measure": "^2.0.3",
     "rollup": "^3.2.3",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "shelljs": "^0.8.5",
     "typescript": "^4.0.3",
     "typescript-plugin-css-modules": "^3.2.0",
     "web-vitals": "^0.2.4"

@@ -11,6 +11,7 @@
 # production
 /build
 /dist
+/theme
 
 # misc
 .DS_Store

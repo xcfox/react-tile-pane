@@ -1,0 +1,6 @@
+{
+  "internal": true,
+  "main": "./index.cjs.js",
+  "module": "./index.esm.js",
+  "types": "./index.d.ts"
+}

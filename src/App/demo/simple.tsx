@@ -6,8 +6,8 @@ import {
   TileContainer,
   TileProvider,
   useGetRootNode,
-} from '../../../components'
-import '../../../static/style.css'
+} from 'components'
+import 'theme/simple/styles.css'
 
 const localStorageKey = 'react-tile-pane-layout'
 

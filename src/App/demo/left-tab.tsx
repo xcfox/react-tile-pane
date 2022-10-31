@@ -7,13 +7,51 @@ import {
   useMovePane,
   useGetRootNode,
   TileBranchSubstance,
-} from '../../../components'
-import { icons, nodeList, rootPane } from './panes'
-import { color, styles } from './style'
-import { tabBarConfig } from './tab-bar'
-import css from './style/index.module.css'
+  createTilePanes,
+} from 'components'
+import { color, styles, theme } from 'theme/left-tab'
+import 'theme/left-tab/styles.css'
 
 const localStorageKey = 'react-tile-pane-left-tab-layout'
+
+const nodes = {
+  pineapple: <div style={styles.pane}>pineapple</div>,
+  banana: <div style={styles.pane}>banana</div>,
+  lemon: <div style={styles.pane}>lemon</div>,
+  grape: <div style={styles.pane}>grape</div>,
+  kiwifruit: <div style={styles.pane}>kiwifruit</div>,
+}
+
+export type nodeNames = keyof typeof nodes
+
+export const icons: Record<nodeNames, string> = {
+  banana: '🍌',
+  pineapple: '🍍',
+  lemon: '🍋',
+  grape: '🍇',
+  kiwifruit: '🥝',
+}
+
+export const [nodeList, names] = createTilePanes(nodes)
+
+export const rootPane: TileBranchSubstance = {
+  children: [
+    { children: [names.pineapple, names.banana] },
+    {
+      isRow: true,
+      grow: 2,
+      children: [
+        {
+          isRow: true,
+          children: [
+            { children: [names.lemon, names.grape], grow: 3 },
+            { children: names.kiwifruit },
+          ],
+        },
+      ],
+    },
+  ],
+}
 
 function PaneIcon({ name }: { name: keyof typeof icons }) {
   const getLeaf = useGetLeaf()
@@ -57,16 +95,7 @@ export const LeftTabDemo: React.FC = () => {
     ? (JSON.parse(localRoot) as TileBranchSubstance)
     : rootPane
   return (
-    <TileProvider
-      tilePanes={nodeList}
-      rootNode={root}
-      tabBar={tabBarConfig}
-      stretchBar={{
-        className: css.stretchBar,
-        style: (isRow) => ({ cursor: isRow ? 'ew-resize' : 'ns-resize' }),
-        position: 'previous',
-      }}
-    >
+    <TileProvider tilePanes={nodeList} rootNode={root} {...theme(icons)}>
       <TileContainer style={styles.container} />
       <div style={{ display: 'flex', marginTop: 10 }}>
         {(Object.keys(icons) as (keyof typeof icons)[]).map((name) => (
