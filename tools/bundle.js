@@ -37,13 +37,13 @@ const files = glob.sync(`${outDir}/theme/**/*.{js,ts}`)
 files.forEach((file) => {
   console.log('rewrite: ', file)
   rewrite(file, c =>
-    c.replaceAll("require('components')", "require('../..')")
-      .replaceAll("from 'components'", "from '../..'")
+    c.replaceAll("require('components')", "require('react-tile-pane')")
+      .replaceAll("from 'components'", "from 'react-tile-pane'")
   )
 })
 
-// copy theme folder
-fs.cpSync(`${outDir}/theme`, themeOutDir, { recursive: true })
+// move theme folder
+shell.mv(`${outDir}/theme`, themeOutDir)
 
 function makeDir(dir = "") {
   const folders = dir.split("/")
