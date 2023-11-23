@@ -5,38 +5,42 @@ const packComponent = {
   input: 'src/components/index.ts',
   output: [
     {
-      file: 'dist/index.cjs.js',
-      format: 'cjs'
+      file: 'dist/index.cjs',
+      format: 'cjs',
     },
     {
-      file: 'dist/index.esm.js',
-      format: 'esm'
-    }
+      file: 'dist/index.js',
+      format: 'esm',
+    },
   ],
   external: ['@use-gesture/react', 'react', 'react-dom', 'react-use-measure'],
   plugins: [
     typescript({
-      tsconfig: 'tsconfig.pack.json'
-    })
-  ]
+      tsconfig: 'tsconfig.pack.json',
+    }),
+  ],
 }
 
 const packTheme = (name) => ({
   input: `src/theme/${name}/index.tsx`,
   output: [
     {
-      file: `dist/theme/${name}/index.cjs.js`,
-      format: 'cjs'
+      file: `dist/theme/${name}/index.cjs`,
+      format: 'cjs',
     },
     {
-      file: `dist/theme/${name}/index.esm.js`,
-      format: 'esm'
-    }
+      file: `dist/theme/${name}/index.js`,
+      format: 'esm',
+    },
   ],
-  external: ['@use-gesture/react', 'react', 'react-dom', 'react-use-measure', 'components'],
-  plugins: [
-    typescript()
-  ]
+  external: [
+    '@use-gesture/react',
+    'react',
+    'react-dom',
+    'react-use-measure',
+    'components',
+  ],
+  plugins: [typescript()],
 })
 
 // eslint-disable-next-line import/no-anonymous-default-export
