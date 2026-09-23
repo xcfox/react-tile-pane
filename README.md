@@ -1,3 +1,5 @@
+
+
 # React Tile Pane
 
 A React tiling pane manager
@@ -94,7 +96,7 @@ Then, we put `TileContainer` in `TileProvider`. `DraggableTitle` can also be put
 
 ### Full Example File
 
-App.tsc
+App.tsx
 
 ```tsx
 import React, { useState } from 'react'
